@@ -97,6 +97,36 @@
   </div>
 </div>
 
+<!-- FAB speed-dial -->
+<div class="fab-backdrop" id="fab-backdrop" onclick="closeFab()"></div>
+<div class="fab-wrap">
+  <div class="fab-actions" id="fab-actions">
+    <a class="fab-action" href="add-symptom.html">
+      <span class="fab-lbl">Add symptom</span>
+      <span class="fab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
+      </span>
+    </a>
+    <a class="fab-action" href="add-entry.html?type=snack">
+      <span class="fab-lbl">Add snack</span>
+      <span class="fab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>
+      </span>
+    </a>
+    <a class="fab-action" href="add-entry.html?type=meal">
+      <span class="fab-lbl">Add meal</span>
+      <span class="fab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+      </span>
+    </a>
+  </div>
+  <button class="fab-main" id="fab-main" type="button" aria-label="Add entry" onclick="toggleFab()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+      <path d="M12 5v14M5 12h14"/>
+    </svg>
+  </button>
+</div>
+
 <script src="store.js"></script>
 <script src="catalog.js"></script>
 <script>
@@ -230,6 +260,20 @@
   }
 
   render();
+})();
+
+(function () {
+  window.toggleFab = function () {
+    const open = !document.getElementById('fab-actions').classList.contains('open');
+    document.getElementById('fab-actions').classList.toggle('open', open);
+    document.getElementById('fab-main').classList.toggle('open', open);
+    document.getElementById('fab-backdrop').classList.toggle('open', open);
+  };
+  window.closeFab = function () {
+    document.getElementById('fab-actions').classList.remove('open');
+    document.getElementById('fab-main').classList.remove('open');
+    document.getElementById('fab-backdrop').classList.remove('open');
+  };
 })();
 </script>
 </body>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Diet Diary — Meal entry</title>
+<style>
+  body { margin:0; min-height:100vh; background:#f3f0ea; font-family:Helvetica,Arial,sans-serif; color:#1a1a1a; display:flex; flex-direction:column; }
+  header { padding:24px 32px; border-bottom:1px solid #e2dccf; display:flex; align-items:center; justify-content:space-between; }
+  .brand { font-size:20px; font-weight:700; letter-spacing:-0.01em; }
+  nav a { color:#555; text-decoration:none; font-size:14px; margin-left:20px; }
+  nav a:hover { color:#111; }
+  main { flex:1; width:100%; max-width:620px; margin:0 auto; padding:40px 32px; box-sizing:border-box; }
+  .back { display:inline-block; color:#777; text-decoration:none; font-size:14px; margin-bottom:18px; }
+  .back:hover { color:#111; }
+  h1 { font-size:30px; font-weight:800; margin:0 0 24px; letter-spacing:-0.02em; }
+  .field { margin-bottom:24px; }
+  .field > label { display:block; font-size:13px; font-weight:700; color:#6a6052; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:8px; }
+  .field .hint { font-weight:400; color:#999; text-transform:none; letter-spacing:0; }
+  input[type=text], input[type=number], input[type=search], input[type=datetime-local], select, textarea {
+    width:100%; box-sizing:border-box; padding:11px 13px; font:inherit; font-size:15px;
+    background:#fff; border:1px solid #cfc8b8; border-radius:8px; color:#1a1a1a; }
+  input:focus, select:focus, textarea:focus { outline:none; border-color:#1a1a1a; }
+  .segmented { display:inline-flex; background:#fff; border:1px solid #cfc8b8; border-radius:10px; padding:4px; gap:4px; }
+  .segmented button { border:none; background:transparent; padding:9px 22px; border-radius:7px; font:inherit; font-size:14px; font-weight:600; color:#555; cursor:pointer; }
+  .segmented button.active { background:#1a1a1a; color:#fff; }
+  .search { margin-bottom:12px; }
+  .catalog { display:grid; gap:10px; }
+  .foodcard { display:flex; align-items:center; gap:14px; background:#fff; border:1px solid #e2dccf; border-radius:10px; padding:13px 16px; cursor:pointer; }
+  .foodcard:hover { border-color:#a99f88; }
+  .foodcard.selected { border-color:#1a1a1a; box-shadow:0 0 0 1px #1a1a1a inset; }
+  .radio { width:18px; height:18px; border:2px solid #c8c1b1; border-radius:50%; flex-shrink:0; position:relative; }
+  .foodcard.selected .radio { border-color:#1a1a1a; }
+  .foodcard.selected .radio::after { content:""; position:absolute; inset:3px; border-radius:50%; background:#1a1a1a; }
+  .foodcard .body { flex:1; }
+  .foodcard .nm { font-weight:600; font-size:15px; }
+  .foodcard .sv { font-size:13px; color:#777; margin-top:2px; }
+  .foodcard .cal { font-size:14px; font-weight:600; color:#555; white-space:nowrap; }
+  .foodcard.custom { color:#555; font-style:italic; }
+  .qty-row { display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:10px; }
+  .toprow { display:flex; gap:18px; margin-bottom:24px; }
+  .toprow label { display:block; font-size:13px; font-weight:700; color:#6a6052; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:8px; }
+  .tr-type { flex-shrink:0; }
+  .tr-when { flex:1; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:10px; font-size:15px; font-weight:600; text-decoration:none; border:1px solid transparent; cursor:pointer; font-family:inherit; }
+  .btn-primary { background:#1a1a1a; color:#fff; }
+  .btn-primary:hover { background:#333; }
+  .btn-secondary { background:transparent; color:#1a1a1a; border-color:#c8c1b1; }
+  .btn-secondary:hover { border-color:#1a1a1a; }
+  .actions { display:flex; gap:12px; margin-top:30px; }
+  footer { padding:24px 32px; text-align:center; color:#999; font-size:13px; }
+  @media (max-width:520px) {
+    .qty-row { grid-template-columns:1fr; }
+    .toprow { flex-wrap:wrap; }
+    .tr-when { flex:1 1 100%; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">Diet Diary</div>
+    <nav><a href="index.html">Mockups</a></nav>
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← Cancel</a>
+    <h1>Add meal</h1>
+
+    <div class="toprow">
+      <div class="tr-type">
+        <label>Type</label>
+        <div class="segmented">
+          <button type="button" class="active">Meal</button>
+          <button type="button">Snack</button>
+        </div>
+      </div>
+      <div class="tr-when">
+        <label>Date &amp; time</label>
+        <input type="datetime-local" value="2026-06-20T13:30" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Choose food</label>
+      <input class="search" type="search" placeholder="Search the nutrition catalog…" />
+      <div class="catalog">
+        <div class="foodcard selected">
+          <span class="radio"></span>
+          <div class="body"><div class="nm">Bacon and Caramelized Onions</div><div class="sv">1/3 pizza · 173 g</div></div>
+          <span class="cal">430 cal</span>
+        </div>
+        <div class="foodcard">
+          <span class="radio"></span>
+          <div class="body"><div class="nm">Sausage &amp; Caramelized Onion Pizza</div><div class="sv">1/2 pizza · 243 g</div></div>
+          <span class="cal">460 cal</span>
+        </div>
+        <div class="foodcard">
+          <span class="radio"></span>
+          <div class="body"><div class="nm">Sprouted Quinoa Hemp Instant Oatmeal</div><div class="sv">1/3 cup · 51 g</div></div>
+          <span class="cal">200 cal</span>
+        </div>
+        <div class="foodcard custom">
+          <span class="radio"></span>
+          <div class="body"><div class="nm">Something else — type it in</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Quantity <span class="hint">(optional)</span></label>
+      <div class="qty-row">
+        <select>
+          <option>Weight</option>
+          <option>Volume</option>
+          <option>Number</option>
+        </select>
+        <input type="number" placeholder="Amount" value="173" />
+        <input type="text" placeholder="Unit" value="g" />
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="index.html">Save entry</a>
+      <a class="btn btn-secondary" href="index.html">Cancel</a>
+    </div>
+  </main>
+
+  <footer>Diet Diary · Meal entry — Catalog-first picker</footer>
+</body>
+</html>

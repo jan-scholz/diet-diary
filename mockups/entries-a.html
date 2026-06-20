@@ -43,6 +43,24 @@
   .row .acts a { font-size:13px; color:#999; text-decoration:none; }
   .row .acts a:hover { color:#1a1a1a; }
   footer { padding:24px 32px; text-align:center; color:#999; font-size:13px; }
+
+  /* Export / Import modals (mockup) */
+  .modal { position:fixed; inset:0; background:rgba(26,26,26,0.45); display:none; align-items:center; justify-content:center; padding:24px; box-sizing:border-box; z-index:10; }
+  .modal.open { display:flex; }
+  .sheet { background:#f3f0ea; border:1px solid #e2dccf; border-radius:16px; width:100%; max-width:380px; padding:24px; box-sizing:border-box; box-shadow:0 16px 48px rgba(0,0,0,0.18); }
+  .sheet .sh-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .sheet h2 { font-size:20px; font-weight:800; margin:0; letter-spacing:-0.01em; }
+  .sheet .x { border:none; background:transparent; font-size:22px; line-height:1; color:#999; cursor:pointer; padding:2px 4px; }
+  .sheet .x:hover { color:#1a1a1a; }
+  .sheet p.lead { font-size:14px; color:#777; margin:0 0 18px; line-height:1.45; }
+  .qr { width:200px; height:200px; margin:0 auto 18px; background:#fff; border:1px solid #cfc8b8; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+  .qr svg { width:160px; height:160px; }
+  .viewfinder { position:relative; width:100%; aspect-ratio:1/1; max-width:240px; margin:0 auto 18px; background:#1a1a1a; border-radius:12px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .viewfinder .reticle { width:62%; height:62%; border:2px solid rgba(255,255,255,0.85); border-radius:10px; }
+  .viewfinder .vf-note { position:absolute; bottom:10px; left:0; right:0; text-align:center; font-size:12px; color:rgba(255,255,255,0.85); }
+  .stub { font-size:12px; color:#999; text-align:center; font-style:italic; margin:0 0 18px; }
+  .sheet .sheet-actions { display:flex; gap:10px; }
+  .sheet .btn { flex:1; justify-content:center; }
   @media (max-width:560px) {
     .row { grid-template-columns:1fr auto; row-gap:4px; }
     .row .time { grid-column:1; }
@@ -65,11 +83,11 @@
     <div class="page-head">
       <h1>Your entries</h1>
       <div class="tools">
-        <button class="btn" type="button">
+        <button class="btn" type="button" onclick="document.getElementById('export-modal').classList.add('open')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
           Export
         </button>
-        <button class="btn" type="button">
+        <button class="btn" type="button" onclick="document.getElementById('import-modal').classList.add('open')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></svg>
           Import
         </button>
@@ -137,6 +155,58 @@
       </div>
     </div>
   </main>
+
+  <!-- Export modal (mockup) -->
+  <div class="modal" id="export-modal" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="sheet">
+      <div class="sh-head">
+        <h2>Export</h2>
+        <button class="x" type="button" onclick="document.getElementById('export-modal').classList.remove('open')">&times;</button>
+      </div>
+      <p class="lead">Scan this code on another device to copy your diary across.</p>
+      <div class="qr">
+        <svg viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true">
+          <rect width="100" height="100" fill="#fff"/>
+          <g fill="#1a1a1a">
+            <rect x="6" y="6" width="22" height="22"/><rect x="12" y="12" width="10" height="10" fill="#fff"/>
+            <rect x="72" y="6" width="22" height="22"/><rect x="78" y="12" width="10" height="10" fill="#fff"/>
+            <rect x="6" y="72" width="22" height="22"/><rect x="12" y="78" width="10" height="10" fill="#fff"/>
+            <rect x="36" y="6" width="6" height="6"/><rect x="48" y="6" width="6" height="6"/><rect x="60" y="12" width="6" height="6"/>
+            <rect x="36" y="18" width="6" height="6"/><rect x="54" y="18" width="6" height="6"/>
+            <rect x="6" y="36" width="6" height="6"/><rect x="18" y="36" width="6" height="6"/><rect x="30" y="36" width="6" height="6"/><rect x="48" y="36" width="6" height="6"/><rect x="66" y="36" width="6" height="6"/><rect x="84" y="36" width="6" height="6"/>
+            <rect x="42" y="42" width="6" height="6"/><rect x="60" y="42" width="6" height="6"/><rect x="78" y="42" width="6" height="6"/>
+            <rect x="36" y="54" width="6" height="6"/><rect x="54" y="54" width="6" height="6"/><rect x="72" y="54" width="6" height="6"/><rect x="90" y="54" width="6" height="6"/>
+            <rect x="48" y="60" width="6" height="6"/><rect x="66" y="60" width="6" height="6"/>
+            <rect x="36" y="72" width="6" height="6"/><rect x="54" y="72" width="6" height="6"/><rect x="72" y="72" width="6" height="6"/><rect x="84" y="78" width="6" height="6"/>
+            <rect x="42" y="84" width="6" height="6"/><rect x="60" y="84" width="6" height="6"/><rect x="78" y="90" width="6" height="6"/>
+          </g>
+        </svg>
+      </div>
+      <p class="stub">Placeholder QR — actual data encoding is to be decided.</p>
+      <div class="sheet-actions">
+        <button class="btn" type="button" onclick="document.getElementById('export-modal').classList.remove('open')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import modal (mockup) -->
+  <div class="modal" id="import-modal" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="sheet">
+      <div class="sh-head">
+        <h2>Import</h2>
+        <button class="x" type="button" onclick="document.getElementById('import-modal').classList.remove('open')">&times;</button>
+      </div>
+      <p class="lead">Point your camera at the QR code shown on your other device.</p>
+      <div class="viewfinder">
+        <div class="reticle"></div>
+        <div class="vf-note">Camera preview</div>
+      </div>
+      <p class="stub">Placeholder — camera scanning &amp; merge are to be decided.</p>
+      <div class="sheet-actions">
+        <button class="btn" type="button" onclick="document.getElementById('import-modal').classList.remove('open')">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <footer>Diet Diary · Entries — Filterable dense rows</footer>
 </body>

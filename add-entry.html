@@ -47,13 +47,13 @@
   <div class="field">
     <label>Quantity <span class="hint">(optional)</span></label>
     <div class="qty-row">
-      <select id="js-qty-kind">
+      <select id="js-qty-kind" onchange="updateUnit()">
         <option value="weight">Weight</option>
         <option value="volume">Volume</option>
         <option value="number">Number</option>
       </select>
       <input type="number" id="js-qty-value" placeholder="Amount" min="0" step="any" />
-      <input type="text" id="js-qty-unit" placeholder="Unit" />
+      <select id="js-qty-unit"></select>
     </div>
   </div>
 
@@ -78,6 +78,23 @@
   const now = new Date();
   document.getElementById('js-dt').value =
     `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+  const UNIT_OPTIONS = { weight: ['g', 'lb'], volume: ['ml', 'cups'], number: null };
+
+  window.updateUnit = function (preserveValue) {
+    const kind = document.getElementById('js-qty-kind').value;
+    const sel = document.getElementById('js-qty-unit');
+    const opts = UNIT_OPTIONS[kind];
+    if (!opts) {
+      sel.disabled = true;
+      sel.innerHTML = '<option value="">—</option>';
+    } else {
+      const prev = preserveValue && sel.value;
+      sel.disabled = false;
+      sel.innerHTML = opts.map(u => `<option value="${u}">${u}</option>`).join('');
+      if (prev && opts.includes(prev)) sel.value = prev;
+    }
+  };
 
   window.setType = function (t) {
     currentType = t;
@@ -125,9 +142,9 @@
     if (p) {
       const qtyVal = document.getElementById('js-qty-value');
       if (!qtyVal.value) {
-        qtyVal.value = p.serving.grams;
-        document.getElementById('js-qty-unit').value = 'g';
         document.getElementById('js-qty-kind').value = 'weight';
+        updateUnit();
+        qtyVal.value = p.serving.grams;
       }
     }
     renderCatalog(filteredProducts());
@@ -165,9 +182,9 @@
     }
 
     const qtyValue = document.getElementById('js-qty-value').value;
-    const qtyUnit = document.getElementById('js-qty-unit').value.trim();
     const qtyKind = document.getElementById('js-qty-kind').value;
-    const quantity = (qtyValue && qtyUnit)
+    const qtyUnit = qtyKind === 'number' ? '' : document.getElementById('js-qty-unit').value;
+    const quantity = qtyValue
       ? { kind: qtyKind, value: Number(qtyValue), unit: qtyUnit }
       : null;
 
@@ -184,6 +201,7 @@
   };
 
   async function init() {
+    updateUnit();
     allProducts = await loadCatalog();
 
     if (editId) {
@@ -202,8 +220,11 @@
         }
         if (existing.quantity) {
           document.getElementById('js-qty-kind').value = existing.quantity.kind || 'weight';
+          updateUnit();
           document.getElementById('js-qty-value').value = existing.quantity.value || '';
-          document.getElementById('js-qty-unit').value = existing.quantity.unit || '';
+          if (existing.quantity.kind !== 'number') {
+            document.getElementById('js-qty-unit').value = existing.quantity.unit || '';
+          }
         }
       }
       document.getElementById('js-back').href = 'entries.html';

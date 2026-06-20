@@ -111,7 +111,7 @@
       } else {
         name = e.name || 'Entry';
         const parts = [];
-        if (e.quantity && e.quantity.value) parts.push(`${e.quantity.value} ${e.quantity.unit}`);
+        if (e.quantity && e.quantity.value) parts.push(e.quantity.unit ? `${e.quantity.value} ${e.quantity.unit}` : `${e.quantity.value}`);
         if (e.productId) {
           const p = getProduct(e.productId);
           if (p) parts.push(`~${scaleNutrition(p, e.quantity).calories} cal`);

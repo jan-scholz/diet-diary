@@ -83,6 +83,7 @@ select, textarea {
   background: #fff; border: 1px solid #cfc8b8; border-radius: 8px; color: #1a1a1a;
 }
 input:focus, select:focus, textarea:focus { outline: none; border-color: #1a1a1a; }
+select:disabled { opacity: 0.4; cursor: default; }
 textarea { resize: vertical; min-height: 90px; }
 
 .toprow { display: flex; gap: 18px; margin-bottom: 24px; }

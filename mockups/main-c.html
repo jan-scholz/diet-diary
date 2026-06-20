@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Diet Diary — Option C</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #15171c;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #e7e9ee;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    padding: 22px 32px;
+    border-bottom: 1px solid #262a32;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+  nav a { color: #9aa0ab; text-decoration: none; font-size: 14px; margin-left: 20px; }
+  nav a:hover { color: #fff; }
+  main {
+    flex: 1;
+    max-width: 760px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 44px 32px;
+    box-sizing: border-box;
+  }
+  .date { font-size: 13px; color: #e0b15e; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 7px; }
+  h1 { font-size: 30px; font-weight: 800; margin: 0 0 26px; letter-spacing: -0.02em; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
+  .stat {
+    background: #1e2127;
+    border: 1px solid #2a2e36;
+    border-radius: 14px;
+    padding: 20px 18px;
+  }
+  .stat .num { font-size: 28px; font-weight: 800; line-height: 1; color: #fff; }
+  .stat .lbl { font-size: 13px; color: #9aa0ab; margin-top: 7px; }
+
+  .quick { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid #343a44;
+    background: #1e2127;
+    color: #e7e9ee;
+    cursor: pointer;
+  }
+  .btn:hover { border-color: #e0b15e; color: #fff; }
+  .btn svg { width: 18px; height: 18px; color: #e0b15e; }
+
+  .panel-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+  .panel-head h2 { font-size: 18px; font-weight: 700; margin: 0; }
+  .panel-head a { font-size: 14px; color: #9aa0ab; text-decoration: none; }
+  .panel-head a:hover { color: #fff; }
+
+  .list { display: grid; gap: 10px; }
+  .item {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    background: #1e2127;
+    border: 1px solid #2a2e36;
+    border-radius: 14px;
+    padding: 15px 17px;
+  }
+  .item .time { font-size: 13px; color: #717784; }
+  .item .name { font-size: 16px; font-weight: 600; }
+  .item .sub { font-size: 13px; color: #9aa0ab; margin-top: 2px; }
+  .item .badge {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 4px 10px; border-radius: 999px; background: #2a2e36; color: #c3c8d2; white-space: nowrap;
+  }
+  .item .badge.symptom { background: #3a2f1d; color: #e0b15e; }
+  footer { padding: 24px 32px; text-align: center; color: #5c626d; font-size: 13px; }
+  @media (max-width: 620px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">Diet Diary</div>
+    <nav>
+      <a href="#">Entries</a>
+      <a href="#">Nutrition Labels</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="date">Friday, June 20</p>
+    <h1>Today at a glance</h1>
+
+    <div class="stats">
+      <div class="stat"><div class="num">2</div><div class="lbl">Meals</div></div>
+      <div class="stat"><div class="num">1</div><div class="lbl">Snacks</div></div>
+      <div class="stat"><div class="num">~890</div><div class="lbl">Calories logged</div></div>
+    </div>
+
+    <div class="quick">
+      <a class="btn" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+        Add meal
+      </a>
+      <a class="btn" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>
+        Add snack
+      </a>
+      <a class="btn" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
+        Add symptom
+      </a>
+    </div>
+
+    <div class="panel-head">
+      <h2>Recent entries</h2>
+      <a href="#">View all →</a>
+    </div>
+    <div class="list">
+      <div class="item">
+        <span class="time">1:15 PM</span>
+        <div><div class="name">Bacon &amp; Caramelized Onion Pizza</div><div class="sub">1/3 pizza (173 g) · ~430 cal</div></div>
+        <span class="badge">Meal</span>
+      </div>
+      <div class="item">
+        <span class="time">2:40 PM</span>
+        <div><div class="name">Bloating</div><div class="sub">Severity 3 · bloating, cramps</div></div>
+        <span class="badge symptom">Symptom</span>
+      </div>
+      <div class="item">
+        <span class="time">4:05 PM</span>
+        <div><div class="name">Apple</div><div class="sub">1 medium</div></div>
+        <span class="badge">Snack</span>
+      </div>
+    </div>
+  </main>
+
+  <footer>Diet Diary · Option C — Dark modern</footer>
+</body>
+</html>

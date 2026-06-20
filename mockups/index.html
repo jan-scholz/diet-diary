@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Diet Diary — Mockups</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #f3f0ea;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    padding: 64px 32px;
+    box-sizing: border-box;
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 8px; }
+  p.lead { color: #555; font-size: 17px; margin: 0 0 40px; }
+  .cards { display: grid; gap: 16px; }
+  .card {
+    display: block;
+    background: #fff;
+    border: 1px solid #e2dccf;
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .card:hover { border-color: #1a1a1a; }
+  .card h2 { margin: 0 0 6px; font-size: 20px; }
+  .card span { color: #555; font-size: 15px; }
+  .tag { font-size: 12px; font-weight: 700; color: #8a7f68; text-transform: uppercase; letter-spacing: 0.05em; }
+  .group-label { font-size: 13px; font-weight: 700; color: #8a7f68; text-transform: uppercase; letter-spacing: 0.06em; margin: 44px 0 16px; }
+  .group-label:first-of-type { margin-top: 0; }
+  .chosen { color: #2f7d3e; }
+</style>
+</head>
+<body>
+  <main>
+    <h1>Diet Diary mockups</h1>
+    <p class="lead">Static design explorations. Open each and tell me which you prefer.</p>
+
+    <p class="group-label">Main page — theme <span class="chosen">· chosen: Warm paper</span></p>
+    <div class="cards">
+      <a class="card" href="main-a.html">
+        <div class="tag">Option A · chosen</div>
+        <h2>Warm paper</h2>
+        <span>The reference theme: warm beige background, bordered white cards, soft rounded corners.</span>
+      </a>
+      <a class="card" href="main-b.html">
+        <div class="tag">Option B</div>
+        <h2>Fresh &amp; airy</h2>
+        <span>White background, borderless soft-grey cards, a green accent, larger radius and more breathing room.</span>
+      </a>
+      <a class="card" href="main-c.html">
+        <div class="tag">Option C</div>
+        <h2>Dark modern</h2>
+        <span>Charcoal background, subtle bordered cards, a warm amber accent. Lower-contrast, evening-friendly.</span>
+      </a>
+    </div>
+
+    <p class="group-label">Meal entry — UX <span class="chosen">· chosen: Catalog-first picker</span></p>
+    <div class="cards">
+      <a class="card" href="meal-a.html">
+        <div class="tag">Option A · chosen</div>
+        <h2>Catalog-first picker</h2>
+        <span>Type and date/time at the top; then search and pick a food from the catalog as selectable cards, with quantity below.</span>
+      </a>
+    </div>
+
+    <p class="group-label">Entries review — UX <span class="chosen">· chosen: Filterable dense rows</span></p>
+    <div class="cards">
+      <a class="card" href="entries-a.html">
+        <div class="tag">Option A · chosen</div>
+        <h2>Filterable dense rows</h2>
+        <span>Filter chips (All / Meals / Snacks / Symptoms), per-day summary with calorie totals, compact rows, plus Export / Import buttons.</span>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

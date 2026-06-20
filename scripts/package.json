@@ -1,0 +1,11 @@
+{
+  "name": "diet-diary-scripts",
+  "private": true,
+  "description": "Dev scripts for diet-diary. Not part of the app.",
+  "scripts": {
+    "verify": "node verify.cjs"
+  },
+  "dependencies": {
+    "playwright": "^1.61.0"
+  }
+}

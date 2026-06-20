@@ -4,108 +4,135 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Diet Diary</title>
-<style>
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background: #f3f0ea;
-    font-family: Helvetica, Arial, sans-serif;
-    color: #1a1a1a;
-    display: flex;
-    flex-direction: column;
-  }
-  header {
-    padding: 24px 32px;
-    border-bottom: 1px solid #e2dccf;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .brand {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-  nav a {
-    color: #555;
-    text-decoration: none;
-    font-size: 14px;
-    margin-left: 20px;
-  }
-  nav a:hover { color: #111; }
-  main {
-    flex: 1;
-    max-width: 920px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 64px 32px;
-    box-sizing: border-box;
-  }
-  h1 {
-    font-size: 44px;
-    font-weight: 800;
-    line-height: 1.1;
-    margin: 0 0 16px;
-    letter-spacing: -0.02em;
-  }
-  .tagline {
-    font-size: 18px;
-    color: #555;
-    margin: 0 0 40px;
-    max-width: 560px;
-    line-height: 1.5;
-  }
-  .actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .btn {
-    display: inline-block;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    border: 1px solid transparent;
-    cursor: pointer;
-  }
-  .btn-primary {
-    background: #1a1a1a;
-    color: #fff;
-  }
-  .btn-primary:hover { background: #333; }
-  .btn-secondary {
-    background: transparent;
-    color: #1a1a1a;
-    border-color: #c8c1b1;
-  }
-  .btn-secondary:hover { border-color: #1a1a1a; }
-  footer {
-    padding: 24px 32px;
-    text-align: center;
-    color: #999;
-    font-size: 13px;
-  }
-</style>
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <div class="brand">Diet Diary</div>
-    <nav>
-      <a href="labels.html">Nutrition Labels</a>
-    </nav>
-  </header>
+<header>
+  <div class="brand">Diet Diary</div>
+  <nav>
+    <a href="entries.html">Entries</a>
+    <a href="labels.html">Nutrition Labels</a>
+  </nav>
+</header>
 
-  <main>
-    <h1>Track what you eat.</h1>
-    <p class="tagline">A simple food log that connects what's on your plate to what's on the label.</p>
-    <div class="actions">
-      <a class="btn btn-primary" href="#">Start a new entry</a>
-      <a class="btn btn-secondary" href="labels.html">Browse nutrition labels</a>
-    </div>
-  </main>
+<main style="max-width:760px">
+  <p class="date" id="js-date"></p>
+  <h1>Today at a glance</h1>
 
-  <footer>Diet Diary</footer>
+  <div class="stats">
+    <div class="stat"><div class="num" id="js-meals">0</div><div class="lbl">Meals</div></div>
+    <div class="stat"><div class="num" id="js-snacks">0</div><div class="lbl">Snacks</div></div>
+    <div class="stat"><div class="num" id="js-cals">—</div><div class="lbl">Calories logged</div></div>
+  </div>
+
+  <div class="quick">
+    <a class="btn" href="add-entry.html?type=meal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+      Add meal
+    </a>
+    <a class="btn" href="add-entry.html?type=snack">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>
+      Add snack
+    </a>
+    <a class="btn" href="add-symptom.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
+      Add symptom
+    </a>
+  </div>
+
+  <div class="panel-head">
+    <h2>Recent entries</h2>
+    <a href="entries.html">View all →</a>
+  </div>
+  <div class="list" id="js-recent"></div>
+</main>
+
+<footer>Diet Diary</footer>
+<script src="store.js"></script>
+<script src="catalog.js"></script>
+<script>
+(function () {
+  const pad = n => String(n).padStart(2, '0');
+  const now = new Date();
+  const todayPrefix = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+
+  document.getElementById('js-date').textContent = now.toLocaleDateString('en-CA', {
+    weekday: 'long', month: 'long', day: 'numeric'
+  });
+
+  function formatTime(dt) {
+    const t = (dt.split('T')[1] || '00:00').slice(0, 5);
+    const [h, m] = t.split(':').map(Number);
+    return `${h % 12 || 12}:${pad(m)} ${h >= 12 ? 'PM' : 'AM'}`;
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  async function render() {
+    await loadCatalog();
+    const all = getEntries();
+    const today = all.filter(e => e.datetime && e.datetime.startsWith(todayPrefix));
+
+    const meals = today.filter(e => e.type === 'meal').length;
+    const snacks = today.filter(e => e.type === 'snack').length;
+    let totalCals = 0, hasCals = false;
+    for (const e of today) {
+      if ((e.type === 'meal' || e.type === 'snack') && e.productId) {
+        const p = getProduct(e.productId);
+        if (p) { totalCals += scaleNutrition(p, e.quantity).calories; hasCals = true; }
+      }
+    }
+
+    document.getElementById('js-meals').textContent = meals;
+    document.getElementById('js-snacks').textContent = snacks;
+    document.getElementById('js-cals').textContent = hasCals ? `~${totalCals}` : '—';
+
+    const recent = [...all]
+      .sort((a, b) => b.datetime.localeCompare(a.datetime))
+      .slice(0, 5);
+
+    const list = document.getElementById('js-recent');
+    if (!recent.length) {
+      list.innerHTML = '<p class="empty">No entries yet — add your first meal, snack, or symptom!</p>';
+      return;
+    }
+
+    list.innerHTML = recent.map(e => {
+      const isSymptom = e.type === 'symptom';
+      let name, sub;
+      if (isSymptom) {
+        name = e.note || 'Symptom';
+        const parts = [];
+        if (e.severity) parts.push(`Severity ${e.severity}`);
+        if (e.tags && e.tags.length) parts.push(e.tags.join(', '));
+        sub = parts.join(' · ');
+      } else {
+        name = e.name || 'Entry';
+        const parts = [];
+        if (e.quantity && e.quantity.value) parts.push(`${e.quantity.value} ${e.quantity.unit}`);
+        if (e.productId) {
+          const p = getProduct(e.productId);
+          if (p) parts.push(`~${scaleNutrition(p, e.quantity).calories} cal`);
+        }
+        sub = parts.join(' · ');
+      }
+      const badgeCls = isSymptom ? 'badge symptom' : 'badge';
+      const label = e.type.charAt(0).toUpperCase() + e.type.slice(1);
+      return `<div class="item">
+        <span class="time">${formatTime(e.datetime)}</span>
+        <div>
+          <div class="name">${esc(name)}</div>
+          ${sub ? `<div class="sub">${esc(sub)}</div>` : ''}
+        </div>
+        <span class="${badgeCls}">${label}</span>
+      </div>`;
+    }).join('');
+  }
+
+  render();
+})();
+</script>
 </body>
 </html>

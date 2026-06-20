@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Diet Diary — Entries</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+  <div class="brand">Diet Diary</div>
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="labels.html">Nutrition Labels</a>
+  </nav>
+</header>
+
+<main style="max-width:760px">
+  <div class="page-head">
+    <h1>Your entries</h1>
+    <div class="tools">
+      <button class="btn" type="button" onclick="document.getElementById('export-modal').classList.add('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        Export
+      </button>
+      <button class="btn" type="button" onclick="document.getElementById('import-modal').classList.add('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></svg>
+        Import
+      </button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="chip active" data-filter="all" onclick="setFilter('all')">All</button>
+    <button class="chip" data-filter="meal" onclick="setFilter('meal')">Meals</button>
+    <button class="chip" data-filter="snack" onclick="setFilter('snack')">Snacks</button>
+    <button class="chip" data-filter="symptom" onclick="setFilter('symptom')">Symptoms</button>
+  </div>
+
+  <div id="js-entries"></div>
+</main>
+
+<footer>Diet Diary</footer>
+
+<!-- Export modal -->
+<div class="modal" id="export-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sheet">
+    <div class="sh-head">
+      <h2>Export</h2>
+      <button class="x-btn" type="button" onclick="document.getElementById('export-modal').classList.remove('open')">&times;</button>
+    </div>
+    <p class="lead">Scan this code on another device to copy your diary across.</p>
+    <div class="qr">
+      <svg viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true">
+        <rect width="100" height="100" fill="#fff"/>
+        <g fill="#1a1a1a">
+          <rect x="6" y="6" width="22" height="22"/><rect x="12" y="12" width="10" height="10" fill="#fff"/>
+          <rect x="72" y="6" width="22" height="22"/><rect x="78" y="12" width="10" height="10" fill="#fff"/>
+          <rect x="6" y="72" width="22" height="22"/><rect x="12" y="78" width="10" height="10" fill="#fff"/>
+          <rect x="36" y="6" width="6" height="6"/><rect x="48" y="6" width="6" height="6"/><rect x="60" y="12" width="6" height="6"/>
+          <rect x="36" y="18" width="6" height="6"/><rect x="54" y="18" width="6" height="6"/>
+          <rect x="6" y="36" width="6" height="6"/><rect x="18" y="36" width="6" height="6"/><rect x="30" y="36" width="6" height="6"/>
+          <rect x="48" y="36" width="6" height="6"/><rect x="66" y="36" width="6" height="6"/><rect x="84" y="36" width="6" height="6"/>
+          <rect x="42" y="42" width="6" height="6"/><rect x="60" y="42" width="6" height="6"/><rect x="78" y="42" width="6" height="6"/>
+          <rect x="36" y="54" width="6" height="6"/><rect x="54" y="54" width="6" height="6"/>
+          <rect x="72" y="54" width="6" height="6"/><rect x="90" y="54" width="6" height="6"/>
+          <rect x="48" y="60" width="6" height="6"/><rect x="66" y="60" width="6" height="6"/>
+          <rect x="36" y="72" width="6" height="6"/><rect x="54" y="72" width="6" height="6"/>
+          <rect x="72" y="72" width="6" height="6"/><rect x="84" y="78" width="6" height="6"/>
+          <rect x="42" y="84" width="6" height="6"/><rect x="60" y="84" width="6" height="6"/><rect x="78" y="90" width="6" height="6"/>
+        </g>
+      </svg>
+    </div>
+    <p class="stub">Placeholder QR — actual data encoding is to be decided.</p>
+    <div class="sheet-actions">
+      <button class="btn" type="button" onclick="document.getElementById('export-modal').classList.remove('open')">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- Import modal -->
+<div class="modal" id="import-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sheet">
+    <div class="sh-head">
+      <h2>Import</h2>
+      <button class="x-btn" type="button" onclick="document.getElementById('import-modal').classList.remove('open')">&times;</button>
+    </div>
+    <p class="lead">Point your camera at the QR code shown on your other device.</p>
+    <div class="viewfinder">
+      <div class="reticle"></div>
+      <div class="vf-note">Camera preview</div>
+    </div>
+    <p class="stub">Placeholder — camera scanning &amp; merge are to be decided.</p>
+    <div class="sheet-actions">
+      <button class="btn" type="button" onclick="document.getElementById('import-modal').classList.remove('open')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="store.js"></script>
+<script src="catalog.js"></script>
+<script>
+(function () {
+  let currentFilter = 'all';
+
+  window.setFilter = function (f) {
+    currentFilter = f;
+    document.querySelectorAll('.chip').forEach(c => {
+      c.classList.toggle('active', c.dataset.filter === f);
+    });
+    render();
+  };
+
+  const pad = n => String(n).padStart(2, '0');
+
+  function localDateStr(dt) {
+    return dt.split('T')[0];
+  }
+
+  function formatTime(dt) {
+    const t = (dt.split('T')[1] || '00:00').slice(0, 5);
+    const [h, m] = t.split(':').map(Number);
+    return `${h % 12 || 12}:${pad(m)} ${h >= 12 ? 'PM' : 'AM'}`;
+  }
+
+  function formatDayHeading(dateStr) {
+    const [y, mo, d] = dateStr.split('-').map(Number);
+    const date = new Date(y, mo - 1, d);
+    const label = date.toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric' });
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    const yest = new Date(now); yest.setDate(now.getDate() - 1);
+    const yestStr = `${yest.getFullYear()}-${pad(yest.getMonth() + 1)}-${pad(yest.getDate())}`;
+    if (dateStr === todayStr) return `Today · ${label}`;
+    if (dateStr === yestStr) return `Yesterday · ${label}`;
+    return label;
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  window.removeEntry = function (id) {
+    if (!confirm('Delete this entry?')) return;
+    deleteEntry(id);
+    render();
+  };
+
+  function renderRow(e) {
+    const isSymptom = e.type === 'symptom';
+    const typeLabel = e.type.charAt(0).toUpperCase() + e.type.slice(1);
+    const editHref = isSymptom
+      ? `add-symptom.html?id=${e.id}`
+      : `add-entry.html?id=${e.id}`;
+
+    let name, sub;
+    if (isSymptom) {
+      name = e.note || 'Symptom';
+      const parts = [];
+      if (e.severity) parts.push(`Severity ${e.severity}`);
+      if (e.tags && e.tags.length) parts.push(e.tags.join(', '));
+      sub = parts.join(' · ');
+    } else {
+      name = e.name || 'Entry';
+      const parts = [];
+      if (e.quantity && e.quantity.value) parts.push(`${e.quantity.value} ${e.quantity.unit}`);
+      if (e.productId) {
+        const p = getProduct(e.productId);
+        if (p) parts.push(`~${scaleNutrition(p, e.quantity).calories} cal`);
+      }
+      sub = parts.join(' · ');
+    }
+
+    return `<div class="row${isSymptom ? ' symptom' : ''}">
+      <span class="time">${formatTime(e.datetime)}</span>
+      <span class="type"><span class="dot"></span>${esc(typeLabel)}</span>
+      <div class="what">
+        <div class="nm">${esc(name)}</div>
+        ${sub ? `<div class="sub">${esc(sub)}</div>` : ''}
+      </div>
+      <div class="acts">
+        <a href="${esc(editHref)}">Edit</a>
+        <button type="button" onclick="removeEntry('${e.id}')">Delete</button>
+      </div>
+    </div>`;
+  }
+
+  async function render() {
+    await loadCatalog();
+    let entries = getEntries();
+
+    if (currentFilter !== 'all') {
+      entries = entries.filter(e => e.type === currentFilter);
+    }
+    entries.sort((a, b) => b.datetime.localeCompare(a.datetime));
+
+    const byDay = new Map();
+    for (const e of entries) {
+      const day = localDateStr(e.datetime);
+      if (!byDay.has(day)) byDay.set(day, []);
+      byDay.get(day).push(e);
+    }
+
+    const container = document.getElementById('js-entries');
+    if (!entries.length) {
+      container.innerHTML = '<p class="empty">No entries yet — use the dashboard to add your first meal, snack, or symptom.</p>';
+      return;
+    }
+
+    const days = [...byDay.keys()].sort((a, b) => b.localeCompare(a));
+    container.innerHTML = days.map(day => {
+      const dayEntries = byDay.get(day);
+      let totalCals = 0, hasCals = false;
+      for (const e of dayEntries) {
+        if ((e.type === 'meal' || e.type === 'snack') && e.productId) {
+          const p = getProduct(e.productId);
+          if (p) { totalCals += scaleNutrition(p, e.quantity).calories; hasCals = true; }
+        }
+      }
+      const count = dayEntries.length;
+      const calStr = hasCals ? ` · <b>~${totalCals}</b> cal` : '';
+      return `<div class="day">
+        <div class="summary">
+          <span class="d">${esc(formatDayHeading(day))}</span>
+          <span class="s"><b>${count}</b> entr${count === 1 ? 'y' : 'ies'}${calStr}</span>
+        </div>
+        <div class="rows">${dayEntries.map(renderRow).join('')}</div>
+      </div>`;
+    }).join('');
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

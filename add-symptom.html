@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Diet Diary — Add Symptom</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+  <div class="brand">Diet Diary</div>
+  <nav>
+    <a href="entries.html">Entries</a>
+    <a href="labels.html">Nutrition Labels</a>
+  </nav>
+</header>
+
+<main style="max-width:620px">
+  <a class="back" href="index.html" id="js-back">← Back</a>
+  <h1 id="js-title">Add symptom</h1>
+
+  <div class="toprow">
+    <div class="tr-when" style="flex:1">
+      <label>Date &amp; time</label>
+      <input type="datetime-local" id="js-dt" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Note</label>
+    <textarea id="js-note" placeholder="Describe your symptom…"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Severity</label>
+    <div class="severity-row">
+      <button class="severity-btn" type="button" data-v="1" onclick="setSeverity(1)">1</button>
+      <button class="severity-btn" type="button" data-v="2" onclick="setSeverity(2)">2</button>
+      <button class="severity-btn" type="button" data-v="3" onclick="setSeverity(3)">3</button>
+      <button class="severity-btn" type="button" data-v="4" onclick="setSeverity(4)">4</button>
+      <button class="severity-btn" type="button" data-v="5" onclick="setSeverity(5)">5</button>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Tags</label>
+    <div class="tag-chips" id="js-tag-chips"></div>
+    <div class="tag-add">
+      <input type="text" id="js-tag-input" placeholder="Add a tag…" />
+      <button class="btn" type="button" onclick="addCustomTag()">Add</button>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary btn-lg" type="button" onclick="saveAndGo()">Save entry</button>
+    <a class="btn btn-secondary btn-lg" href="index.html" id="js-cancel">Cancel</a>
+  </div>
+</main>
+
+<footer>Diet Diary</footer>
+<script src="store.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const editId = params.get('id');
+
+  const SUGGESTED = ['nausea', 'bloating', 'headache', 'cramps', 'fatigue'];
+  let customTags = [];
+  let selectedTags = new Set();
+  let selectedSeverity = null;
+
+  const pad = n => String(n).padStart(2, '0');
+  const now = new Date();
+  document.getElementById('js-dt').value =
+    `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+  window.setSeverity = function (v) {
+    selectedSeverity = v;
+    document.querySelectorAll('.severity-btn').forEach(btn => {
+      btn.classList.toggle('active', Number(btn.dataset.v) === v);
+    });
+  };
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function escAttr(s) {
+    return String(s).replace(/'/g, '&#39;');
+  }
+
+  function renderTags() {
+    const all = [...SUGGESTED, ...customTags];
+    document.getElementById('js-tag-chips').innerHTML = all.map(t =>
+      `<button class="tag-chip${selectedTags.has(t) ? ' active' : ''}" type="button" onclick="toggleTag('${escAttr(t)}')">${esc(t)}</button>`
+    ).join('');
+  }
+
+  window.toggleTag = function (tag) {
+    if (selectedTags.has(tag)) selectedTags.delete(tag);
+    else selectedTags.add(tag);
+    renderTags();
+  };
+
+  window.addCustomTag = function () {
+    const input = document.getElementById('js-tag-input');
+    const tag = input.value.trim().toLowerCase();
+    if (!tag) return;
+    if (!SUGGESTED.includes(tag) && !customTags.includes(tag)) customTags.push(tag);
+    selectedTags.add(tag);
+    input.value = '';
+    renderTags();
+  };
+
+  document.getElementById('js-tag-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); addCustomTag(); }
+  });
+
+  window.saveAndGo = function () {
+    const dt = document.getElementById('js-dt').value;
+    if (!dt) { alert('Please set the date and time.'); return; }
+    saveEntry({
+      id: editId || crypto.randomUUID(),
+      type: 'symptom',
+      datetime: dt,
+      note: document.getElementById('js-note').value.trim(),
+      severity: selectedSeverity,
+      tags: [...selectedTags]
+    });
+    location.href = 'entries.html';
+  };
+
+  if (editId) {
+    const existing = getEntry(editId);
+    if (existing) {
+      document.getElementById('js-title').textContent = 'Edit symptom';
+      document.getElementById('js-dt').value = existing.datetime;
+      document.getElementById('js-note').value = existing.note || '';
+      if (existing.severity) setSeverity(existing.severity);
+      if (existing.tags) {
+        existing.tags.forEach(t => {
+          if (!SUGGESTED.includes(t)) customTags.push(t);
+          selectedTags.add(t);
+        });
+      }
+    }
+    document.getElementById('js-back').href = 'entries.html';
+    document.getElementById('js-cancel').href = 'entries.html';
+  }
+
+  renderTags();
+})();
+</script>
+</body>
+</html>

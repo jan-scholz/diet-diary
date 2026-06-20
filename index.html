@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Diet Diary</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #f3f0ea;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    padding: 24px 32px;
+    border-bottom: 1px solid #e2dccf;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  nav a {
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 20px;
+  }
+  nav a:hover { color: #111; }
+  main {
+    flex: 1;
+    max-width: 920px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 64px 32px;
+    box-sizing: border-box;
+  }
+  h1 {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 16px;
+    letter-spacing: -0.02em;
+  }
+  .tagline {
+    font-size: 18px;
+    color: #555;
+    margin: 0 0 40px;
+    max-width: 560px;
+    line-height: 1.5;
+  }
+  .actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: #1a1a1a;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #333; }
+  .btn-secondary {
+    background: transparent;
+    color: #1a1a1a;
+    border-color: #c8c1b1;
+  }
+  .btn-secondary:hover { border-color: #1a1a1a; }
+  footer {
+    padding: 24px 32px;
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">Diet Diary</div>
+    <nav>
+      <a href="labels.html">Nutrition Labels</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Track what you eat.</h1>
+    <p class="tagline">A simple food log that connects what's on your plate to what's on the label.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="#">Start a new entry</a>
+      <a class="btn btn-secondary" href="labels.html">Browse nutrition labels</a>
+    </div>
+  </main>
+
+  <footer>Diet Diary</footer>
+</body>
+</html>

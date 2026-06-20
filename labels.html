@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nutrition Facts</title>
+<style>
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    background: #f3f0ea;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #111;
+  }
+  h1 {
+    text-align: center;
+    font-weight: 600;
+    margin: 0 0 32px;
+    color: #333;
+  }
+  .labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .label {
+    background: #fff;
+    border: 2px solid #000;
+    padding: 14px 16px;
+    width: 360px;
+    box-sizing: border-box;
+    line-height: 1.25;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  }
+  .label.dual { width: 420px; }
+  .product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .product-name {
+    font-weight: 600;
+    font-size: 20px;
+    margin: 0 0 12px;
+    color: #333;
+    text-align: center;
+    max-width: 360px;
+  }
+  .product-name a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid #bbb;
+  }
+  .product-name a:hover {
+    border-bottom-color: #333;
+  }
+  .title {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.05;
+    margin: 0;
+  }
+  .title .fr {
+    display: block;
+    font-style: italic;
+    font-weight: 800;
+  }
+  .serving {
+    font-size: 14px;
+    margin: 6px 0 0;
+  }
+  .serving .fr {
+    display: block;
+    font-style: italic;
+  }
+  .serving-note {
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .serving-note .fr {
+    display: block;
+    font-style: italic;
+  }
+  hr.thick {
+    border: 0;
+    border-top: 8px solid #000;
+    margin: 8px 0;
+  }
+  hr.medium {
+    border: 0;
+    border-top: 4px solid #000;
+    margin: 6px 0;
+  }
+  hr.thin {
+    border: 0;
+    border-top: 1px solid #000;
+    margin: 4px 0;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 2px 0;
+    font-size: 14px;
+  }
+  .row .name { flex: 1; }
+  .row .name .fr { font-style: italic; }
+  .row .dv-group {
+    display: flex;
+    margin-left: 12px;
+  }
+  .row .dv-cell {
+    font-weight: 700;
+    white-space: nowrap;
+    text-align: right;
+    min-width: 52px;
+  }
+  .row .dv-cell + .dv-cell { margin-left: 8px; }
+  .calories-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 2px 0;
+  }
+  .calories-row .left {
+    font-weight: 800;
+    font-size: 22px;
+  }
+  .calories-row .right {
+    text-align: right;
+    font-size: 11px;
+    line-height: 1.15;
+  }
+  .calories-row .right .fr {
+    display: block;
+    font-style: italic;
+  }
+  .calories-row.dual {
+    align-items: baseline;
+  }
+  .calories-row.dual .cal-cell {
+    font-weight: 800;
+    font-size: 22px;
+    text-align: right;
+    min-width: 52px;
+  }
+  .calories-row.dual .cal-cell + .cal-cell { margin-left: 8px; }
+  .column-headers {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 11px;
+    line-height: 1.15;
+    padding: 2px 0;
+  }
+  .column-headers .col {
+    min-width: 52px;
+    text-align: right;
+  }
+  .column-headers .col + .col { margin-left: 8px; }
+  .column-headers .fr {
+    display: block;
+    font-style: italic;
+  }
+  .dv-header {
+    text-align: right;
+    font-size: 11px;
+    line-height: 1.15;
+    padding: 2px 0 4px;
+  }
+  .dv-header .fr { font-style: italic; }
+  .bold { font-weight: 700; }
+  .indent-1 { padding-left: 16px; }
+  .indent-2 { padding-left: 32px; }
+  .footnote {
+    font-size: 11px;
+    line-height: 1.3;
+    margin-top: 6px;
+  }
+  .footnote .fr {
+    display: block;
+    font-style: italic;
+  }
+  .footnote .little { font-weight: 700; }
+  .footnote .alot { font-weight: 700; }
+</style>
+</head>
+<body>
+  <h1>Nutrition Facts</h1>
+  <div class="labels" id="labels"></div>
+
+<script>
+  async function load() {
+    const res = await fetch('nutrition.json');
+    const data = await res.json();
+    const container = document.getElementById('labels');
+    data.products.forEach(p => container.appendChild(renderLabel(p)));
+  }
+
+  function fmt(n) {
+    return Number.isInteger(n) ? n : n.toString();
+  }
+
+  function row({ name, fr, amount, unit, dv, bold, indent, columnCount }) {
+    const div = document.createElement('div');
+    div.className = 'row';
+    if (indent === 1) div.classList.add('indent-1');
+    if (indent === 2) div.classList.add('indent-2');
+    const left = document.createElement('div');
+    left.className = 'name';
+    const nameSpan = document.createElement('span');
+    if (bold) nameSpan.classList.add('bold');
+    nameSpan.textContent = name;
+    left.appendChild(nameSpan);
+    if (fr) {
+      const frSpan = document.createElement('span');
+      if (bold) frSpan.classList.add('bold');
+      frSpan.innerHTML = ` / <span class="fr">${fr}</span>`;
+      left.appendChild(frSpan);
+    }
+    const amtSpan = document.createElement('span');
+    amtSpan.textContent = amount != null ? ` ${fmt(amount)} ${unit}` : '';
+    if (bold && amount != null) amtSpan.classList.add('bold');
+    left.appendChild(amtSpan);
+
+    const cols = columnCount || 1;
+    const dvs = Array.isArray(dv) ? dv : (dv != null ? [dv] : []);
+    const right = document.createElement('div');
+    right.className = 'dv-group';
+    for (let i = 0; i < cols; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'dv-cell';
+      cell.textContent = dvs[i] != null ? `${dvs[i]} %` : '';
+      right.appendChild(cell);
+    }
+    div.appendChild(left);
+    div.appendChild(right);
+    return div;
+  }
+
+  function hr(kind) {
+    const h = document.createElement('hr');
+    h.className = kind;
+    return h;
+  }
+
+  function renderLabel(p) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'product';
+
+    const productName = document.createElement('div');
+    productName.className = 'product-name';
+    if (p.url) {
+      const a = document.createElement('a');
+      a.href = p.url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = p.name;
+      productName.appendChild(a);
+    } else {
+      productName.textContent = p.name;
+    }
+    wrapper.appendChild(productName);
+
+    const columns = p.columns || null;
+    const cols = columns ? columns.length : 1;
+
+    const el = document.createElement('div');
+    el.className = 'label' + (cols > 1 ? ' dual' : '');
+    wrapper.appendChild(el);
+
+    const title = document.createElement('div');
+    title.className = 'title';
+    title.innerHTML = `Nutrition Facts<span class="fr">Valeur nutritive</span>`;
+    el.appendChild(title);
+
+    const serving = document.createElement('div');
+    serving.className = 'serving';
+    const fr = p.serving.fractionFr || p.serving.fraction;
+    serving.innerHTML = `Per ${p.serving.fraction} (${p.serving.grams} g)<span class="fr">pour ${fr} (${p.serving.grams} g)</span>`;
+    el.appendChild(serving);
+
+    if (p.servingNote) {
+      const note = document.createElement('div');
+      note.className = 'serving-note';
+      const noteFr = p.servingNoteFr ? `<span class="fr">${p.servingNoteFr}</span>` : '';
+      note.innerHTML = `${p.servingNote}${noteFr}`;
+      el.appendChild(note);
+    }
+
+    el.appendChild(hr('thick'));
+
+    if (cols > 1) {
+      const ch = document.createElement('div');
+      ch.className = 'column-headers';
+      let html = '';
+      columns.forEach(c => {
+        const cFr = c.labelFr ? `<span class="fr">${c.labelFr}</span>` : '';
+        html += `<div class="col">${c.label}${cFr}</div>`;
+      });
+      ch.innerHTML = html;
+      el.appendChild(ch);
+    }
+
+    const cal = document.createElement('div');
+    cal.className = 'calories-row' + (cols > 1 ? ' dual' : '');
+    if (cols > 1) {
+      const calArr = Array.isArray(p.calories) ? p.calories : [p.calories];
+      let cells = '';
+      for (let i = 0; i < cols; i++) {
+        cells += `<div class="cal-cell">${calArr[i] != null ? calArr[i] : ''}</div>`;
+      }
+      cal.innerHTML = `<div class="left">Calories</div>${cells}`;
+    } else {
+      cal.innerHTML = `
+        <div class="left">Calories ${p.calories}</div>
+        <div class="right">% Daily Value*<span class="fr">% valeur quotidienne*</span></div>
+      `;
+    }
+    el.appendChild(cal);
+
+    el.appendChild(hr('medium'));
+
+    if (cols > 1) {
+      const dvh = document.createElement('div');
+      dvh.className = 'dv-header';
+      dvh.innerHTML = `% Daily Value* / <span class="fr">% valeur quotidienne*</span>`;
+      el.appendChild(dvh);
+    }
+
+    const n = p.nutrients;
+    const cc = cols;
+
+    el.appendChild(row({ name: 'Total Fat', fr: 'Lipides', amount: n.totalFat.amount, unit: n.totalFat.unit, dv: n.totalFat.dv, bold: true, columnCount: cc }));
+    el.appendChild(row({ name: 'Saturated', fr: 'saturés', amount: n.saturatedFat.amount, unit: n.saturatedFat.unit, dv: n.saturatedFat.dv, indent: 1, columnCount: cc }));
+    el.appendChild(row({ name: '+ Trans', fr: 'trans', amount: n.transFat.amount, unit: n.transFat.unit, indent: 1, columnCount: cc }));
+
+    el.appendChild(hr('thin'));
+
+    el.appendChild(row({ name: 'Carbohydrate', fr: 'Glucides', amount: n.carbohydrate.amount, unit: n.carbohydrate.unit, bold: true, columnCount: cc }));
+    el.appendChild(row({ name: 'Fiber', fr: 'Fibres', amount: n.fiber.amount, unit: n.fiber.unit, dv: n.fiber.dv, indent: 1, columnCount: cc }));
+    el.appendChild(row({ name: 'Sugars', fr: 'Sucres', amount: n.sugars.amount, unit: n.sugars.unit, dv: n.sugars.dv, indent: 1, columnCount: cc }));
+
+    el.appendChild(hr('thin'));
+
+    el.appendChild(row({ name: 'Protein', fr: 'Protéines', amount: n.protein.amount, unit: n.protein.unit, bold: true, columnCount: cc }));
+
+    el.appendChild(hr('thin'));
+
+    el.appendChild(row({ name: 'Cholesterol', fr: 'Cholestérol', amount: n.cholesterol.amount, unit: n.cholesterol.unit, bold: true, columnCount: cc }));
+
+    el.appendChild(hr('thin'));
+
+    el.appendChild(row({ name: 'Sodium', amount: n.sodium.amount, unit: n.sodium.unit, dv: n.sodium.dv, bold: true, columnCount: cc }));
+
+    el.appendChild(hr('medium'));
+
+    el.appendChild(row({ name: 'Potassium', amount: n.potassium.amount, unit: n.potassium.unit, dv: n.potassium.dv, columnCount: cc }));
+
+    el.appendChild(hr('thin'));
+
+    el.appendChild(row({ name: 'Calcium', amount: n.calcium.amount, unit: n.calcium.unit, dv: n.calcium.dv, columnCount: cc }));
+
+    el.appendChild(hr('thin'));
+
+    el.appendChild(row({ name: 'Iron', fr: 'Fer', amount: n.iron.amount, unit: n.iron.unit, dv: n.iron.dv, columnCount: cc }));
+
+    el.appendChild(hr('medium'));
+
+    const fn = document.createElement('div');
+    fn.className = 'footnote';
+    fn.innerHTML = `
+      * 5% or less is <span class="little">a little</span>, 15% or more is <span class="alot">a lot</span>
+      <span class="fr">* 5 % ou moins c'est <span class="little">peu</span>, 15 % ou plus c'est <span class="alot">beaucoup</span></span>
+    `;
+    el.appendChild(fn);
+
+    return wrapper;
+  }
+
+  load();
+</script>
+</body>
+</html>

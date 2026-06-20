@@ -1,0 +1,201 @@
+{
+  "products": [
+    {
+      "id": "bacon_pizza",
+      "name": "Bacon and Caramelized Onions",
+      "url": "https://turponefoods.com/turpone-products/",
+      "serving": {
+        "fraction": "1/3 pizza",
+        "grams": 173
+      },
+      "calories": 430,
+      "nutrients": {
+        "totalFat": { "amount": 23, "unit": "g", "dv": 30 },
+        "saturatedFat": { "amount": 12, "unit": "g", "dv": 60 },
+        "transFat": { "amount": 0.5, "unit": "g" },
+        "carbohydrate": { "amount": 42, "unit": "g" },
+        "fiber": { "amount": 2, "unit": "g", "dv": 8 },
+        "sugars": { "amount": 2, "unit": "g", "dv": 2 },
+        "protein": { "amount": 15, "unit": "g" },
+        "cholesterol": { "amount": 55, "unit": "mg" },
+        "sodium": { "amount": 790, "unit": "mg", "dv": 34 },
+        "potassium": { "amount": 200, "unit": "mg", "dv": 6 },
+        "calcium": { "amount": 150, "unit": "mg", "dv": 12 },
+        "iron": { "amount": 2.5, "unit": "mg", "dv": 14 }
+      }
+    },
+    {
+      "id": "sausage_pizza",
+      "name": "Sausage & Caramelized Onion Pizza",
+      "url": "https://eatporta.com/products/sausage-caramelized-onion-pizza-cad?viewed_product_tracking=1",
+      "serving": {
+        "fraction": "1/2 pizza",
+        "grams": 243
+      },
+      "calories": 460,
+      "nutrients": {
+        "totalFat": { "amount": 15, "unit": "g", "dv": 20 },
+        "saturatedFat": { "amount": 8, "unit": "g", "dv": 40 },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 57, "unit": "g" },
+        "fiber": { "amount": 3, "unit": "g", "dv": 11 },
+        "sugars": { "amount": 5, "unit": "g", "dv": 5 },
+        "protein": { "amount": 23, "unit": "g" },
+        "cholesterol": { "amount": 55, "unit": "mg" },
+        "sodium": { "amount": 1020, "unit": "mg", "dv": 44 },
+        "potassium": { "amount": 175, "unit": "mg", "dv": 5 },
+        "calcium": { "amount": 175, "unit": "mg", "dv": 13 },
+        "iron": { "amount": 4, "unit": "mg", "dv": 22 }
+      }
+    },
+    {
+      "id": "quinoa_hemp_oatmeal",
+      "name": "Sprouted Quinoa Hemp Instant Oatmeal",
+      "url": "https://onedegreeorganics.com/products/sprouted-quinoa-hemp-instant-oatmeal-can/",
+      "serving": {
+        "fraction": "1/3 cup",
+        "fractionFr": "1/3 tasse",
+        "grams": 51
+      },
+      "calories": 200,
+      "nutrients": {
+        "totalFat": { "amount": 3.5, "unit": "g", "dv": 5 },
+        "saturatedFat": { "amount": 0.5, "unit": "g", "dv": 3 },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 37, "unit": "g" },
+        "fiber": { "amount": 4, "unit": "g", "dv": 14 },
+        "sugars": { "amount": 8, "unit": "g", "dv": 8 },
+        "protein": { "amount": 6, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 55, "unit": "mg", "dv": 2 },
+        "potassium": { "amount": 250, "unit": "mg", "dv": 5 },
+        "calcium": { "amount": 50, "unit": "mg", "dv": 4 },
+        "iron": { "amount": 2.25, "unit": "mg", "dv": 13 }
+      }
+    },
+    {
+      "id": "muesli_four_nut",
+      "name": "Jordans Morning Muesli — Four Nut",
+      "url": "https://jordanscerealscanada.com/product/morning-muesli/four-nut/",
+      "serving": {
+        "fraction": "1 cup",
+        "fractionFr": "1 tasse",
+        "grams": 120
+      },
+      "servingNote": "About 1½ cups when prepared with ½ cup 2% milk",
+      "servingNoteFr": "environ 1½ tasse si préparé avec ½ tasse de lait 2 %",
+      "columns": [
+        { "label": "As sold", "labelFr": "Tel que vendu" },
+        { "label": "With ½ cup 2% milk", "labelFr": "Avec ½ tasse de lait 2 %" }
+      ],
+      "calories": [450, 520],
+      "nutrients": {
+        "totalFat": { "amount": 12, "unit": "g", "dv": [16, 19] },
+        "saturatedFat": { "amount": 2, "unit": "g", "dv": [10, 18] },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 69, "unit": "g" },
+        "fiber": { "amount": 10, "unit": "g", "dv": [37, 37] },
+        "sugars": { "amount": 22, "unit": "g", "dv": [22, 29] },
+        "protein": { "amount": 12, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 10, "unit": "mg", "dv": [1, 3] },
+        "potassium": { "amount": 575, "unit": "mg", "dv": [17, 19] },
+        "calcium": { "amount": 50, "unit": "mg", "dv": [5, 17] },
+        "iron": { "amount": 3, "unit": "mg", "dv": [17, 17] }
+      }
+    },
+    {
+      "id": "muesli_organic_fruit_nut",
+      "name": "Jordans Morning Muesli — Organic Fruit & Nut",
+      "url": "https://jordanscerealscanada.com/product/morning-muesli/organic-fruit-nut/",
+      "serving": {
+        "fraction": "1 cup",
+        "fractionFr": "1 tasse",
+        "grams": 120
+      },
+      "servingNote": "About 1½ cups when prepared with ½ cup 2% milk",
+      "servingNoteFr": "environ 1½ tasse si préparé avec ½ tasse de lait 2 %",
+      "columns": [
+        { "label": "As sold", "labelFr": "Tel que vendu" },
+        { "label": "With ½ cup 2% milk", "labelFr": "Avec ½ tasse de lait 2 %" }
+      ],
+      "calories": [450, 510],
+      "nutrients": {
+        "totalFat": { "amount": 10, "unit": "g", "dv": [14, 17] },
+        "saturatedFat": { "amount": 3.5, "unit": "g", "dv": [17, 25] },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 73, "unit": "g" },
+        "fiber": { "amount": 10, "unit": "g", "dv": [36, 36] },
+        "sugars": { "amount": 23, "unit": "g", "dv": [23, 29] },
+        "protein": { "amount": 11, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 10, "unit": "mg", "dv": [1, 3] },
+        "potassium": { "amount": 850, "unit": "mg", "dv": [25, 26] },
+        "calcium": { "amount": 50, "unit": "mg", "dv": [4, 15] },
+        "iron": { "amount": 3, "unit": "mg", "dv": [17, 17] }
+      }
+    },
+    {
+      "id": "muesli_super_berry",
+      "name": "Jordans Morning Muesli — Super Berry",
+      "url": "https://jordanscerealscanada.com/product/morning-muesli/super-berry/",
+      "serving": {
+        "fraction": "1 cup",
+        "fractionFr": "1 tasse",
+        "grams": 120
+      },
+      "servingNote": "About 1½ cups when prepared with ½ cup 2% milk",
+      "servingNoteFr": "environ 1½ tasse si préparé avec ½ tasse de lait 2 %",
+      "columns": [
+        { "label": "As sold", "labelFr": "Tel que vendu" },
+        { "label": "With ½ cup 2% milk", "labelFr": "Avec ½ tasse de lait 2 %" }
+      ],
+      "calories": [430, 500],
+      "nutrients": {
+        "totalFat": { "amount": 9, "unit": "g", "dv": [12, 15] },
+        "saturatedFat": { "amount": 1, "unit": "g", "dv": [6, 14] },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 74, "unit": "g" },
+        "fiber": { "amount": 9, "unit": "g", "dv": [31, 31] },
+        "sugars": { "amount": 30, "unit": "g", "dv": [30, 36] },
+        "protein": { "amount": 11, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 10, "unit": "mg", "dv": [1, 3] },
+        "potassium": { "amount": 750, "unit": "mg", "dv": [22, 24] },
+        "calcium": { "amount": 75, "unit": "mg", "dv": [6, 17] },
+        "iron": { "amount": 3, "unit": "mg", "dv": [17, 17] }
+      }
+    },
+    {
+      "id": "muesli_supreme_medley",
+      "name": "Jordans Morning Muesli — Supreme Medley",
+      "url": "https://jordanscerealscanada.com/product/morning-muesli/supreme-medley/",
+      "serving": {
+        "fraction": "1 cup",
+        "fractionFr": "1 tasse",
+        "grams": 120
+      },
+      "servingNote": "About 1½ cups when prepared with ½ cup 2% milk",
+      "servingNoteFr": "environ 1½ tasse si préparé avec ½ tasse de lait 2 %",
+      "columns": [
+        { "label": "As sold", "labelFr": "Tel que vendu" },
+        { "label": "With ½ cup 2% milk", "labelFr": "Avec ½ tasse de lait 2 %" }
+      ],
+      "calories": [440, 500],
+      "nutrients": {
+        "totalFat": { "amount": 11, "unit": "g", "dv": [14, 18] },
+        "saturatedFat": { "amount": 4.5, "unit": "g", "dv": [24, 32] },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 69, "unit": "g" },
+        "fiber": { "amount": 11, "unit": "g", "dv": [40, 40] },
+        "sugars": { "amount": 35, "unit": "g", "dv": [35, 41] },
+        "protein": { "amount": 10, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 25, "unit": "mg", "dv": [1, 4] },
+        "potassium": { "amount": 650, "unit": "mg", "dv": [19, 21] },
+        "calcium": { "amount": 50, "unit": "mg", "dv": [4, 17] },
+        "iron": { "amount": 3, "unit": "mg", "dv": [17, 17] }
+      }
+    }
+  ]
+}

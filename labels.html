@@ -47,6 +47,7 @@
     border: 0;
     border-top: 8px solid #000;
     margin: 8px 0;
+    clear: both;
   }
   hr.medium {
     border: 0;
@@ -145,8 +146,8 @@
   .footnote .little { font-weight: 700; }
   .footnote .alot { font-weight: 700; }
   #js-label { margin-top: 24px; }
-  .product-img-wrap { display: block; margin-bottom: 16px; }
-  .product-img { width: 200px; height: 200px; object-fit: contain; display: block; }
+  .product-img-wrap { float: right; margin-left: 10px; display: block; }
+  .product-img { width: 88px; height: 88px; object-fit: cover; display: block; }
   /* Attach dropdown flush to the search box */
   .field .search { margin-bottom: 0; }
   #js-search.has-results {
@@ -309,6 +310,13 @@
   function buildLabel(p) {
     const wrapper = document.createElement('div');
 
+    const columns = p.columns || null;
+    const cols = columns ? columns.length : 1;
+
+    const el = document.createElement('div');
+    el.className = 'label' + (cols > 1 ? ' dual' : '');
+    wrapper.appendChild(el);
+
     if (p.image) {
       const imgWrap = document.createElement(p.url ? 'a' : 'div');
       imgWrap.className = 'product-img-wrap';
@@ -318,15 +326,8 @@
       img.alt = p.name;
       img.className = 'product-img';
       imgWrap.appendChild(img);
-      wrapper.appendChild(imgWrap);
+      el.appendChild(imgWrap);
     }
-
-    const columns = p.columns || null;
-    const cols = columns ? columns.length : 1;
-
-    const el = document.createElement('div');
-    el.className = 'label' + (cols > 1 ? ' dual' : '');
-    wrapper.appendChild(el);
 
     const title = document.createElement('div');
     title.className = 'label-title';

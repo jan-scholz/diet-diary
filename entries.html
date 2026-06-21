@@ -49,32 +49,56 @@
       <h2>Export</h2>
       <button class="x-btn" type="button" onclick="document.getElementById('export-modal').classList.remove('open')">&times;</button>
     </div>
-    <p class="lead">Scan this code on another device to copy your diary across.</p>
-    <div class="qr">
-      <svg viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true">
-        <rect width="100" height="100" fill="#fff"/>
-        <g fill="#1a1a1a">
-          <rect x="6" y="6" width="22" height="22"/><rect x="12" y="12" width="10" height="10" fill="#fff"/>
-          <rect x="72" y="6" width="22" height="22"/><rect x="78" y="12" width="10" height="10" fill="#fff"/>
-          <rect x="6" y="72" width="22" height="22"/><rect x="12" y="78" width="10" height="10" fill="#fff"/>
-          <rect x="36" y="6" width="6" height="6"/><rect x="48" y="6" width="6" height="6"/><rect x="60" y="12" width="6" height="6"/>
-          <rect x="36" y="18" width="6" height="6"/><rect x="54" y="18" width="6" height="6"/>
-          <rect x="6" y="36" width="6" height="6"/><rect x="18" y="36" width="6" height="6"/><rect x="30" y="36" width="6" height="6"/>
-          <rect x="48" y="36" width="6" height="6"/><rect x="66" y="36" width="6" height="6"/><rect x="84" y="36" width="6" height="6"/>
-          <rect x="42" y="42" width="6" height="6"/><rect x="60" y="42" width="6" height="6"/><rect x="78" y="42" width="6" height="6"/>
-          <rect x="36" y="54" width="6" height="6"/><rect x="54" y="54" width="6" height="6"/>
-          <rect x="72" y="54" width="6" height="6"/><rect x="90" y="54" width="6" height="6"/>
-          <rect x="48" y="60" width="6" height="6"/><rect x="66" y="60" width="6" height="6"/>
-          <rect x="36" y="72" width="6" height="6"/><rect x="54" y="72" width="6" height="6"/>
-          <rect x="72" y="72" width="6" height="6"/><rect x="84" y="78" width="6" height="6"/>
-          <rect x="42" y="84" width="6" height="6"/><rect x="60" y="84" width="6" height="6"/><rect x="78" y="90" width="6" height="6"/>
-        </g>
-      </svg>
-    </div>
-    <p class="stub">Placeholder QR — actual data encoding is to be decided.</p>
-    <div class="sheet-actions">
-      <button class="btn btn-primary" type="button" onclick="exportCSV()">Export to CSV</button>
-      <button class="btn" type="button" onclick="document.getElementById('export-modal').classList.remove('open')">Done</button>
+    <div class="export-panels">
+      <div class="export-panel">
+        <p class="lead">Scan this code on another device to copy your diary across.</p>
+        <div class="qr">
+          <svg viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true">
+            <rect width="100" height="100" fill="#fff"/>
+            <g fill="#1a1a1a">
+              <rect x="6" y="6" width="22" height="22"/><rect x="12" y="12" width="10" height="10" fill="#fff"/>
+              <rect x="72" y="6" width="22" height="22"/><rect x="78" y="12" width="10" height="10" fill="#fff"/>
+              <rect x="6" y="72" width="22" height="22"/><rect x="12" y="78" width="10" height="10" fill="#fff"/>
+              <rect x="36" y="6" width="6" height="6"/><rect x="48" y="6" width="6" height="6"/><rect x="60" y="12" width="6" height="6"/>
+              <rect x="36" y="18" width="6" height="6"/><rect x="54" y="18" width="6" height="6"/>
+              <rect x="6" y="36" width="6" height="6"/><rect x="18" y="36" width="6" height="6"/><rect x="30" y="36" width="6" height="6"/>
+              <rect x="48" y="36" width="6" height="6"/><rect x="66" y="36" width="6" height="6"/><rect x="84" y="36" width="6" height="6"/>
+              <rect x="42" y="42" width="6" height="6"/><rect x="60" y="42" width="6" height="6"/><rect x="78" y="42" width="6" height="6"/>
+              <rect x="36" y="54" width="6" height="6"/><rect x="54" y="54" width="6" height="6"/>
+              <rect x="72" y="54" width="6" height="6"/><rect x="90" y="54" width="6" height="6"/>
+              <rect x="48" y="60" width="6" height="6"/><rect x="66" y="60" width="6" height="6"/>
+              <rect x="36" y="72" width="6" height="6"/><rect x="54" y="72" width="6" height="6"/>
+              <rect x="72" y="72" width="6" height="6"/><rect x="84" y="78" width="6" height="6"/>
+              <rect x="42" y="84" width="6" height="6"/><rect x="60" y="84" width="6" height="6"/><rect x="78" y="90" width="6" height="6"/>
+            </g>
+          </svg>
+        </div>
+        <p class="stub">Placeholder QR — actual data encoding is to be decided.</p>
+        <div class="sheet-actions">
+          <button class="btn" type="button" onclick="document.getElementById('export-modal').classList.remove('open')">Done</button>
+        </div>
+      </div>
+
+      <div class="export-vdiv"></div>
+
+      <div class="export-panel">
+        <p class="csv-head">Export to CSV</p>
+        <label class="toggle-row">
+          <span>Include ID column</span>
+          <span class="toggler"><input type="checkbox" id="csv-id" /><span class="toggler-knob"></span></span>
+        </label>
+        <label class="toggle-row">
+          <span>Include calories</span>
+          <span class="toggler"><input type="checkbox" id="csv-calories" /><span class="toggler-knob"></span></span>
+        </label>
+        <label class="toggle-row">
+          <span>Include nutrition values</span>
+          <span class="toggler"><input type="checkbox" id="csv-nutrition" /><span class="toggler-knob"></span></span>
+        </label>
+        <div class="sheet-actions">
+          <button class="btn btn-primary" type="button" onclick="exportCSV()">Export to CSV</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -263,23 +287,52 @@
   render();
 })();
 
-window.exportCSV = function () {
-  const rows = [['id','type','datetime','name','productId','qty_kind','qty_value','qty_unit','note','severity','tags']];
+window.exportCSV = async function () {
+  const inclId  = document.getElementById('csv-id').checked;
+  const inclCal = document.getElementById('csv-calories').checked;
+  const inclNut = document.getElementById('csv-nutrition').checked;
+
+  if (inclCal || inclNut) await loadCatalog();
+
+  const NUT_KEYS = ['totalFat','saturatedFat','transFat','carbohydrate','fiber','sugars','protein','cholesterol','sodium','potassium','calcium','iron'];
+  const NUT_COLS = ['fat_g','sat_fat_g','trans_fat_g','carbs_g','fiber_g','sugars_g','protein_g','cholesterol_mg','sodium_mg','potassium_mg','calcium_mg','iron_mg'];
+
+  const headers = ['type','datetime','name','productId','qty_kind','qty_value','qty_unit','note','severity','tags'];
+  if (inclId)  headers.unshift('id');
+  if (inclCal) headers.push('calories');
+  if (inclNut) headers.push(...NUT_COLS);
+
+  const rows = [headers];
   for (const e of getEntries()) {
-    rows.push([
-      e.id,
-      e.type,
-      e.datetime,
-      e.name || '',
-      e.productId || '',
-      e.quantity ? e.quantity.kind  : '',
-      e.quantity ? e.quantity.value : '',
-      e.quantity ? e.quantity.unit  : '',
-      e.note || '',
-      e.severity != null ? e.severity : '',
-      e.tags ? e.tags.join(';') : ''
-    ]);
+    let cals = '';
+    let nutVals = NUT_KEYS.map(() => '');
+
+    if ((inclCal || inclNut) && e.productId) {
+      const p = getProduct(e.productId);
+      if (p) {
+        const scaled = scaleNutrition(p, e.quantity);
+        if (inclCal) cals = scaled.calories ?? '';
+        if (inclNut) {
+          const nuts = scaled.nutrients || p.nutrients;
+          nutVals = NUT_KEYS.map(k => {
+            const n = nuts[k];
+            if (!n) return '';
+            const amt = Array.isArray(n.amount) ? n.amount[0] : n.amount;
+            return amt != null ? amt : '';
+          });
+        }
+      }
+    }
+
+    const row = [e.type, e.datetime, e.name||'', e.productId||'',
+      e.quantity?.kind||'', e.quantity?.value??'', e.quantity?.unit||'',
+      e.note||'', e.severity??'', e.tags ? e.tags.join(';') : ''];
+    if (inclId)  row.unshift(e.id);
+    if (inclCal) row.push(cals);
+    if (inclNut) row.push(...nutVals);
+    rows.push(row);
   }
+
   const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\r\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));

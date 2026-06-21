@@ -244,6 +244,40 @@ textarea { resize: vertical; min-height: 90px; }
 .sheet-actions { display: flex; gap: 10px; }
 .sheet-actions .btn { flex: 1; justify-content: center; }
 
+/* ===== Export modal two-panel layout ===== */
+#export-modal .sheet { max-width: 620px; }
+.export-panels { display: flex; align-items: stretch; margin-top: 4px; }
+.export-panel { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.export-panel:first-child { padding-right: 24px; }
+.export-vdiv + .export-panel { padding-left: 24px; }
+.export-panel .sheet-actions { margin-top: auto; padding-top: 16px; }
+.export-vdiv { width: 1px; background: #e2dccf; flex-shrink: 0; }
+.csv-head { font-size: 12px; font-weight: 700; color: #999; text-transform: uppercase;
+  letter-spacing: 0.06em; margin: 0 0 10px; }
+
+/* ===== Toggle switch ===== */
+.toggle-row { display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 8px 0; font-size: 14px; cursor: pointer;
+  border-bottom: 1px solid #e2dccf; }
+.toggle-row:last-of-type { border-bottom: none; }
+.toggler { position: relative; display: inline-block; width: 34px; height: 20px; flex-shrink: 0; }
+.toggler input { position: absolute; opacity: 0; width: 0; height: 0; }
+.toggler-knob { position: absolute; inset: 0; background: #cfc8b8; border-radius: 10px;
+  transition: background 0.15s; }
+.toggler-knob::after { content: ''; position: absolute; width: 14px; height: 14px;
+  background: #fff; border-radius: 50%; top: 3px; left: 3px; transition: transform 0.15s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.18); }
+.toggler input:checked ~ .toggler-knob { background: #1a1a1a; }
+.toggler input:checked ~ .toggler-knob::after { transform: translateX(14px); }
+
+@media (max-width: 520px) {
+  #export-modal .sheet { max-width: 380px; }
+  .export-panels { flex-direction: column; }
+  .export-vdiv { width: auto; height: 1px; margin: 20px 0; }
+  .export-panel:first-child { padding-right: 0; }
+  .export-vdiv + .export-panel { padding-left: 0; }
+}
+
 /* ===== FAB speed-dial ===== */
 .fab-backdrop { position: fixed; inset: 0; z-index: 29; display: none; }
 .fab-backdrop.open { display: block; }

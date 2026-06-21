@@ -1,7 +1,8 @@
 {
   "products": [
     {
-      "id": "bacon_pizza",
+      "id": "turpone_bacon_pizza",
+      "brand": "Turpone Foods",
       "name": "Bacon and Caramelized Onions Pizza",
       "url": "https://turponefoods.com/turpone-products/",
       "image": "https://turponefoods.com/assets/images/Bacon-and-Caramelized-Onions-Frozen-Pizza.webp",
@@ -26,7 +27,8 @@
       }
     },
     {
-      "id": "sausage_pizza",
+      "id": "porta_sausage_pizza",
+      "brand": "Porta",
       "name": "Sausage & Caramelized Onion Pizza",
       "url": "https://eatporta.com/products/sausage-caramelized-onion-pizza-cad?viewed_product_tracking=1",
       "image": "https://eatporta.com/cdn/shop/files/pizza-sausage-onion_420x.png?v=1727132865",
@@ -51,7 +53,8 @@
       }
     },
     {
-      "id": "quinoa_hemp_oatmeal",
+      "id": "one_degree_quinoa_hemp_oatmeal",
+      "brand": "One Degree Organics",
       "name": "Sprouted Quinoa Hemp Instant Oatmeal",
       "url": "https://onedegreeorganics.com/products/sprouted-quinoa-hemp-instant-oatmeal-can/",
       "image": "https://onedegreeorganics.com/wp-content/uploads/2023/01/ODO_InstantOatmeal_QuinoaHemp_Pouch_1000x1000.png",
@@ -77,7 +80,8 @@
       }
     },
     {
-      "id": "muesli_four_nut",
+      "id": "jordans_muesli_four_nut",
+      "brand": "Jordans",
       "name": "Jordans Morning Muesli — Four Nut",
       "url": "https://jordanscerealscanada.com/product/morning-muesli/four-nut/",
       "image": "https://dr9wvh6oz7mzp.cloudfront.net/i/93fca4939c91358a11a1d644de908be8_ra,w380,h380_pa,w380,h380.jpg",
@@ -109,7 +113,8 @@
       }
     },
     {
-      "id": "muesli_organic_fruit_nut",
+      "id": "jordans_muesli_organic_fruit_nut",
+      "brand": "Jordans",
       "name": "Jordans Morning Muesli — Organic Fruit & Nut",
       "url": "https://jordanscerealscanada.com/product/morning-muesli/organic-fruit-nut/",
       "image": "https://canada.ambrosia.ca/cdn/shop/files/103600i_2D-Muesli_FruitNut_StandUp-1.png?v=1748631226",
@@ -141,7 +146,8 @@
       }
     },
     {
-      "id": "muesli_super_berry",
+      "id": "jordans_muesli_super_berry",
+      "brand": "Jordans",
       "name": "Jordans Morning Muesli — Super Berry",
       "url": "https://jordanscerealscanada.com/product/morning-muesli/super-berry/",
       "image": "https://dr9wvh6oz7mzp.cloudfront.net/i/cd4ac7a9e62bf127d056e237594d3305_ra,w380,h380_pa,w380,h380.jpg",
@@ -173,7 +179,8 @@
       }
     },
     {
-      "id": "muesli_supreme_medley",
+      "id": "jordans_muesli_supreme_medley",
+      "brand": "Jordans",
       "name": "Jordans Morning Muesli — Supreme Medley",
       "url": "https://jordanscerealscanada.com/product/morning-muesli/supreme-medley/",
       "image": "https://dr9wvh6oz7mzp.cloudfront.net/i/d8e5fb3940846134148a2035dd2aadc2_ra,w380,h380_pa,w380,h380.jpg",

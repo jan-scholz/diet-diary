@@ -73,6 +73,7 @@
   let currentType = params.get('type') === 'snack' ? 'snack' : 'meal';
   let selectedProductId = null;
   let allProducts = [];
+  let topProductIds = []; // top 10 by frequency; first 3 shown before search
 
   const pad = n => String(n).padStart(2, '0');
   const now = new Date();
@@ -153,13 +154,25 @@
   window.selectCustom = function () {
     selectedProductId = '__custom__';
     document.getElementById('js-custom-field').style.display = '';
-    document.getElementById('js-custom-name').focus();
+    const nameInput = document.getElementById('js-custom-name');
+    const q = document.getElementById('js-search').value.trim();
+    if (q && !nameInput.value) nameInput.value = q;
+    nameInput.focus();
     renderCatalog(filteredProducts());
   };
 
   function filteredProducts() {
     const q = document.getElementById('js-search').value.toLowerCase().trim();
-    return q ? allProducts.filter(p => p.name.toLowerCase().includes(q)) : allProducts;
+    if (q) return allProducts.filter(p => p.name.toLowerCase().includes(q));
+    if (topProductIds.length === 0) return allProducts;
+    // Show top 3; always include selected product even if outside top 3
+    const top3 = topProductIds.slice(0, 3);
+    const shown = top3.map(id => allProducts.find(p => p.id === id)).filter(Boolean);
+    if (selectedProductId && selectedProductId !== '__custom__' && !top3.includes(selectedProductId)) {
+      const sel = allProducts.find(p => p.id === selectedProductId);
+      if (sel) shown.push(sel);
+    }
+    return shown;
   }
 
   window.filterCatalog = function () {
@@ -202,6 +215,7 @@
 
   async function init() {
     updateUnit();
+    topProductIds = getTopProductIds(10);
     allProducts = await loadCatalog();
 
     if (editId) {
@@ -231,7 +245,7 @@
       document.getElementById('js-cancel').href = 'entries.html';
     }
 
-    renderCatalog(allProducts);
+    renderCatalog(filteredProducts());
   }
 
   init();

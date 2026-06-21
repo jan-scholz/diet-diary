@@ -21,3 +21,14 @@ function deleteEntry(id) {
   const entries = getEntries().filter(e => e.id !== id);
   localStorage.setItem(_STORE_KEY, JSON.stringify(entries));
 }
+
+function getTopProductIds(n) {
+  const counts = {};
+  for (const e of getEntries()) {
+    if (e.productId) counts[e.productId] = (counts[e.productId] || 0) + 1;
+  }
+  return Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, n)
+    .map(([id]) => id);
+}

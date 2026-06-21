@@ -29,7 +29,8 @@ Use the Read tool to view the screenshot at the provided path. Extract every val
 Use the Read tool to load `nutrition.json` from the project root. Study the existing product structure carefully — match it exactly, including field names, nesting, and which fields are optional.
 
 Key schema notes:
-- `id`: lowercase snake_case, derived in step 3
+- `id`: lowercase snake_case prefixed with brand shorthand, derived in step 3
+- `brand`: manufacturer/brand name, properly capitalised, derived in step 3
 - `name`: human-readable, includes major food category (step 3)
 - `url`: product page URL (step 4), omit if not found
 - `image`: product image URL (step 5), omit if not found
@@ -41,9 +42,11 @@ Key schema notes:
 - `calories`: number for single-column, array of two numbers for dual-column
 - Each nutrient: `{ amount, unit, dv? }` — `dv` is omitted if not shown; for dual-column `dv` is an array of two numbers
 
-### 3 — Assign id and name
+### 3 — Assign id, brand, and name
 
-**id**: Derive a short, unique, lowercase snake_case identifier. Use the main food category + a distinguishing word (e.g. `bacon_pizza`, `quinoa_hemp_oatmeal`, `muesli_four_nut`). Check existing ids and avoid collisions.
+**id**: Derive a short, unique, lowercase snake_case identifier. Format: `<brand_shorthand>_<food_category>_<distinguishing_word>` (e.g. `turpone_bacon_pizza`, `jordans_muesli_four_nut`, `one_degree_quinoa_hemp_oatmeal`). Use a concise brand shorthand — drop generic words like "foods", "organics", "cereals" unless needed for clarity. Check existing ids and avoid collisions.
+
+**brand**: The manufacturer or brand name as a properly capitalised string (e.g. `"Turpone Foods"`, `"Jordans"`, `"One Degree Organics"`). Always include this field.
 
 **name**: Human-readable string. Include the major food category as the first or most prominent word so search works (e.g. "Pizza — Bacon and Caramelized Onions", "Oatmeal — Sprouted Quinoa Hemp"). If the brand is relevant, include it (e.g. "Jordans Morning Muesli — Four Nut"). Keep the brand and category prefix short, so that the distinguishing part of the name doesn't get cut off on narrow screen. Length of entire name should be less than 70 characters.
 

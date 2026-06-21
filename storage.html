@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Diet Diary — Storage</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  pre { background: #f4f4f4; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 13px; white-space: pre-wrap; word-break: break-all; }
+  .key { font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.25rem; }
+  .empty-msg { color: #888; }
+  .actions { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .btn-sm { padding: 0.35rem 0.75rem; font-size: 14px; border: 1px solid #ccc; border-radius: 6px; background: #fff; cursor: pointer; }
+  .btn-sm:hover { background: #f0f0f0; }
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="brand">Diet Diary</a>
+</header>
+
+<main style="max-width:900px">
+  <h1>Entries</h1>
+  <div class="actions">
+    <button class="btn-sm" onclick="refresh()">Refresh</button>
+    <button class="btn-sm" onclick="copyAll()">Copy</button>
+  </div>
+  <div id="js-content"></div>
+</main>
+
+<script>
+  const KEY = 'dietDiary.entries';
+
+  function render() {
+    const el = document.getElementById('js-content');
+    const raw = localStorage.getItem(KEY);
+    if (!raw) {
+      el.innerHTML = '<p class="empty-msg">No entries found.</p>';
+      return;
+    }
+    let val;
+    try { val = JSON.stringify(JSON.parse(raw), null, 2); } catch { val = raw; }
+    el.innerHTML = `<pre>${val}</pre>`;
+  }
+
+  function refresh() { render(); }
+
+  function copyAll() {
+    navigator.clipboard.writeText(localStorage.getItem(KEY) ?? '');
+  }
+
+  render();
+</script>
+</body>
+</html>

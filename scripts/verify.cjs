@@ -61,11 +61,41 @@ async function main() {
   const selCards = await page.locator('.foodcard.selected').count();
   const qtyVal   = await page.inputValue('#js-qty-value');
   const qtyUnit  = await page.inputValue('#js-qty-unit');
-  log('2a', selCards > 0 && qtyVal === '173', `Selected=${selCards}, qty=${qtyVal}${qtyUnit}`);
+  log('2a', selCards > 0 && qtyVal === '173' && qtyUnit === 'g', `Selected=${selCards}, qty=${qtyVal} ${qtyUnit}`);
+
+  // Unit select — weight gives g/lb options; number disables the select
+  const weightOpts = await page.locator('#js-qty-unit option').allTextContents();
+  await page.selectOption('#js-qty-kind', 'number');
+  await page.waitForTimeout(100);
+  const unitDisabled = await page.locator('#js-qty-unit').isDisabled();
+  await page.selectOption('#js-qty-kind', 'weight');
+  await page.waitForTimeout(100);
+  log('2b', weightOpts.includes('g') && weightOpts.includes('lb') && unitDisabled,
+    `weight opts=${JSON.stringify(weightOpts)}, number→disabled=${unitDisabled}`);
+
+  // Switching to a second product updates qty to that product's serving.grams
+  await page.locator('.foodcard:not(.custom)').nth(1).click(); // sausage_pizza = 243 g
+  await page.waitForTimeout(200);
+  const switchedQty = await page.inputValue('#js-qty-value');
+  log('2c', switchedQty === '243', `Product switch qty=${switchedQty} (expected 243)`);
 
   await page.click('button[onclick="saveAndGo()"]');
   await page.waitForURL('**/entries.html');
-  log('2b', true, 'Saved → entries.html');
+  log('2d', true, 'Saved → entries.html');
+
+  // ── Step 2e/2f: Top-3 quick picks + search expansion ─────────────────────
+  await page.goto(BASE + '/add-entry.html');
+  await page.waitForLoadState('networkidle');
+  const topCatalog = await page.locator('.foodcard').count();
+  log('2e', topCatalog <= 4, `Top-3 mode: ${topCatalog} cards (expected ≤ 4)`);
+
+  await page.fill('#js-search', 'pizza');
+  await page.waitForTimeout(100);
+  const searchCatalog = await page.locator('.foodcard').count();
+  log('2f', searchCatalog >= 3, `Search "pizza": ${searchCatalog} cards (expected ≥ 3: 2 products + custom)`);
+
+  await page.goto(BASE + '/entries.html');
+  await page.waitForLoadState('networkidle');
 
   // ── Step 3: entries.html — day group, calories in summary ─────────────────
   await page.waitForLoadState('networkidle');
@@ -73,6 +103,18 @@ async function main() {
   const summary = await page.locator('.summary .s').first().textContent().catch(() => '');
   log(3,  !!rowNm,               `First row name="${rowNm}"`);
   log('3a', summary.includes('cal'), `Day summary="${summary}"`);
+
+  // FAB speed-dial — opens on click, shows 3 actions, backdrop closes it
+  const fabExists = await page.locator('.fab-main').count();
+  await page.click('.fab-main');
+  await page.waitForTimeout(200);
+  const fabOpen  = await page.locator('.fab-actions.open').count();
+  const fabLinks = await page.locator('.fab-action').count();
+  await page.locator('#fab-backdrop').click();
+  await page.waitForTimeout(200);
+  const fabClosed = await page.locator('.fab-actions.open').count();
+  log('3b', fabExists > 0 && fabOpen > 0 && fabLinks === 3 && fabClosed === 0,
+    `FAB: exists=${fabExists > 0}, opens=${fabOpen > 0}, links=${fabLinks}, closes=${fabClosed === 0}`);
 
   // ── Step 4: Dashboard reflects today's stats ──────────────────────────────
   await page.goto(BASE + '/index.html');
@@ -92,10 +134,15 @@ async function main() {
   const customVisible = await page.locator('#js-custom-field').isVisible();
   log('5b', customVisible, 'Custom name field visible after selecting "Something else"');
 
+  // Search term pre-fills custom name when "Something else" is clicked
+  await page.fill('#js-search', 'chia seeds');
+  await page.locator('.foodcard.custom').click();
+  const preFilledName = await page.inputValue('#js-custom-name');
+  log('5c', preFilledName === 'chia seeds', `Search-term pre-fill: name="${preFilledName}"`);
+
   await page.fill('#js-custom-name', 'Apple');
   await page.selectOption('#js-qty-kind', 'number');
   await page.fill('#js-qty-value', '1');
-  await page.fill('#js-qty-unit', 'medium');
   await page.click('button[onclick="saveAndGo()"]');
   await page.waitForURL('**/entries.html');
   await page.waitForLoadState('networkidle');

@@ -2,6 +2,8 @@
 
 A static, no-build food and symptom diary. Everything runs from plain HTML/CSS/JS; entries are stored in `localStorage`.
 
+![Diet Diary — dashboard, diary list, and nutrition label](docs/hero.png)
+
 ## Pages
 
 | File | Purpose |
@@ -15,42 +17,30 @@ A static, no-build food and symptom diary. Everything runs from plain HTML/CSS/J
 ## Running locally
 
 ```bash
-uv run python -m http.server 8000
+make serve
 ```
 
-Then open <http://localhost:8000>.
+Then open <http://localhost:8000>. Use a different port with `make serve PORT=9000`.
 
 ## Verification
 
-The test suite drives a headless Chromium browser through all 12 scenarios. Run it while the server is up.
+The test suite drives a headless Chromium browser through every scenario.
 
-**First-time setup** (one time per machine):
-
-```bash
-cd scripts
-npm install
-npx playwright install chromium
-cd ..
-```
-
-**Run the tests:**
+**First-time setup** (one time per machine) — fetches the vendored QR libraries
+(`qrcodegen.js`, `jsQR.js`) and installs Playwright + Chromium:
 
 ```bash
-# server must be running first (see above)
-node scripts/verify.cjs
+make install
 ```
 
-Or from inside `scripts/`:
+**Run the tests** — this starts the server, runs the suite against it, and stops the
+server automatically:
 
 ```bash
-npm run verify
+make verify
 ```
 
-Pass a custom URL as the first argument if you're serving on a different port:
-
-```bash
-node scripts/verify.cjs http://localhost:9000
-```
+Use a different port with `make verify PORT=9000`.
 
 ### What the tests cover
 
@@ -63,8 +53,9 @@ node scripts/verify.cjs http://localhost:9000
 7. Filter chips (Meals / Snacks / Symptoms / All) narrow the list correctly
 8. Editing an entry pre-fills the form and updates in place without duplication
 9. Deleting an entry shows a confirm dialog and removes it
-10. Export modal shows placeholder QR; Import modal shows camera viewfinder; both close cleanly
+10. Export modal renders real QR codes (carousel); Import modal opens the camera scanner; both close cleanly
 11. Entries persist across a page reload (localStorage)
 12. `labels.html` still renders all 7 nutrition-facts products unchanged
+13. QR sync round-trips the full diary through real QR codes (encode → QR → decode → decompress → merge), and day-granularity merge propagates deletions
 
 Exit code 0 = all passed; non-zero = one or more failures.

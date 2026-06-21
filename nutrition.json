@@ -3,7 +3,7 @@
     {
       "id": "turpone_bacon_pizza",
       "brand": "Turpone Foods",
-      "name": "Bacon and Caramelized Onions Pizza",
+      "name": "Turpone Pizza - Bacon and Caramelized Onions",
       "url": "https://turponefoods.com/turpone-products/",
       "image": "https://turponefoods.com/assets/images/Bacon-and-Caramelized-Onions-Frozen-Pizza.webp",
       "serving": {
@@ -29,7 +29,7 @@
     {
       "id": "porta_sausage_pizza",
       "brand": "Porta",
-      "name": "Sausage & Caramelized Onion Pizza",
+      "name": "Porta Pizza - Sausage & Caramelized Onion",
       "url": "https://eatporta.com/products/sausage-caramelized-onion-pizza-cad?viewed_product_tracking=1",
       "image": "https://eatporta.com/cdn/shop/files/pizza-sausage-onion_420x.png?v=1727132865",
       "serving": {
@@ -55,7 +55,7 @@
     {
       "id": "one_degree_quinoa_hemp_oatmeal",
       "brand": "One Degree Organics",
-      "name": "Sprouted Quinoa Hemp Instant Oatmeal",
+      "name": "One Degree - Sprouted Quinoa Hemp Instant Oatmeal",
       "url": "https://onedegreeorganics.com/products/sprouted-quinoa-hemp-instant-oatmeal-can/",
       "image": "https://onedegreeorganics.com/wp-content/uploads/2023/01/ODO_InstantOatmeal_QuinoaHemp_Pouch_1000x1000.png",
       "serving": {

@@ -109,7 +109,7 @@
         if (e.tags && e.tags.length) parts.push(e.tags.join(', '));
         sub = parts.join(' · ');
       } else {
-        name = e.name || 'Entry';
+        name = (e.productId ? getProduct(e.productId)?.name : null) ?? e.name ?? 'Entry';
         const parts = [];
         if (e.quantity && e.quantity.value) parts.push(e.quantity.unit ? `${e.quantity.value} ${e.quantity.unit}` : `${e.quantity.value}`);
         if (e.productId) {

@@ -183,9 +183,8 @@
 
     let name, productId;
     if (selectedProductId && selectedProductId !== '__custom__') {
-      const p = allProducts.find(x => x.id === selectedProductId);
-      name = p ? p.name : '';
       productId = selectedProductId;
+      name = null;
     } else {
       name = document.getElementById('js-custom-name').value.trim();
       if (!name) { alert('Please choose a food or enter a name.'); return; }
@@ -199,15 +198,16 @@
       ? { kind: qtyKind, value: Number(qtyValue), unit: qtyUnit }
       : null;
 
-    saveEntry({
+    const entry = {
       id: editId || String(Date.now()),
       type: currentType,
       datetime: dt,
-      name,
       productId,
       quantity,
       note: ''
-    });
+    };
+    if (name) entry.name = name;
+    saveEntry(entry);
     location.href = 'entries.html';
   };
 

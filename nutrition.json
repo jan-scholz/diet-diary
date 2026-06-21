@@ -2,7 +2,7 @@
   "products": [
     {
       "id": "bacon_pizza",
-      "name": "Bacon and Caramelized Onions",
+      "name": "Bacon and Caramelized Onions Pizza",
       "url": "https://turponefoods.com/turpone-products/",
       "serving": {
         "fraction": "1/3 pizza",

@@ -89,7 +89,7 @@ async function main() {
   const topCatalog = await page.locator('.foodcard').count();
   log('2e', topCatalog <= 4, `Top-3 mode: ${topCatalog} cards (expected ≤ 4)`);
 
-  await page.fill('#js-search', 'pizza');
+  await page.locator('#js-search').pressSequentially('pizza');
   await page.waitForTimeout(100);
   const searchCatalog = await page.locator('.foodcard').count();
   log('2f', searchCatalog >= 3, `Search "pizza": ${searchCatalog} cards (expected ≥ 3: 2 products + custom)`);
@@ -135,7 +135,7 @@ async function main() {
   log('5b', customVisible, 'Custom name field visible after selecting "Something else"');
 
   // Search term pre-fills custom name when "Something else" is clicked
-  await page.fill('#js-search', 'chia seeds');
+  await page.locator('#js-search').pressSequentially('chia seeds');
   await page.locator('.foodcard.custom').click();
   const preFilledName = await page.inputValue('#js-custom-name');
   log('5c', preFilledName === 'chia seeds', `Search-term pre-fill: name="${preFilledName}"`);

@@ -145,6 +145,8 @@
   .footnote .little { font-weight: 700; }
   .footnote .alot { font-weight: 700; }
   #js-label { margin-top: 24px; }
+  .product-img-wrap { display: block; margin-bottom: 16px; }
+  .product-img { width: 200px; height: 200px; object-fit: contain; display: block; }
   /* Attach dropdown flush to the search box */
   .field .search { margin-bottom: 0; }
   #js-search.has-results {
@@ -306,6 +308,18 @@
 
   function buildLabel(p) {
     const wrapper = document.createElement('div');
+
+    if (p.image) {
+      const imgWrap = document.createElement(p.url ? 'a' : 'div');
+      imgWrap.className = 'product-img-wrap';
+      if (p.url) { imgWrap.href = p.url; imgWrap.target = '_blank'; imgWrap.rel = 'noopener'; }
+      const img = document.createElement('img');
+      img.src = p.image;
+      img.alt = p.name;
+      img.className = 'product-img';
+      imgWrap.appendChild(img);
+      wrapper.appendChild(imgWrap);
+    }
 
     const columns = p.columns || null;
     const cols = columns ? columns.length : 1;

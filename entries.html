@@ -297,13 +297,13 @@ window.exportCSV = async function () {
   const NUT_KEYS = ['totalFat','saturatedFat','transFat','carbohydrate','fiber','sugars','protein','cholesterol','sodium','potassium','calcium','iron'];
   const NUT_COLS = ['fat_g','sat_fat_g','trans_fat_g','carbs_g','fiber_g','sugars_g','protein_g','cholesterol_mg','sodium_mg','potassium_mg','calcium_mg','iron_mg'];
 
-  const headers = ['type','datetime','name','productId','qty_kind','qty_value','qty_unit','note','severity','tags'];
+  const headers = ['type','datetime','name','productId','qty_kind','qty_value','qty_unit','note'];
   if (inclId)  headers.unshift('id');
   if (inclCal) headers.push('calories');
   if (inclNut) headers.push(...NUT_COLS);
 
   const rows = [headers];
-  for (const e of getEntries()) {
+  for (const e of getEntries().filter(e => e.type !== 'symptom')) {
     let cals = '';
     let nutVals = NUT_KEYS.map(() => '');
 
@@ -326,7 +326,7 @@ window.exportCSV = async function () {
 
     const row = [e.type, e.datetime, e.name||'', e.productId||'',
       e.quantity?.kind||'', e.quantity?.value??'', e.quantity?.unit||'',
-      e.note||'', e.severity??'', e.tags ? e.tags.join(';') : ''];
+      e.note||''];
     if (inclId)  row.unshift(e.id);
     if (inclCal) row.push(cals);
     if (inclNut) row.push(...nutVals);

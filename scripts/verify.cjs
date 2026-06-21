@@ -250,26 +250,26 @@ async function main() {
   await page.goto(BASE + '/labels.html');
   await page.waitForLoadState('networkidle');
   const labH1    = await page.textContent('h1');
-  const labCards = await page.locator('.foodcard').count();
-  const labEmpty = await page.locator('#js-label').innerHTML();
-  log('12a', labH1.includes('Nutrition') && labCards === 0 && labEmpty.trim() === '',
-    `h1="${labH1}", cards on load=${labCards}, label empty=${labEmpty.trim() === ''}`);
+  const labSuggestions = await page.locator('.suggestion').count();
+  const labEmpty       = await page.locator('#js-label').innerHTML();
+  log('12a', labH1.includes('Nutrition') && labSuggestions === 0 && labEmpty.trim() === '',
+    `h1="${labH1}", suggestions on load=${labSuggestions}, label empty=${labEmpty.trim() === ''}`);
 
   // Typing shows matching suggestions
   await page.locator('#js-search').pressSequentially('pizza');
   await page.waitForTimeout(100);
-  const suggestCards = await page.locator('.foodcard').count();
+  const suggestCards = await page.locator('.suggestion').count();
   log('12b', suggestCards >= 2, `Search "pizza": ${suggestCards} suggestions`);
 
   // Selecting a suggestion fills the search box, hides suggestions, shows label
-  await page.locator('.foodcard').first().click();
+  await page.locator('.suggestion').first().click();
   await page.waitForTimeout(200);
   const searchVal    = await page.inputValue('#js-search');
-  const cardsAfter   = await page.locator('.foodcard').count();
+  const suggestAfter = await page.locator('.suggestion').count();
   const labelEl      = await page.locator('#js-label .label').count();
   const labelTxt     = await page.locator('#js-label').textContent();
-  log(12, searchVal.length > 0 && cardsAfter === 0 && labelEl > 0 && labelTxt.includes('Nutrition Facts'),
-    `search="${searchVal}", cards hidden=${cardsAfter === 0}, label shown=${labelEl > 0}`);
+  log(12, searchVal.length > 0 && suggestAfter === 0 && labelEl > 0 && labelTxt.includes('Nutrition Facts'),
+    `search="${searchVal}", suggestions hidden=${suggestAfter === 0}, label shown=${labelEl > 0}`);
 
   // ── Summary ───────────────────────────────────────────────────────────────
   if (consoleErrors.length) {

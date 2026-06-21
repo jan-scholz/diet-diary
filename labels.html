@@ -145,7 +145,37 @@
   .footnote .little { font-weight: 700; }
   .footnote .alot { font-weight: 700; }
   #js-label { margin-top: 24px; }
-  .foodcard.kbfocus { border-color: #a99f88; background: #faf8f4; }
+  /* Attach dropdown flush to the search box */
+  .field .search { margin-bottom: 0; }
+  #js-search.has-results {
+    border-radius: 8px 8px 0 0;
+    border-bottom-color: transparent;
+  }
+  #js-catalog:not(:empty) {
+    background: #fff;
+    border: 1px solid #cfc8b8;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 4px 0;
+    margin-bottom: 12px;
+  }
+  .suggestion {
+    position: relative;
+    padding: 8px 12px 8px 22px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  .suggestion:hover { background: #f8f6f1; }
+  .suggestion.kbfocus { background: #f0ede6; }
+  .suggestion.kbfocus::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 4px solid transparent;
+    border-left: 5px solid #999;
+  }
 </style>
 </head>
 <body>
@@ -162,7 +192,7 @@
 
   <div class="field">
     <input class="search" type="search" id="js-search" placeholder="Search products…" oninput="filterCatalog()" />
-    <div class="catalog" id="js-catalog"></div>
+    <div id="js-catalog"></div>
   </div>
 
   <div id="js-label"></div>
@@ -184,29 +214,15 @@
     return Number.isInteger(n) ? n : n.toString();
   }
 
-  function servingLabel(p) {
-    return p.serving.fraction ? `${p.serving.fraction} · ${p.serving.grams} g` : `${p.serving.grams} g`;
-  }
-
-  function calLabel(p) {
-    const c = Array.isArray(p.calories) ? p.calories[0] : p.calories;
-    return `${c} cal`;
-  }
-
   function renderCatalog(products) {
     currentProducts = products;
-    document.getElementById('js-catalog').innerHTML = products.map((p, i) => {
-      const sel = selectedId === p.id ? ' selected' : '';
-      const hl  = i === highlightIdx ? ' kbfocus' : '';
-      return `<div class="foodcard${sel}${hl}" onclick="selectProduct('${p.id}')">
-        <span class="radio"></span>
-        <div class="body"><div class="nm">${esc(p.name)}</div><div class="sv">${esc(servingLabel(p))}</div></div>
-        <span class="cal">${calLabel(p)}</span>
-      </div>`;
-    }).join('');
+    document.getElementById('js-search').classList.toggle('has-results', products.length > 0);
+    document.getElementById('js-catalog').innerHTML = products.map((p, i) =>
+      `<div class="suggestion${i === highlightIdx ? ' kbfocus' : ''}" onclick="selectProduct('${p.id}')">${esc(p.name)}</div>`
+    ).join('');
     if (highlightIdx >= 0) {
-      const cards = document.querySelectorAll('#js-catalog .foodcard');
-      if (cards[highlightIdx]) cards[highlightIdx].scrollIntoView({ block: 'nearest' });
+      const items = document.querySelectorAll('#js-catalog .suggestion');
+      if (items[highlightIdx]) items[highlightIdx].scrollIntoView({ block: 'nearest' });
     }
   }
 
@@ -215,7 +231,12 @@
     selectedId = null;
     highlightIdx = -1;
     document.getElementById('js-label').innerHTML = '';
-    if (!q) { currentProducts = []; document.getElementById('js-catalog').innerHTML = ''; return; }
+    if (!q) {
+      currentProducts = [];
+      document.getElementById('js-search').classList.remove('has-results');
+      document.getElementById('js-catalog').innerHTML = '';
+      return;
+    }
     renderCatalog(allProducts.filter(p => p.name.toLowerCase().includes(q)));
   };
 
@@ -231,6 +252,7 @@
     const p = allProducts.find(x => x.id === id);
     if (!p) return;
     document.getElementById('js-search').value = p.name;
+    document.getElementById('js-search').classList.remove('has-results');
     document.getElementById('js-catalog').innerHTML = '';
     currentProducts = [];
     highlightIdx = -1;

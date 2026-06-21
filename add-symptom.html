@@ -119,7 +119,7 @@
     const dt = document.getElementById('js-dt').value;
     if (!dt) { alert('Please set the date and time.'); return; }
     saveEntry({
-      id: editId || crypto.randomUUID(),
+      id: editId || String(Date.now()),
       type: 'symptom',
       datetime: dt,
       note: document.getElementById('js-note').value.trim(),

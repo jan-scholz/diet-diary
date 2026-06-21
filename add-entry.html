@@ -200,7 +200,7 @@
       : null;
 
     saveEntry({
-      id: editId || crypto.randomUUID(),
+      id: editId || String(Date.now()),
       type: currentType,
       datetime: dt,
       name,

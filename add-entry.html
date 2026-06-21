@@ -140,13 +140,11 @@
     selectedProductId = id;
     document.getElementById('js-custom-field').style.display = 'none';
     const p = allProducts.find(x => x.id === id);
-    if (p) {
-      const qtyVal = document.getElementById('js-qty-value');
-      if (!qtyVal.value) {
-        document.getElementById('js-qty-kind').value = 'weight';
-        updateUnit();
-        qtyVal.value = p.serving.grams;
-      }
+    if (p && p.serving && p.serving.grams) {
+      document.getElementById('js-qty-kind').value = 'weight';
+      updateUnit();
+      document.getElementById('js-qty-value').value = p.serving.grams;
+      document.getElementById('js-qty-unit').value = 'g';
     }
     renderCatalog(filteredProducts());
   };

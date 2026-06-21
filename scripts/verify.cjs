@@ -246,15 +246,30 @@ async function main() {
   log(11, afterReload === beforeReload,
     `Persist: before=${beforeReload}, after=${afterReload}`);
 
-  // ── Step 12: labels.html unchanged ───────────────────────────────────────
+  // ── Step 12: labels.html — header, search-to-select UX ──────────────────────
   await page.goto(BASE + '/labels.html');
   await page.waitForLoadState('networkidle');
-  const bodyText  = await page.textContent('body');
-  const hasBacon  = bodyText.includes('Bacon');
-  const hasQuinoa = bodyText.includes('Quinoa');
-  const hasJordans = bodyText.includes('Jordan');
-  log(12, hasBacon && hasQuinoa && hasJordans,
-    `labels.html: Bacon=${hasBacon}, Quinoa=${hasQuinoa}, Jordans=${hasJordans}`);
+  const labH1    = await page.textContent('h1');
+  const labCards = await page.locator('.foodcard').count();
+  const labEmpty = await page.locator('#js-label').innerHTML();
+  log('12a', labH1.includes('Nutrition') && labCards === 0 && labEmpty.trim() === '',
+    `h1="${labH1}", cards on load=${labCards}, label empty=${labEmpty.trim() === ''}`);
+
+  // Typing shows matching suggestions
+  await page.locator('#js-search').pressSequentially('pizza');
+  await page.waitForTimeout(100);
+  const suggestCards = await page.locator('.foodcard').count();
+  log('12b', suggestCards >= 2, `Search "pizza": ${suggestCards} suggestions`);
+
+  // Selecting a suggestion fills the search box, hides suggestions, shows label
+  await page.locator('.foodcard').first().click();
+  await page.waitForTimeout(200);
+  const searchVal    = await page.inputValue('#js-search');
+  const cardsAfter   = await page.locator('.foodcard').count();
+  const labelEl      = await page.locator('#js-label .label').count();
+  const labelTxt     = await page.locator('#js-label').textContent();
+  log(12, searchVal.length > 0 && cardsAfter === 0 && labelEl > 0 && labelTxt.includes('Nutrition Facts'),
+    `search="${searchVal}", cards hidden=${cardsAfter === 0}, label shown=${labelEl > 0}`);
 
   // ── Summary ───────────────────────────────────────────────────────────────
   if (consoleErrors.length) {

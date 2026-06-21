@@ -9,17 +9,20 @@ function getEntry(id) {
   return getEntries().find(e => e.id === id) || null;
 }
 
+function setEntries(entries) {
+  localStorage.setItem(_STORE_KEY, JSON.stringify(entries));
+}
+
 function saveEntry(entry) {
   const entries = getEntries();
   const idx = entries.findIndex(e => e.id === entry.id);
   if (idx >= 0) entries[idx] = entry;
   else entries.push(entry);
-  localStorage.setItem(_STORE_KEY, JSON.stringify(entries));
+  setEntries(entries);
 }
 
 function deleteEntry(id) {
-  const entries = getEntries().filter(e => e.id !== id);
-  localStorage.setItem(_STORE_KEY, JSON.stringify(entries));
+  setEntries(getEntries().filter(e => e.id !== id));
 }
 
 function getTopProductIds(n) {

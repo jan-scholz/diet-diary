@@ -18,11 +18,11 @@
   <div class="page-head">
     <h1>Your entries</h1>
     <div class="tools">
-      <button class="btn" type="button" onclick="document.getElementById('export-modal').classList.add('open')">
+      <button class="btn" type="button" onclick="openExport()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
         Export
       </button>
-      <button class="btn" type="button" onclick="document.getElementById('import-modal').classList.add('open')">
+      <button class="btn" type="button" onclick="openImport()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></svg>
         Import
       </button>
@@ -52,27 +52,14 @@
       <div class="export-panel">
         <p class="lead">Scan this code on another device to copy your diary across.</p>
         <div class="qr">
-          <svg viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true">
-            <rect width="100" height="100" fill="#fff"/>
-            <g fill="#1a1a1a">
-              <rect x="6" y="6" width="22" height="22"/><rect x="12" y="12" width="10" height="10" fill="#fff"/>
-              <rect x="72" y="6" width="22" height="22"/><rect x="78" y="12" width="10" height="10" fill="#fff"/>
-              <rect x="6" y="72" width="22" height="22"/><rect x="12" y="78" width="10" height="10" fill="#fff"/>
-              <rect x="36" y="6" width="6" height="6"/><rect x="48" y="6" width="6" height="6"/><rect x="60" y="12" width="6" height="6"/>
-              <rect x="36" y="18" width="6" height="6"/><rect x="54" y="18" width="6" height="6"/>
-              <rect x="6" y="36" width="6" height="6"/><rect x="18" y="36" width="6" height="6"/><rect x="30" y="36" width="6" height="6"/>
-              <rect x="48" y="36" width="6" height="6"/><rect x="66" y="36" width="6" height="6"/><rect x="84" y="36" width="6" height="6"/>
-              <rect x="42" y="42" width="6" height="6"/><rect x="60" y="42" width="6" height="6"/><rect x="78" y="42" width="6" height="6"/>
-              <rect x="36" y="54" width="6" height="6"/><rect x="54" y="54" width="6" height="6"/>
-              <rect x="72" y="54" width="6" height="6"/><rect x="90" y="54" width="6" height="6"/>
-              <rect x="48" y="60" width="6" height="6"/><rect x="66" y="60" width="6" height="6"/>
-              <rect x="36" y="72" width="6" height="6"/><rect x="54" y="72" width="6" height="6"/>
-              <rect x="72" y="72" width="6" height="6"/><rect x="84" y="78" width="6" height="6"/>
-              <rect x="42" y="84" width="6" height="6"/><rect x="60" y="84" width="6" height="6"/><rect x="78" y="90" width="6" height="6"/>
-            </g>
-          </svg>
+          <canvas id="qr-canvas" width="320" height="320"></canvas>
         </div>
-        <p class="stub">Placeholder QR — actual data encoding is to be decided.</p>
+        <div class="qr-nav" id="qr-nav" hidden>
+          <button class="btn" type="button" onclick="qrStep(-1)">‹ Prev</button>
+          <span class="qr-count" id="qr-count">QR 1 of 1</span>
+          <button class="btn" type="button" onclick="qrStep(1)">Next ›</button>
+        </div>
+        <p class="lead qr-hint">Scan every code in order on the other device.</p>
         <div class="sheet-actions">
           <button class="btn" type="button" onclick="document.getElementById('export-modal').classList.remove('open')">Done</button>
         </div>
@@ -104,20 +91,20 @@
 </div>
 
 <!-- Import modal -->
-<div class="modal" id="import-modal" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="modal" id="import-modal" onclick="if(event.target===this)closeImport()">
   <div class="sheet">
     <div class="sh-head">
       <h2>Import</h2>
-      <button class="x-btn" type="button" onclick="document.getElementById('import-modal').classList.remove('open')">&times;</button>
+      <button class="x-btn" type="button" onclick="closeImport()">&times;</button>
     </div>
-    <p class="lead">Point your camera at the QR code shown on your other device.</p>
+    <p class="lead">Point your camera at each QR code shown on your other device.</p>
     <div class="viewfinder">
+      <video id="import-video" playsinline muted></video>
       <div class="reticle"></div>
-      <div class="vf-note">Camera preview</div>
     </div>
-    <p class="stub">Placeholder — camera scanning &amp; merge are to be decided.</p>
+    <p class="lead" id="import-status">Starting camera…</p>
     <div class="sheet-actions">
-      <button class="btn" type="button" onclick="document.getElementById('import-modal').classList.remove('open')">Cancel</button>
+      <button class="btn" type="button" onclick="closeImport()">Cancel</button>
     </div>
   </div>
 </div>
@@ -154,6 +141,9 @@
 
 <script src="store.js"></script>
 <script src="catalog.js"></script>
+<script src="qrcodegen.js"></script>
+<script src="jsQR.js"></script>
+<script src="sync.js"></script>
 <script>
 (function () {
   let currentFilter = 'all';
@@ -340,6 +330,100 @@ window.exportCSV = async function () {
   a.click();
   URL.revokeObjectURL(a.href);
 };
+
+// --- QR export carousel ---
+(function () {
+  let chunks = [], idx = 0;
+
+  window.openExport = async function () {
+    document.getElementById('export-modal').classList.add('open');
+    chunks = await buildSyncChunks();
+    idx = 0;
+    document.getElementById('qr-nav').hidden = chunks.length < 2;
+    document.querySelector('.qr-hint').hidden = chunks.length < 2;
+    showQR();
+  };
+
+  window.qrStep = function (d) {
+    idx = (idx + d + chunks.length) % chunks.length;
+    showQR();
+  };
+
+  function showQR() {
+    if (!chunks.length) return;
+    renderChunkQR(document.getElementById('qr-canvas'), chunks[idx]);
+    document.getElementById('qr-count').textContent = `QR ${idx + 1} of ${chunks.length}`;
+  }
+})();
+
+// --- QR import scanner ---
+(function () {
+  let stream = null, raf = 0, collected = new Map(), activeSid = null, expected = 0;
+  let canvas = null;
+
+  window.openImport = async function () {
+    document.getElementById('import-modal').classList.add('open');
+    collected = new Map(); activeSid = null; expected = 0;
+    setStatus('Starting camera…');
+    const video = document.getElementById('import-video');
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    } catch (err) {
+      setStatus('Camera unavailable: ' + err.message);
+      return;
+    }
+    video.srcObject = stream;
+    await video.play();
+    canvas = document.createElement('canvas');
+    scanLoop();
+  };
+
+  window.closeImport = function () {
+    cancelAnimationFrame(raf);
+    if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+    document.getElementById('import-modal').classList.remove('open');
+  };
+
+  function setStatus(msg) { document.getElementById('import-status').textContent = msg; }
+
+  function scanLoop() {
+    const video = document.getElementById('import-video');
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const result = jsQR(img.data, img.width, img.height);
+      if (result && result.binaryData) handleChunk(result.binaryData);
+    }
+    raf = requestAnimationFrame(scanLoop);
+  }
+
+  async function handleChunk(bytes) {
+    const h = parseChunkHeader(bytes);
+    if (!h) return;
+    if (activeSid === null || h.sid !== activeSid) {
+      activeSid = h.sid; expected = h.total; collected = new Map();
+    }
+    if (collected.has(h.seq)) { setStatus(progress()); return; }
+    collected.set(h.seq, bytes);
+    setStatus(progress());
+    if (collected.size === expected) {
+      cancelAnimationFrame(raf);
+      try {
+        await applyImported(reassemble(collected, expected));
+        setStatus('Imported! Updating…');
+        closeImport();
+        location.reload();
+      } catch (err) {
+        setStatus('Import failed: ' + err.message);
+      }
+    }
+  }
+
+  function progress() { return `Got ${collected.size} of ${expected} codes…`; }
+})();
 
 (function () {
   window.toggleFab = function () {

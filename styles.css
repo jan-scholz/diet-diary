@@ -233,13 +233,17 @@ textarea { resize: vertical; min-height: 90px; }
   border: 1px solid #cfc8b8; border-radius: 10px; display: flex; align-items: center; justify-content: center;
 }
 .qr svg { width: 160px; height: 160px; }
+.qr canvas { width: 180px; height: 180px; image-rendering: pixelated; }
+.qr-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0 0 10px; }
+.qr-count { font-size: 13px; color: #555; min-width: 72px; text-align: center; }
+.qr-hint { font-size: 12px; color: #999; text-align: center; }
 .viewfinder {
   position: relative; width: 100%; aspect-ratio: 1/1; max-width: 240px; margin: 0 auto 18px;
   background: #1a1a1a; border-radius: 12px; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
 }
-.viewfinder .reticle { width: 62%; height: 62%; border: 2px solid rgba(255,255,255,0.85); border-radius: 10px; }
-.viewfinder .vf-note { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; font-size: 12px; color: rgba(255,255,255,0.85); }
+.viewfinder video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.viewfinder .reticle { position: relative; width: 62%; height: 62%; border: 2px solid rgba(255,255,255,0.85); border-radius: 10px; }
 .stub { font-size: 12px; color: #999; text-align: center; font-style: italic; margin: 0 0 18px; }
 .sheet-actions { display: flex; gap: 10px; }
 .sheet-actions .btn { flex: 1; justify-content: center; }

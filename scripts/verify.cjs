@@ -215,18 +215,18 @@ async function main() {
     `After delete: rows=${rowsAfterDel} (was ${rowsAfterEdit})`);
 
   // ── Step 10: Export / Import modals ──────────────────────────────────────
-  await page.click('button[onclick*="export-modal"]');
-  await page.waitForTimeout(200);
+  await page.click('button[onclick*="openExport"]');
+  await page.waitForTimeout(300);
   const expOpen = await page.locator('#export-modal.open').count();
-  const qr      = await page.locator('.qr svg').count();
-  log('10a', expOpen > 0 && qr > 0, `Export modal open=${expOpen}, placeholder QR=${qr}`);
+  const qr      = await page.locator('.qr canvas').count();
+  log('10a', expOpen > 0 && qr > 0, `Export modal open=${expOpen}, QR canvas=${qr}`);
 
   await page.locator('#export-modal .x-btn').click();
   await page.waitForTimeout(200);
   const expClosed = await page.locator('#export-modal.open').count();
   log('10b', expClosed === 0, 'Export modal closed');
 
-  await page.click('button[onclick*="import-modal"]');
+  await page.click('button[onclick*="openImport"]');
   await page.waitForTimeout(200);
   const impOpen = await page.locator('#import-modal.open').count();
   const vf      = await page.locator('.viewfinder').count();
@@ -270,6 +270,74 @@ async function main() {
   const labelTxt     = await page.locator('#js-label').textContent();
   log(12, searchVal.length > 0 && suggestAfter === 0 && labelEl > 0 && labelTxt.includes('Nutrition Facts'),
     `search="${searchVal}", suggestions hidden=${suggestAfter === 0}, label shown=${labelEl > 0}`);
+
+  // ── Step 13: QR sync (sync.js) ──────────────────────────────────────────────
+  // Runs last so seeding/wiping localStorage here can't disturb earlier steps.
+  // Exercises the full export->QR->jsQR-decode->decompress->merge path in-page,
+  // bypassing only the physical camera (decoded bytes are fed straight to jsQR
+  // from a rendered QR canvas).
+  await page.goto(BASE + '/entries.html');
+  await page.waitForLoadState('networkidle');
+
+  const roundTrip = await page.evaluate(async () => {
+    const seed = [
+      { id: '1', type: 'meal',  datetime: '2026-06-19T08:00', productId: 'turpone_bacon_pizza', quantity: { kind: 'weight', value: 150, unit: 'g' }, note: '' },
+      { id: '2', type: 'snack', datetime: '2026-06-19T15:30', productId: null, name: 'Toast with butter', quantity: null, note: '' },
+      { id: '3', type: 'symptom', datetime: '2026-06-20T21:00', note: 'bloated', severity: 3, tags: ['bloating', 'nausea'] },
+      // padding with high-entropy notes to defeat compression and force >1 chunk
+      ...Array.from({ length: 60 }, (_, i) => ({
+        id: 'p' + i, type: 'meal', datetime: '2026-06-21T12:00', productId: 'oatmeal_classic',
+        quantity: { kind: 'weight', value: 40 + i, unit: 'g' },
+        note: Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) })),
+    ];
+    setEntries(seed);
+
+    const chunks = await buildSyncChunks();
+    const collected = new Map();
+    let total = 0;
+    for (const chunk of chunks) {
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 360;
+      renderChunkQR(canvas, chunk);
+      const img = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+      const res = jsQR(img.data, img.width, img.height);
+      if (!res) return { ok: false };
+      const bytes = Uint8Array.from(res.binaryData);
+      const h = parseChunkHeader(bytes);
+      total = h.total;
+      collected.set(h.seq, bytes);
+    }
+
+    setEntries([]);
+    await applyImported(reassemble(collected, total));
+    const got = getEntries();
+    return { ok: JSON.stringify(got) === JSON.stringify(seed), chunks: chunks.length, seedLen: seed.length, gotLen: got.length };
+  });
+  log('13a', roundTrip.ok,
+    `round-trip via ${roundTrip.chunks} QR code(s): ${roundTrip.gotLen}/${roundTrip.seedLen} entries match`);
+
+  const merge = await page.evaluate(() => {
+    setEntries([
+      { id: 'a', type: 'meal', datetime: '2026-06-01T08:00', note: '' },
+      { id: 'b', type: 'meal', datetime: '2026-06-02T08:00', note: '' },
+      { id: 'c', type: 'meal', datetime: '2026-06-02T12:00', note: '' },
+      { id: 'd', type: 'meal', datetime: '2026-06-03T08:00', note: '' },
+    ]);
+    // Import covers days 2 & 3. Day 2 dropped entry 'c' (a deletion); day 3 edited.
+    mergeByDay([
+      { id: 'b', type: 'meal', datetime: '2026-06-02T08:00', note: 'edited' },
+      { id: 'd', type: 'meal', datetime: '2026-06-03T08:00', note: 'edited' },
+    ]);
+    const ids = getEntries().map(e => e.id).sort();
+    return {
+      day1Kept: ids.includes('a'),
+      deletionPropagated: !ids.includes('c'),
+      day2Replaced: getEntries().find(e => e.id === 'b').note === 'edited',
+      ids: ids.join(','),
+    };
+  });
+  log(13, merge.day1Kept && merge.deletionPropagated && merge.day2Replaced,
+    `day-merge: day1 kept=${merge.day1Kept}, deletion propagated=${merge.deletionPropagated}, day2 replaced=${merge.day2Replaced} (ids: ${merge.ids})`);
 
   // ── Summary ───────────────────────────────────────────────────────────────
   if (consoleErrors.length) {

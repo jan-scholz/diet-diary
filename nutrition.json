@@ -586,6 +586,30 @@
         "calcium": { "amount": 40, "unit": "mg", "dv": 3 },
         "iron": { "amount": 0.3, "unit": "mg", "dv": 2 }
       }
+    },
+    {
+      "id": "egg_fried",
+      "name": "Fried Egg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Fried_Egg_2.jpg/960px-Fried_Egg_2.jpg",
+      "serving": {
+        "fraction": "1 large egg",
+        "grams": 46
+      },
+      "calories": 90,
+      "nutrients": {
+        "totalFat": { "amount": 7, "unit": "g" },
+        "saturatedFat": { "amount": 2, "unit": "g" },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 0, "unit": "g" },
+        "fiber": { "amount": 0, "unit": "g" },
+        "sugars": { "amount": 0, "unit": "g" },
+        "protein": { "amount": 6, "unit": "g" },
+        "cholesterol": { "amount": 207, "unit": "mg" },
+        "sodium": { "amount": 95, "unit": "mg" },
+        "potassium": { "amount": 69, "unit": "mg" },
+        "calcium": { "amount": 27, "unit": "mg" },
+        "iron": { "amount": 0.9, "unit": "mg" }
+      }
     }
   ]
 }

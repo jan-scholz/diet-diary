@@ -1,0 +1,32 @@
+{
+  "symptoms": [
+    {
+      "name": "constipation",
+      "description": "Infrequent or difficult bowel movements, often with hard or dry stool"
+    },
+    {
+      "name": "gastrocolic reflex",
+      "description": "When food or drink — coffee especially — enters the stomach, the stomach sends signals that trigger contractions in the colon"
+    },
+    {
+      "name": "bloating",
+      "description": "A feeling of fullness or swelling in the abdomen, often from gas"
+    },
+    {
+      "name": "headache",
+      "description": "Pain or pressure in the head, ranging from dull ache to sharp throbbing"
+    },
+    {
+      "name": "fatigue",
+      "description": "Extreme tiredness that rest doesn't fully relieve"
+    },
+    {
+      "name": "cramps",
+      "description": "Painful, involuntary muscle contractions in the abdomen"
+    },
+    {
+      "name": "nausea",
+      "description": "An uncomfortable urge to vomit, often accompanied by stomach unease"
+    }
+  ]
+}

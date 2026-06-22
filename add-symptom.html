@@ -64,7 +64,7 @@
   const params = new URLSearchParams(location.search);
   const editId = params.get('id');
 
-  const SUGGESTED = ['nausea', 'bloating', 'headache', 'cramps', 'fatigue'];
+  let suggested = [];
   let customTags = [];
   let selectedTags = new Set();
   let selectedSeverity = null;
@@ -89,10 +89,14 @@
   }
 
   function renderTags() {
-    const all = [...SUGGESTED, ...customTags];
-    document.getElementById('js-tag-chips').innerHTML = all.map(t =>
+    const suggestedNames = suggested.map(s => s.name);
+    const customChips = customTags.map(t =>
       `<button class="tag-chip${selectedTags.has(t) ? ' active' : ''}" type="button" onclick="toggleTag('${escAttr(t)}')">${esc(t)}</button>`
-    ).join('');
+    );
+    const suggestedChips = suggested.map(({ name, description }) =>
+      `<button class="tag-chip${selectedTags.has(name) ? ' active' : ''}" type="button" onclick="toggleTag('${escAttr(name)}')" title="${escAttr(description)}">${esc(name)}</button>`
+    );
+    document.getElementById('js-tag-chips').innerHTML = [...suggestedChips, ...customChips].join('');
   }
 
   window.toggleTag = function (tag) {
@@ -105,7 +109,8 @@
     const input = document.getElementById('js-tag-input');
     const tag = input.value.trim().toLowerCase();
     if (!tag) return;
-    if (!SUGGESTED.includes(tag) && !customTags.includes(tag)) customTags.push(tag);
+    const suggestedNames = suggested.map(s => s.name);
+    if (!suggestedNames.includes(tag) && !customTags.includes(tag)) customTags.push(tag);
     selectedTags.add(tag);
     input.value = '';
     renderTags();
@@ -129,25 +134,32 @@
     location.href = 'entries.html';
   };
 
-  if (editId) {
-    const existing = getEntry(editId);
-    if (existing) {
-      document.getElementById('js-title').textContent = 'Edit symptom';
-      document.getElementById('js-dt').value = existing.datetime;
-      document.getElementById('js-note').value = existing.note || '';
-      if (existing.severity) setSeverity(existing.severity);
-      if (existing.tags) {
-        existing.tags.forEach(t => {
-          if (!SUGGESTED.includes(t)) customTags.push(t);
-          selectedTags.add(t);
-        });
-      }
-    }
-    document.getElementById('js-back').href = 'entries.html';
-    document.getElementById('js-cancel').href = 'entries.html';
-  }
+  fetch('symptoms.json')
+    .then(r => r.json())
+    .then(data => {
+      suggested = data.symptoms;
 
-  renderTags();
+      if (editId) {
+        const existing = getEntry(editId);
+        if (existing) {
+          document.getElementById('js-title').textContent = 'Edit symptom';
+          document.getElementById('js-dt').value = existing.datetime;
+          document.getElementById('js-note').value = existing.note || '';
+          if (existing.severity) setSeverity(existing.severity);
+          if (existing.tags) {
+            const suggestedNames = suggested.map(s => s.name);
+            existing.tags.forEach(t => {
+              if (!suggestedNames.includes(t)) customTags.push(t);
+              selectedTags.add(t);
+            });
+          }
+        }
+        document.getElementById('js-back').href = 'entries.html';
+        document.getElementById('js-cancel').href = 'entries.html';
+      }
+
+      renderTags();
+    });
 })();
 </script>
 </body>

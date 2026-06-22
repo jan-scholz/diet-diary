@@ -458,6 +458,134 @@
         "calcium": { "amount": 250, "unit": "mg", "dv": 19 },
         "iron": { "amount": 0, "unit": "mg", "dv": 0 }
       }
+    },
+    {
+      "id": "oasis_juice_apple",
+      "brand": "Oasis",
+      "name": "Oasis Apple Juice",
+      "url": "https://oasis.ca/en/products/oasis/apple/prisma-tetra-960ml/",
+      "image": "https://oasis.ca/wp-content/uploads/pl/products/EN_067311010333_8675.png",
+      "ingredients": [
+        "Apple juice from concentrate (water, concentrated apple juice)",
+        "Vitamin C"
+      ],
+      "serving": {
+        "fraction": "about 1 cup",
+        "fractionFr": "1 tasse environ",
+        "grams": 250
+      },
+      "calories": 110,
+      "nutrients": {
+        "totalFat": { "amount": 0, "unit": "g", "dv": 0 },
+        "saturatedFat": { "amount": 0, "unit": "g", "dv": 0 },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 27, "unit": "g" },
+        "fiber": { "amount": 0, "unit": "g", "dv": 0 },
+        "sugars": { "amount": 25, "unit": "g", "dv": 25 },
+        "protein": { "amount": 0, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 10, "unit": "mg", "dv": 1 },
+        "potassium": { "amount": 225, "unit": "mg", "dv": 7 },
+        "calcium": { "amount": 30, "unit": "mg", "dv": 2 },
+        "iron": { "amount": 0.1, "unit": "mg", "dv": 1 }
+      }
+    },
+    {
+      "id": "oasis_juice_orange_breakfast",
+      "brand": "Oasis",
+      "name": "Oasis Juice — Orange Pure Breakfast",
+      "url": "https://oasis.ca/en/products/oasis/orange-pure-breakfast/",
+      "image": "https://oasis.ca/wp-content/uploads/pl/products/EN_067311018339_8676.png",
+      "ingredients": [
+        "Juice from concentrate (water, concentrated (orange, apple and/or grape [sulfites] and/or pear) juices)",
+        "Citric acid",
+        "Vitamin C",
+        "Natural flavour"
+      ],
+      "serving": {
+        "fraction": "about 1 cup",
+        "fractionFr": "1 tasse environ",
+        "grams": 250
+      },
+      "calories": 100,
+      "nutrients": {
+        "totalFat": { "amount": 0, "unit": "g", "dv": 0 },
+        "saturatedFat": { "amount": 0, "unit": "g", "dv": 0 },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 25, "unit": "g" },
+        "fiber": { "amount": 0, "unit": "g", "dv": 0 },
+        "sugars": { "amount": 23, "unit": "g", "dv": 23 },
+        "protein": { "amount": 1, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 10, "unit": "mg", "dv": 1 },
+        "potassium": { "amount": 300, "unit": "mg", "dv": 9 },
+        "calcium": { "amount": 40, "unit": "mg", "dv": 3 },
+        "iron": { "amount": 0, "unit": "mg", "dv": 0 }
+      }
+    },
+    {
+      "id": "oasis_juice_mango",
+      "brand": "Oasis",
+      "name": "Oasis Juice — Exotic Mango",
+      "url": "https://oasis.ca/en/products/oasis/exotic-mango/prisma-tetra-960ml/",
+      "image": "https://oasis.ca/wp-content/uploads/pl/products/EN_067311037330_8681.png",
+      "ingredients": [
+        "Fruit juice from concentrate (water, concentrated (grape [sulfites] and/or apple, orange and lemon) juices and mango purée)",
+        "Vitamin C"
+      ],
+      "serving": {
+        "fraction": "1 cup",
+        "fractionFr": "1 tasse",
+        "grams": 250
+      },
+      "calories": 110,
+      "nutrients": {
+        "totalFat": { "amount": 0, "unit": "g", "dv": 0 },
+        "saturatedFat": { "amount": 0, "unit": "g", "dv": 0 },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 26, "unit": "g" },
+        "fiber": { "amount": 1, "unit": "g", "dv": 4 },
+        "sugars": { "amount": 24, "unit": "g", "dv": 24 },
+        "protein": { "amount": 1, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 10, "unit": "mg", "dv": 1 },
+        "potassium": { "amount": 225, "unit": "mg", "dv": 7 },
+        "calcium": { "amount": 30, "unit": "mg", "dv": 2 },
+        "iron": { "amount": 0, "unit": "mg", "dv": 0 }
+      }
+    },
+    {
+      "id": "oasis_juice_pineapple_banana_orange",
+      "brand": "Oasis",
+      "name": "Oasis Juice — Pineapple Banana Orange",
+      "url": "https://oasis.ca/en/products/oasis/pineapple-banana-orange/prisma-tetra-960ml/",
+      "image": "https://oasis.ca/wp-content/uploads/pl/products/EN_067311061335_8623.png",
+      "ingredients": [
+        "Fruit juice from concentrate (water, (banana and pineapple) purées, concentrated (pineapple, orange, apple and/or grape [sulfites] and/or pear) juices)",
+        "Citric acid",
+        "Natural flavour",
+        "Vitamin C"
+      ],
+      "serving": {
+        "fraction": "about 1 cup",
+        "fractionFr": "1 tasse environ",
+        "grams": 250
+      },
+      "calories": 120,
+      "nutrients": {
+        "totalFat": { "amount": 0, "unit": "g", "dv": 0 },
+        "saturatedFat": { "amount": 0, "unit": "g", "dv": 0 },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 29, "unit": "g" },
+        "fiber": { "amount": 0, "unit": "g", "dv": 0 },
+        "sugars": { "amount": 25, "unit": "g", "dv": 25 },
+        "protein": { "amount": 1, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 25, "unit": "mg", "dv": 1 },
+        "potassium": { "amount": 350, "unit": "mg", "dv": 10 },
+        "calcium": { "amount": 40, "unit": "mg", "dv": 3 },
+        "iron": { "amount": 0.3, "unit": "mg", "dv": 2 }
+      }
     }
   ]
 }

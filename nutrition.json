@@ -215,6 +215,7 @@
     {
       "id": "aeropress_coffee",
       "name": "Aeropress Coffee (black)",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/White_cup_of_black_coffee.jpg/500px-White_cup_of_black_coffee.jpg",
       "serving": {
         "fraction": "1 cup",
         "grams": 240

@@ -146,6 +146,19 @@
   .footnote .little { font-weight: 700; }
   .footnote .alot { font-weight: 700; }
   #js-label { margin-top: 24px; }
+  .ingredients-box {
+    background: #fff;
+    border: 2px solid #000;
+    margin-top: 8px;
+    padding: 10px 16px;
+    width: clamp(360px, 100%, 620px);
+    box-sizing: border-box;
+    font-size: 13px;
+    line-height: 1.4;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  }
+  .ingredients-box .ing-label { font-weight: 700; }
+  .ingredients-box .ing-fr { font-style: italic; margin-top: 4px; display: block; }
   .product-img-wrap { float: right; margin-left: 10px; display: block; }
   .product-img { width: 88px; height: 88px; object-fit: cover; display: block; }
   /* Attach dropdown flush to the search box */
@@ -434,6 +447,17 @@
       <span class="fr">* 5 % ou moins c'est <span class="little">peu</span>, 15 % ou plus c'est <span class="alot">beaucoup</span></span>
     `;
     el.appendChild(fn);
+
+    if (p.ingredients && p.ingredients.length) {
+      const ing = document.createElement('div');
+      ing.className = 'ingredients-box' + (cols > 1 ? ' dual' : '');
+      let html = `<span class="ing-label">INGREDIENTS:</span> ${esc(p.ingredients.join(', '))}.`;
+      if (p.ingredientsFr && p.ingredientsFr.length) {
+        html += `<span class="ing-fr"><span class="ing-label">INGRÉDIENTS :</span> ${esc(p.ingredientsFr.join(', '))}.</span>`;
+      }
+      ing.innerHTML = html;
+      wrapper.appendChild(ing);
+    }
 
     return wrapper;
   }

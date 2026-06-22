@@ -51,7 +51,7 @@ Key schema notes:
 
 **brand**: The manufacturer or brand name as a properly capitalised string (e.g. `"Turpone Foods"`, `"Jordans"`, `"One Degree Organics"`). Always include this field.
 
-**name**: Human-readable string. Include the major food category as the first or most prominent word so search works (e.g. "Pizza — Bacon and Caramelized Onions", "Oatmeal — Sprouted Quinoa Hemp"). If the brand is relevant, include it (e.g. "Jordans Morning Muesli — Four Nut"). Keep the brand and category prefix short, so that the distinguishing part of the name doesn't get cut off on narrow screen. Length of entire name should be less than 70 characters.
+**name**: Human-readable string. Follow this pattern: `"<Brand> <Category> — <Distinguishing detail>"` (e.g. `"Jordans Morning Muesli — Four Nut"`, `"Olympic Yogurt — Organic Plain 3.5%"`, `"Activia Yogurt — Plain Probiotic (no gelatin)"`). Always prefix with the brand for commodity categories where multiple brands are likely (yogurt, milk, oatmeal, cereal, soup, granola bar, etc.). For highly branded products where the brand name *is* the category (e.g. a pizza called "Turpone Pizza"), the brand can lead without a separate category word. Keep the total name under 70 characters.
 
 ### 4 — Research product URL
 

@@ -610,6 +610,97 @@
         "calcium": { "amount": 27, "unit": "mg" },
         "iron": { "amount": 0.9, "unit": "mg" }
       }
+    },
+    {
+      "id": "activia_yogurt_strawberry_grains",
+      "brand": "Activia",
+      "name": "Activia Yogurt — Strawberry & Grains (High Fibre)",
+      "url": "https://www.activia.ca/en/products/source-of-fibre/grains-cereals/strawberry-and-grains/",
+      "image": "https://images.ctfassets.net/3867whnzui9o/CA-1RRgN9ZYMoEsqpOH1x9DIi/775ac8b47910508b58730b7845e70f69/strawberry-and-cereals-probiotic-fiber-yogurt-can.png?w=1536&h=1536&q=80&fm=webp",
+      "ingredients": [
+        "Skim milk",
+        "Ultrafiltered skim milk and/or Milk protein concentrate",
+        "Sugar",
+        "Water",
+        "Cream",
+        "Chicory root inulin",
+        "Strawberry",
+        "Modified corn starch",
+        "Quinoa",
+        "Rolled oats",
+        "Flax seeds",
+        "Gelatin",
+        "Wheat bran",
+        "Natural flavour",
+        "Lemon juice concentrate",
+        "Carrageenan",
+        "Black carrot juice (for colour)",
+        "Active probiotic culture (Bifidobacterium lactis CNCM I-2494) and active bacterial cultures",
+        "Vitamin D3"
+      ],
+      "serving": {
+        "fraction": "1 container",
+        "grams": 95
+      },
+      "calories": 100,
+      "nutrients": {
+        "totalFat": { "amount": 3, "unit": "g" },
+        "saturatedFat": { "amount": 1.5, "unit": "g" },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 14, "unit": "g" },
+        "fiber": { "amount": 2, "unit": "g" },
+        "sugars": { "amount": 10, "unit": "g" },
+        "protein": { "amount": 4, "unit": "g" },
+        "cholesterol": { "amount": 10, "unit": "mg" },
+        "sodium": { "amount": 45, "unit": "mg" },
+        "potassium": { "amount": 200, "unit": "mg" },
+        "calcium": { "amount": 125, "unit": "mg" },
+        "iron": { "amount": 0.2, "unit": "mg" }
+      }
+    },
+    {
+      "id": "activia_yogurt_berries",
+      "brand": "Activia",
+      "name": "Activia Yogurt — Berries Probiotic",
+      "url": "https://www.activia.ca/en/products/regular/fruits/berries/",
+      "image": "https://images.ctfassets.net/3867whnzui9o/CA-7JdILcDTaEwrGM0NDfl7AM/6f418a7752e673b8ea636e2befc6abff/raspberry-blackberry-probiotic-yogurt_can.png?w=1152&h=1152&q=80&fm=webp",
+      "ingredients": [
+        "Skim milk",
+        "Ultrafiltered milk",
+        "Cream",
+        "Sugars (sugar, grape juice concentrate for colour)",
+        "Water",
+        "Modified corn starch",
+        "Blueberries",
+        "Blackberry puree",
+        "Raspberry puree",
+        "Gelatin",
+        "Natural flavour",
+        "Active probiotic culture (Bifidobacterium lactis CNCM I-2494) and active bacterial cultures",
+        "Carrageenan",
+        "Sodium citrate",
+        "Vitamin D3",
+        "Citric acid"
+      ],
+      "serving": {
+        "fraction": "1 container",
+        "grams": 100
+      },
+      "calories": 90,
+      "nutrients": {
+        "totalFat": { "amount": 3, "unit": "g" },
+        "saturatedFat": { "amount": 1.5, "unit": "g" },
+        "transFat": { "amount": 0.1, "unit": "g" },
+        "carbohydrate": { "amount": 11, "unit": "g" },
+        "fiber": { "amount": 0, "unit": "g" },
+        "sugars": { "amount": 9, "unit": "g" },
+        "protein": { "amount": 4, "unit": "g" },
+        "cholesterol": { "amount": 10, "unit": "mg" },
+        "sodium": { "amount": 45, "unit": "mg" },
+        "potassium": { "amount": 200, "unit": "mg" },
+        "calcium": { "amount": 150, "unit": "mg" },
+        "iron": { "amount": 0.1, "unit": "mg" }
+      }
     }
   ]
 }

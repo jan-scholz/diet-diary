@@ -23,6 +23,7 @@ Use the Read tool to view the screenshot at the provided path. Extract every val
 - Whether the label is dual-column (has two sets of values, e.g. "As sold" + "With ½ cup milk")
 - Any serving note (e.g. "About 1½ cups when prepared with ½ cup 2% milk")
 - Language: if the label is bilingual (English + French) note the French fraction label
+- Ingredients list (if visible) — capture the full ordered list in both languages if bilingual
 
 ### 2 — Read the existing nutrition.json
 
@@ -41,6 +42,8 @@ Key schema notes:
 - `columns`: only present for dual-column labels — array of `{ label, labelFr? }` objects
 - `calories`: number for single-column, array of two numbers for dual-column
 - Each nutrient: `{ amount, unit, dv? }` — `dv` is omitted if not shown; for dual-column `dv` is an array of two numbers
+- `ingredients`: array of strings, each ingredient capitalised (e.g. `["Vegetable Broth", "Cauliflower"]`) — omit if not on label
+- `ingredientsFr`: French ingredients array — include only if bilingual label shows both languages
 
 ### 3 — Assign id, brand, and name
 
@@ -74,7 +77,7 @@ Use the Read tool to confirm the current file state, then use the Edit tool to a
 Validate before writing:
 - JSON is valid (no trailing commas, correct nesting)
 - All required fields are present (`id`, `name`, `serving`, `calories`, `nutrients` with all 12 nutrient keys)
-- Optional fields (`url`, `image`, `columns`, `servingNote`, `fractionFr`, etc.) are included only when applicable
+- Optional fields (`url`, `image`, `columns`, `servingNote`, `fractionFr`, `ingredients`, `ingredientsFr`, etc.) are included only when applicable
 - The `id` does not already exist in the file
 
 ### 7 — Confirm

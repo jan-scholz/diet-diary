@@ -265,6 +265,199 @@
         "calcium": { "amount": 0, "unit": "mg" },
         "iron": { "amount": 0, "unit": "mg" }
       }
+    },
+    {
+      "id": "madegood_bar_chocolate_banana",
+      "brand": "Made Good",
+      "name": "Granola Bar — Chocolate Banana",
+      "url": "https://www.madegoodfoods.ca/products/chocolate-banana-granola-bars",
+      "image": "https://www.madegoodfoods.ca/cdn/shop/files/MGCN_DIGITAL_ECOM_GRANOLABARS_CHOCOLATEBANANA_30x_2000x2000_0125.png?v=1752244979&width=1200",
+      "ingredients": [
+        "Pure gluten free oats*",
+        "Sugars (agave syrup*, brown rice syrup*, invert cane syrup*)",
+        "Chocolate chips* (cane sugar*, unsweetened chocolate*, cocoa butter*)",
+        "Sunflower oil*",
+        "Dried banana*",
+        "Brown rice crisps* (brown rice flour*, brown rice syrup*, sea salt)",
+        "Vegetable extracts (shiitake mushroom, spinach, beet, broccoli)",
+        "Natural flavour*",
+        "Agar*"
+      ],
+      "ingredientsFr": [
+        "Avoine pure sans gluten*",
+        "Sucres (sirop d'agave*, sirop de riz brun*, sirop de canne inverti*)",
+        "Pépites de chocolat* (sucre de canne*, chocolat non sucré*, beurre de cacao*)",
+        "Huile de tournesol*",
+        "Bananes séchées*",
+        "Riz brun croustillant* (farine de riz brun*, sirop de riz brun*, sel de mer)",
+        "Extraits d'origine végétale (champignons shiitakes, épinards, betteraves, brocoli)",
+        "Arôme naturel*",
+        "Agar-agar*"
+      ],
+      "serving": {
+        "fraction": "1 bar",
+        "fractionFr": "1 barre",
+        "grams": 24
+      },
+      "calories": 100,
+      "nutrients": {
+        "totalFat": { "amount": 2.5, "unit": "g", "dv": 3 },
+        "saturatedFat": { "amount": 0.5, "unit": "g", "dv": 3 },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 17, "unit": "g" },
+        "fiber": { "amount": 2, "unit": "g", "dv": 7 },
+        "sugars": { "amount": 6, "unit": "g", "dv": 6 },
+        "protein": { "amount": 2, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 5, "unit": "mg", "dv": 1 },
+        "potassium": { "amount": 75, "unit": "mg", "dv": 2 },
+        "calcium": { "amount": 10, "unit": "mg", "dv": 1 },
+        "iron": { "amount": 0.75, "unit": "mg", "dv": 4 }
+      }
+    },
+    {
+      "id": "olympic_yogurt_organic_plain",
+      "brand": "Olympic",
+      "name": "Olympic Yogurt — Organic Plain 3.5%",
+      "url": "https://www.olympicdairy.com/en/product/organic-plain-yogurt-35/",
+      "image": "https://www.olympicdairy.com/wp-content/uploads/2021/12/big_0015_2045821-5244-Organic-650g-35-plain-_EN.png",
+      "ingredients": [
+        "Organic skim milk from grassfed cows",
+        "Organic cream from grassfed cows",
+        "Skim milk powder",
+        "Active bacterial culture (including probiotic culture Bifidobacterium lactis)"
+      ],
+      "ingredientsFr": [
+        "Lait écrémé biologique provenant de vaches nourries à l'herbe",
+        "Crème biologique provenant de vaches nourries à l'herbe",
+        "Poudre de lait écrémé",
+        "Culture bactérienne active (incluant culture probiotique Bifidobacterium lactis)"
+      ],
+      "serving": {
+        "fraction": "1/2 cup",
+        "fractionFr": "1/2 tasse",
+        "grams": 115
+      },
+      "calories": 70,
+      "nutrients": {
+        "totalFat": { "amount": 4, "unit": "g", "dv": 5 },
+        "saturatedFat": { "amount": 2.5, "unit": "g", "dv": 13 },
+        "transFat": { "amount": 0.1, "unit": "g" },
+        "carbohydrate": { "amount": 6, "unit": "g" },
+        "fiber": { "amount": 0, "unit": "g", "dv": 0 },
+        "sugars": { "amount": 3, "unit": "g", "dv": 3 },
+        "protein": { "amount": 4, "unit": "g" },
+        "cholesterol": { "amount": 15, "unit": "mg" },
+        "sodium": { "amount": 45, "unit": "mg", "dv": 2 },
+        "potassium": { "amount": 200, "unit": "mg", "dv": 6 },
+        "calcium": { "amount": 125, "unit": "mg", "dv": 10 },
+        "iron": { "amount": 0, "unit": "mg", "dv": 0 }
+      }
+    },
+    {
+      "id": "activia_yogurt_plain",
+      "brand": "Activia",
+      "name": "Activia Yogurt — Plain Probiotic (no gelatin)",
+      "url": "https://www.activia.ca/en/products/regular/plain/plain/",
+      "image": "https://images.ctfassets.net/3867whnzui9o/4i1Qkd01QVOLzR55K2carF/b013c0dd7eba0143c2abb68ca12cd925/29515_ACT_T650_Na_Eng-Front_SGS_can.png?w=1536&h=1536&q=80&fm=webp",
+      "ingredients": [
+        "Skim milk",
+        "Ultrafiltered milk",
+        "Cream",
+        "Skim milk powder",
+        "Active probiotic culture (Bifidobacterium lactis CNCM I-2494) and active bacterial cultures"
+      ],
+      "ingredientsFr": [
+        "Lait écrémé",
+        "Lait ultrafiltré",
+        "Crème",
+        "Poudre de lait écrémé",
+        "Culture probiotique active (Bifidobacterium lactis CNCM I-2494) et cultures bactériennes actives"
+      ],
+      "serving": {
+        "fraction": "175 g",
+        "fractionFr": "175 g",
+        "grams": 175
+      },
+      "calories": 140,
+      "nutrients": {
+        "totalFat": { "amount": 5, "unit": "g", "dv": 8 },
+        "saturatedFat": { "amount": 3.5, "unit": "g", "dv": 19 },
+        "transFat": { "amount": 0.2, "unit": "g" },
+        "carbohydrate": { "amount": 12, "unit": "g", "dv": 4 },
+        "fiber": { "amount": 0, "unit": "g", "dv": 0 },
+        "sugars": { "amount": 9, "unit": "g" },
+        "protein": { "amount": 9, "unit": "g" },
+        "cholesterol": { "amount": 25, "unit": "mg" },
+        "sodium": { "amount": 95, "unit": "mg", "dv": 4 },
+        "potassium": { "amount": 0, "unit": "mg" },
+        "calcium": { "amount": 325, "unit": "mg", "dv": 25 },
+        "iron": { "amount": 0, "unit": "mg", "dv": 0 }
+      }
+    },
+    {
+      "id": "organicmeadow_yogurt_plain_2pct",
+      "brand": "Organic Meadow",
+      "name": "Organic Meadow Yogurt — Organic Plain 2% M.F.",
+      "url": "https://organicmeadow.com/products/organic-yogurt/Organic-Plain-Yogourt.htm",
+      "image": "https://organicmeadow.com/userContent/images/Products/750ml%20Yogurt%203D%20Packshot-2-GreyLid.jpg",
+      "ingredients": [
+        "Organic partly skimmed milk",
+        "Organic skim milk powder",
+        "Active bacterial cultures (Lactobacillus acidophilus, Bifidobacterium spp., Streptococcus thermophilus, L. bulgaricus)"
+      ],
+      "serving": {
+        "fraction": "3/4 cup",
+        "fractionFr": "3/4 tasse",
+        "grams": 175
+      },
+      "calories": 100,
+      "nutrients": {
+        "totalFat": { "amount": 3.5, "unit": "g", "dv": 5 },
+        "saturatedFat": { "amount": 2, "unit": "g", "dv": 11 },
+        "transFat": { "amount": 0.1, "unit": "g" },
+        "carbohydrate": { "amount": 9, "unit": "g" },
+        "fiber": { "amount": 0, "unit": "g", "dv": 0 },
+        "sugars": { "amount": 8, "unit": "g", "dv": 8 },
+        "protein": { "amount": 8, "unit": "g" },
+        "cholesterol": { "amount": 15, "unit": "mg" },
+        "sodium": { "amount": 85, "unit": "mg", "dv": 4 },
+        "potassium": { "amount": 250, "unit": "mg", "dv": 5 },
+        "calcium": { "amount": 250, "unit": "mg", "dv": 19 },
+        "iron": { "amount": 0.1, "unit": "mg", "dv": 1 }
+      }
+    },
+    {
+      "id": "organicmeadow_yogurt_plain_38pct",
+      "brand": "Organic Meadow",
+      "name": "Organic Meadow Yogurt — Organic Plain 3.8% M.F.",
+      "url": "https://organicmeadow.com/products/organic-yogurt/Organic-Plain-Yogourt-2.htm",
+      "image": "https://organicmeadow.com/userContent/images/Products/750ml%20Yogurt%203D%20Packshot-38-GreyLid.jpg",
+      "ingredients": [
+        "Organic whole milk",
+        "Organic skim milk powder",
+        "Active bacterial cultures (Lactobacillus acidophilus, Bifidobacterium spp., Streptococcus thermophilus, L. bulgaricus)"
+      ],
+      "serving": {
+        "fraction": "3/4 cup",
+        "fractionFr": "3/4 tasse",
+        "grams": 175
+      },
+      "calories": 120,
+      "nutrients": {
+        "totalFat": { "amount": 7, "unit": "g", "dv": 9 },
+        "saturatedFat": { "amount": 4.5, "unit": "g", "dv": 24 },
+        "transFat": { "amount": 0.2, "unit": "g" },
+        "carbohydrate": { "amount": 8, "unit": "g" },
+        "fiber": { "amount": 0, "unit": "g", "dv": 0 },
+        "sugars": { "amount": 7, "unit": "g", "dv": 7 },
+        "protein": { "amount": 7, "unit": "g" },
+        "cholesterol": { "amount": 25, "unit": "mg" },
+        "sodium": { "amount": 80, "unit": "mg", "dv": 3 },
+        "potassium": { "amount": 250, "unit": "mg", "dv": 5 },
+        "calcium": { "amount": 250, "unit": "mg", "dv": 19 },
+        "iron": { "amount": 0, "unit": "mg", "dv": 0 }
+      }
     }
   ]
 }

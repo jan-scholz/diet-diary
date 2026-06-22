@@ -211,5 +211,29 @@
         "iron": { "amount": 3, "unit": "mg", "dv": [17, 17] }
       }
     }
+  ,
+    {
+      "id": "aeropress_coffee",
+      "name": "Aeropress Coffee (black)",
+      "serving": {
+        "fraction": "1 cup",
+        "grams": 240
+      },
+      "calories": 2,
+      "nutrients": {
+        "totalFat": { "amount": 0, "unit": "g", "dv": 0 },
+        "saturatedFat": { "amount": 0, "unit": "g", "dv": 0 },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 0, "unit": "g" },
+        "fiber": { "amount": 0, "unit": "g", "dv": 0 },
+        "sugars": { "amount": 0, "unit": "g", "dv": 0 },
+        "protein": { "amount": 0, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 5, "unit": "mg", "dv": 0 },
+        "potassium": { "amount": 116, "unit": "mg", "dv": 2 },
+        "calcium": { "amount": 5, "unit": "mg", "dv": 0 },
+        "iron": { "amount": 0.1, "unit": "mg", "dv": 1 }
+      }
+    }
   ]
 }

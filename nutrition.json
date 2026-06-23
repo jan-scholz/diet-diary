@@ -701,6 +701,91 @@
         "calcium": { "amount": 150, "unit": "mg" },
         "iron": { "amount": 0.1, "unit": "mg" }
       }
+    },
+    {
+      "id": "alpen_muesli_no_sugar",
+      "brand": "Alpen",
+      "name": "Alpen Muesli — No Sugar Added",
+      "url": "https://www.postconsumerbrands.ca/brand/alpen/no-sugar-added/",
+      "image": "https://www.postconsumerbrands.ca/wp-content/uploads/2023/03/alpen-muesli-no-sugar-rightside-1.webp",
+      "ingredients": [
+        "Whole grain rolled oats",
+        "Whole grain wheat",
+        "Raisins",
+        "Wheat flour",
+        "Malted barley flour",
+        "Almonds",
+        "Hazelnuts",
+        "Salt"
+      ],
+      "serving": {
+        "fraction": "2/3 cup",
+        "fractionFr": "2/3 tasse",
+        "grams": 60
+      },
+      "calories": 210,
+      "nutrients": {
+        "totalFat": { "amount": 3.5, "unit": "g", "dv": 5 },
+        "saturatedFat": { "amount": 0.5, "unit": "g", "dv": 3 },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 43, "unit": "g" },
+        "fiber": { "amount": 7, "unit": "g", "dv": 25 },
+        "sugars": { "amount": 6, "unit": "g", "dv": 6 },
+        "protein": { "amount": 8, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 20, "unit": "mg", "dv": 1 },
+        "potassium": { "amount": 260, "unit": "mg", "dv": 6 },
+        "calcium": { "amount": 30, "unit": "mg", "dv": 2 },
+        "iron": { "amount": 1.8, "unit": "mg", "dv": 13 }
+      }
+    },
+    {
+      "id": "pear",
+      "name": "Pear",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/D%27anjou_pear.jpg/960px-D%27anjou_pear.jpg",
+      "serving": {
+        "fraction": "1 medium pear",
+        "grams": 178
+      },
+      "calories": 100,
+      "nutrients": {
+        "totalFat": { "amount": 0, "unit": "g" },
+        "saturatedFat": { "amount": 0, "unit": "g" },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 27, "unit": "g" },
+        "fiber": { "amount": 6, "unit": "g" },
+        "sugars": { "amount": 17, "unit": "g" },
+        "protein": { "amount": 1, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 2, "unit": "mg" },
+        "potassium": { "amount": 207, "unit": "mg" },
+        "calcium": { "amount": 16, "unit": "mg" },
+        "iron": { "amount": 0.3, "unit": "mg" }
+      }
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/960px-Red_Apple.jpg",
+      "serving": {
+        "fraction": "1 medium apple",
+        "grams": 182
+      },
+      "calories": 95,
+      "nutrients": {
+        "totalFat": { "amount": 0, "unit": "g" },
+        "saturatedFat": { "amount": 0, "unit": "g" },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 25, "unit": "g" },
+        "fiber": { "amount": 4, "unit": "g" },
+        "sugars": { "amount": 19, "unit": "g" },
+        "protein": { "amount": 0, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 2, "unit": "mg" },
+        "potassium": { "amount": 195, "unit": "mg" },
+        "calcium": { "amount": 11, "unit": "mg" },
+        "iron": { "amount": 0.2, "unit": "mg" }
+      }
     }
   ]
 }

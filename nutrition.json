@@ -764,6 +764,29 @@
       }
     },
     {
+      "id": "kiwi",
+      "name": "Kiwi",
+      "serving": {
+        "fraction": "1 medium kiwi",
+        "grams": 76
+      },
+      "calories": 46,
+      "nutrients": {
+        "totalFat": { "amount": 0, "unit": "g" },
+        "saturatedFat": { "amount": 0, "unit": "g" },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 11, "unit": "g" },
+        "fiber": { "amount": 2, "unit": "g" },
+        "sugars": { "amount": 7, "unit": "g" },
+        "protein": { "amount": 1, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 2, "unit": "mg" },
+        "potassium": { "amount": 237, "unit": "mg" },
+        "calcium": { "amount": 26, "unit": "mg" },
+        "iron": { "amount": 0.2, "unit": "mg" }
+      }
+    },
+    {
       "id": "apple",
       "name": "Apple",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/960px-Red_Apple.jpg",

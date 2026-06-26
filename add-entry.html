@@ -57,6 +57,11 @@
     </div>
   </div>
 
+  <div class="field">
+    <label>Note <span class="hint">(optional)</span></label>
+    <textarea id="js-note" placeholder="Any notes about this meal…"></textarea>
+  </div>
+
   <div class="actions">
     <button class="btn btn-primary btn-lg" type="button" onclick="saveAndGo()">Save entry</button>
     <a class="btn btn-secondary btn-lg" href="index.html" id="js-cancel">Cancel</a>
@@ -204,7 +209,7 @@
       datetime: dt,
       productId,
       quantity,
-      note: ''
+      note: document.getElementById('js-note').value.trim()
     };
     if (name) entry.name = name;
     saveEntry(entry);
@@ -230,6 +235,7 @@
           document.getElementById('js-custom-field').style.display = '';
           document.getElementById('js-custom-name').value = existing.name || '';
         }
+        document.getElementById('js-note').value = existing.note || '';
         if (existing.quantity) {
           document.getElementById('js-qty-kind').value = existing.quantity.kind || 'weight';
           updateUnit();

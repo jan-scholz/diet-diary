@@ -25,6 +25,7 @@
       <div class="segmented">
         <button type="button" id="btn-meal" onclick="setType('meal')">Meal</button>
         <button type="button" id="btn-snack" onclick="setType('snack')">Snack</button>
+        <button type="button" id="btn-drink" onclick="setType('drink')">Drink</button>
       </div>
     </div>
     <div class="tr-when">
@@ -75,7 +76,8 @@
 (function () {
   const params = new URLSearchParams(location.search);
   const editId = params.get('id');
-  let currentType = params.get('type') === 'snack' ? 'snack' : 'meal';
+  const typeParam = params.get('type');
+  let currentType = typeParam === 'snack' ? 'snack' : typeParam === 'drink' ? 'drink' : 'meal';
   let selectedProductId = null;
   let allProducts = [];
   let topProductIds = []; // top 10 by frequency; first 3 shown before search
@@ -106,6 +108,7 @@
     currentType = t;
     document.getElementById('btn-meal').classList.toggle('active', t === 'meal');
     document.getElementById('btn-snack').classList.toggle('active', t === 'snack');
+    document.getElementById('btn-drink').classList.toggle('active', t === 'drink');
     if (!editId) document.getElementById('js-title').textContent = `Add ${t}`;
   };
   setType(currentType);

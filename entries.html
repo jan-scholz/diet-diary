@@ -33,6 +33,7 @@
     <button class="chip active" data-filter="all" onclick="setFilter('all')">All</button>
     <button class="chip" data-filter="meal" onclick="setFilter('meal')">Meals</button>
     <button class="chip" data-filter="snack" onclick="setFilter('snack')">Snacks</button>
+    <button class="chip" data-filter="drink" onclick="setFilter('drink')">Drinks</button>
     <button class="chip" data-filter="symptom" onclick="setFilter('symptom')">Symptoms</button>
   </div>
 
@@ -123,6 +124,12 @@
       <span class="fab-lbl">Add snack</span>
       <span class="fab-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>
+      </span>
+    </a>
+    <a class="fab-action" href="add-entry.html?type=drink">
+      <span class="fab-lbl">Add drink</span>
+      <span class="fab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2h8l1 7H7L8 2Z"/><path d="M7 9c0 6 2 11 5 11s5-5 5-11"/></svg>
       </span>
     </a>
     <a class="fab-action" href="add-entry.html?type=meal">
@@ -248,7 +255,7 @@
 
     const container = document.getElementById('js-entries');
     if (!entries.length) {
-      container.innerHTML = '<p class="empty">No entries yet — use the dashboard to add your first meal, snack, or symptom.</p>';
+      container.innerHTML = '<p class="empty">No entries yet — use the dashboard to add your first meal, snack, drink, or symptom.</p>';
       return;
     }
 
@@ -257,7 +264,7 @@
       const dayEntries = byDay.get(day);
       let totalCals = 0, hasCals = false;
       for (const e of dayEntries) {
-        if ((e.type === 'meal' || e.type === 'snack') && e.productId) {
+        if ((e.type === 'meal' || e.type === 'snack' || e.type === 'drink') && e.productId) {
           const p = getProduct(e.productId);
           if (p) { totalCals += scaleNutrition(p, e.quantity).calories; hasCals = true; }
         }

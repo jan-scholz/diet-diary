@@ -764,6 +764,29 @@
       }
     },
     {
+      "id": "papaya",
+      "name": "Papaya (cubed)",
+      "serving": {
+        "fraction": "1 cup cubed",
+        "grams": 145
+      },
+      "calories": 62,
+      "nutrients": {
+        "totalFat": { "amount": 0, "unit": "g" },
+        "saturatedFat": { "amount": 0, "unit": "g" },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 16, "unit": "g" },
+        "fiber": { "amount": 2, "unit": "g" },
+        "sugars": { "amount": 11, "unit": "g" },
+        "protein": { "amount": 1, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 12, "unit": "mg" },
+        "potassium": { "amount": 264, "unit": "mg" },
+        "calcium": { "amount": 29, "unit": "mg" },
+        "iron": { "amount": 0.4, "unit": "mg" }
+      }
+    },
+    {
       "id": "kiwi",
       "name": "Kiwi",
       "serving": {

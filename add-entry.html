@@ -110,6 +110,7 @@
     document.getElementById('btn-snack').classList.toggle('active', t === 'snack');
     document.getElementById('btn-drink').classList.toggle('active', t === 'drink');
     if (!editId) document.getElementById('js-title').textContent = `Add ${t}`;
+    if (allProducts.length) renderCatalog(filteredProducts());
   };
   setType(currentType);
 
@@ -169,13 +170,16 @@
 
   function filteredProducts() {
     const q = document.getElementById('js-search').value.toLowerCase().trim();
-    if (q) return allProducts.filter(p => p.name.toLowerCase().includes(q));
-    if (topProductIds.length === 0) return allProducts;
-    // Show top 3; always include selected product even if outside top 3
-    const top3 = topProductIds.slice(0, 3);
-    const shown = top3.map(id => allProducts.find(p => p.id === id)).filter(Boolean);
+    const byType = currentType === 'drink'
+      ? allProducts.filter(p => p.type === 'drink')
+      : allProducts.filter(p => p.type !== 'drink');
+    if (q) return byType.filter(p => p.name.toLowerCase().includes(q));
+    if (topProductIds.length === 0) return byType;
+    // Show top 3 (within type); always include selected product even if outside top 3
+    const top3 = topProductIds.slice(0, 3).filter(id => byType.some(p => p.id === id));
+    const shown = top3.map(id => byType.find(p => p.id === id)).filter(Boolean);
     if (selectedProductId && selectedProductId !== '__custom__' && !top3.includes(selectedProductId)) {
-      const sel = allProducts.find(p => p.id === selectedProductId);
+      const sel = byType.find(p => p.id === selectedProductId);
       if (sel) shown.push(sel);
     }
     return shown;

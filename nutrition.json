@@ -214,6 +214,7 @@
   ,
     {
       "id": "aeropress_coffee",
+      "type": "drink",
       "name": "Aeropress Coffee (black)",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/White_cup_of_black_coffee.jpg/500px-White_cup_of_black_coffee.jpg",
       "ingredients": ["Water", "Coffee"],
@@ -461,6 +462,7 @@
     },
     {
       "id": "oasis_juice_apple",
+      "type": "drink",
       "brand": "Oasis",
       "name": "Oasis Apple Juice",
       "url": "https://oasis.ca/en/products/oasis/apple/prisma-tetra-960ml/",
@@ -492,6 +494,7 @@
     },
     {
       "id": "oasis_juice_orange_breakfast",
+      "type": "drink",
       "brand": "Oasis",
       "name": "Oasis Juice — Orange Pure Breakfast",
       "url": "https://oasis.ca/en/products/oasis/orange-pure-breakfast/",
@@ -525,6 +528,7 @@
     },
     {
       "id": "oasis_juice_mango",
+      "type": "drink",
       "brand": "Oasis",
       "name": "Oasis Juice — Exotic Mango",
       "url": "https://oasis.ca/en/products/oasis/exotic-mango/prisma-tetra-960ml/",
@@ -556,6 +560,7 @@
     },
     {
       "id": "oasis_juice_pineapple_banana_orange",
+      "type": "drink",
       "brand": "Oasis",
       "name": "Oasis Juice — Pineapple Banana Orange",
       "url": "https://oasis.ca/en/products/oasis/pineapple-banana-orange/prisma-tetra-960ml/",

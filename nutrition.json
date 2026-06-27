@@ -837,6 +837,46 @@
         "calcium": { "amount": 11, "unit": "mg" },
         "iron": { "amount": 0.2, "unit": "mg" }
       }
+    },
+    {
+      "id": "salade_nicoise",
+      "name": "Salade Niçoise",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Nizza-Salat_an_der_F_Mittelmeerk%C3%BCste.JPG/960px-Nizza-Salat_an_der_F_Mittelmeerk%C3%BCste.JPG",
+      "nutritionSource": "https://www.inlivo.com/nutrition/salads/salad-with-seafood/salad-nioise",
+      "ingredients": [
+        "Lettuce",
+        "Tuna (canned in olive oil)",
+        "Hard-boiled eggs",
+        "Cherry tomatoes",
+        "Green beans",
+        "Niçoise olives",
+        "Anchovy fillets",
+        "Olive oil",
+        "Red wine vinegar",
+        "Dijon mustard",
+        "Garlic",
+        "Salt",
+        "Black pepper"
+      ],
+      "serving": {
+        "fraction": "1 serving",
+        "grams": 310
+      },
+      "calories": 482,
+      "nutrients": {
+        "totalFat": { "amount": 26, "unit": "g", "dv": 35 },
+        "saturatedFat": { "amount": 5.6, "unit": "g", "dv": 28 },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 3, "unit": "g" },
+        "fiber": { "amount": 1, "unit": "g", "dv": 4 },
+        "sugars": { "amount": 0, "unit": "g" },
+        "protein": { "amount": 56, "unit": "g" },
+        "cholesterol": { "amount": 303, "unit": "mg" },
+        "sodium": { "amount": 893, "unit": "mg", "dv": 39 },
+        "potassium": { "amount": 609, "unit": "mg", "dv": 13 },
+        "calcium": { "amount": 105, "unit": "mg", "dv": 8 },
+        "iron": { "amount": 3.9, "unit": "mg", "dv": 22 }
+      }
     }
   ]
 }

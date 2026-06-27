@@ -159,6 +159,14 @@
   }
   .ingredients-box .ing-label { font-weight: 700; }
   .ingredients-box .ing-fr { font-style: italic; margin-top: 4px; display: block; }
+  .nutrition-source {
+    width: clamp(360px, 100%, 620px);
+    font-size: 11px;
+    color: #999;
+    margin-top: 6px;
+    word-break: break-all;
+  }
+  .nutrition-source a { color: #999; }
   .product-img-wrap { float: right; margin-left: 10px; display: block; }
   .product-img { width: 88px; height: 88px; object-fit: cover; display: block; }
   /* Attach dropdown flush to the search box */
@@ -457,6 +465,13 @@
       }
       ing.innerHTML = html;
       wrapper.appendChild(ing);
+    }
+
+    if (p.nutritionSource) {
+      const src = document.createElement('div');
+      src.className = 'nutrition-source';
+      src.innerHTML = `Nutrition data: <a href="${esc(p.nutritionSource)}" target="_blank" rel="noopener">${esc(p.nutritionSource)}</a>`;
+      wrapper.appendChild(src);
     }
 
     return wrapper;

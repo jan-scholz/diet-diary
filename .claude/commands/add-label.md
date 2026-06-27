@@ -35,6 +35,7 @@ Key schema notes:
 - `name`: human-readable, includes major food category (step 3)
 - `url`: product page URL (step 4), omit if not found
 - `image`: product image URL (step 5), omit if not found
+- `nutritionSource`: URL to the authoritative nutrition data source (e.g. USDA FDC page, manufacturer nutrition page) — include when the data comes from an online source rather than a physical label; omit for physical label scans
 - `serving.fraction`: English label, e.g. `"1/3 pizza"`
 - `serving.fractionFr`: French label if bilingual, e.g. `"1/3 pizza"` — omit if not bilingual
 - `serving.grams`: number
@@ -53,13 +54,19 @@ Key schema notes:
 
 **name**: Human-readable string. Follow this pattern: `"<Brand> <Category> — <Distinguishing detail>"` (e.g. `"Jordans Morning Muesli — Four Nut"`, `"Olympic Yogurt — Organic Plain 3.5%"`, `"Activia Yogurt — Plain Probiotic (no gelatin)"`). Always prefix with the brand for commodity categories where multiple brands are likely (yogurt, milk, oatmeal, cereal, soup, granola bar, etc.). For highly branded products where the brand name *is* the category (e.g. a pizza called "Turpone Pizza"), the brand can lead without a separate category word. Keep the total name under 70 characters.
 
-### 4 — Research product URL
+### 4 — Research product URL and nutrition source
 
 Use WebSearch and WebFetch to find the manufacturer's or retailer's product page:
 - Search for the product name + brand (if visible on label)
 - Prefer the official manufacturer website
 - Set `url` to the product page URL
 - If no credible URL is found, omit the field
+
+Also look for an authoritative nutrition data source:
+- If the product has a USDA FoodData Central entry (fdc.nal.usda.gov), prefer that as `nutritionSource`
+- Otherwise use the manufacturer's nutrition page if it lists the full nutrition panel
+- For physical label scans, omit `nutritionSource` (the label itself is the source)
+- If a `nutritionSource` page lists ingredients not visible on the label image, extract them and include in `ingredients`
 
 ### 5 — Research product image
 
@@ -77,7 +84,7 @@ Use the Read tool to confirm the current file state, then use the Edit tool to a
 Validate before writing:
 - JSON is valid (no trailing commas, correct nesting)
 - All required fields are present (`id`, `name`, `serving`, `calories`, `nutrients` with all 12 nutrient keys)
-- Optional fields (`url`, `image`, `columns`, `servingNote`, `fractionFr`, `ingredients`, `ingredientsFr`, etc.) are included only when applicable
+- Optional fields (`url`, `image`, `nutritionSource`, `columns`, `servingNote`, `fractionFr`, `ingredients`, `ingredientsFr`, etc.) are included only when applicable
 - The `id` does not already exist in the file
 
 ### 7 — Confirm
@@ -85,5 +92,5 @@ Validate before writing:
 Report back:
 - The assigned `id` and `name`
 - Which optional fields were included
-- The product URL and image URL found (or note if not found)
+- The product URL, image URL, and nutrition source URL found (or note if not found)
 - Any values that were unclear or missing from the label image

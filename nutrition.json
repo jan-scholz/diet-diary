@@ -839,6 +839,31 @@
       }
     },
     {
+      "id": "croissant_french",
+      "name": "Croissant — Butter",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/d/dc/Croissants_au_beurre_%2818953292873%29.jpg",
+      "nutritionSource": "https://fdc.nal.usda.gov/food-details/174987/nutrients",
+      "serving": {
+        "fraction": "1 medium croissant",
+        "grams": 57
+      },
+      "calories": 231,
+      "nutrients": {
+        "totalFat": { "amount": 12, "unit": "g" },
+        "saturatedFat": { "amount": 6.7, "unit": "g" },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 26.1, "unit": "g" },
+        "fiber": { "amount": 1.5, "unit": "g" },
+        "sugars": { "amount": 6.4, "unit": "g" },
+        "protein": { "amount": 4.7, "unit": "g" },
+        "cholesterol": { "amount": 38, "unit": "mg" },
+        "sodium": { "amount": 219, "unit": "mg" },
+        "potassium": { "amount": 67, "unit": "mg" },
+        "calcium": { "amount": 21, "unit": "mg" },
+        "iron": { "amount": 1.2, "unit": "mg" }
+      }
+    },
+    {
       "id": "salade_nicoise",
       "name": "Salade Niçoise",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Nizza-Salat_an_der_F_Mittelmeerk%C3%BCste.JPG/960px-Nizza-Salat_an_der_F_Mittelmeerk%C3%BCste.JPG",

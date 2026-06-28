@@ -12,12 +12,15 @@ function getProduct(id) {
   return _catalog ? (_catalog.find(p => p.id === id) || null) : null;
 }
 
+const GRAMS_PER_UNIT = { g: 1, oz: 28.3495, lb: 453.592 };
+
 function scaleNutrition(product, quantity) {
   const baseCalories = Array.isArray(product.calories) ? product.calories[0] : product.calories;
-  if (!quantity || quantity.kind !== 'weight' || String(quantity.unit).toLowerCase() !== 'g') {
+  const unit = quantity && String(quantity.unit).toLowerCase();
+  if (!quantity || quantity.kind !== 'weight' || !GRAMS_PER_UNIT[unit]) {
     return { calories: baseCalories, scaled: false };
   }
-  const grams = Number(quantity.value);
+  const grams = Number(quantity.value) * GRAMS_PER_UNIT[unit];
   if (!grams) return { calories: baseCalories, scaled: false };
   const ratio = grams / product.serving.grams;
   const nutrients = {};

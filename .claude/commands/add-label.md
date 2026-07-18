@@ -23,7 +23,7 @@ Use the Read tool to view the screenshot at the provided path. Extract every val
 - Whether the label is dual-column (has two sets of values, e.g. "As sold" + "With ½ cup milk")
 - Any serving note (e.g. "About 1½ cups when prepared with ½ cup 2% milk")
 - Language: if the label is bilingual (English + French) note the French fraction label
-- Ingredients list (if visible) — capture the full ordered list in both languages if bilingual
+- Ingredients list (if visible) — capture the full ordered list in both languages if bilingual. Discard allergen declarations ("Contains: ...", "May contain: ...") — these are not ingredients and have no field in the schema
 
 ### 2 — Read the existing nutrition.json
 
@@ -43,7 +43,7 @@ Key schema notes:
 - `columns`: only present for dual-column labels — array of `{ label, labelFr? }` objects
 - `calories`: number for single-column, array of two numbers for dual-column
 - Each nutrient: `{ amount, unit, dv? }` — `dv` is omitted if not shown; for dual-column `dv` is an array of two numbers
-- `ingredients`: array of strings, each ingredient capitalised (e.g. `["Vegetable Broth", "Cauliflower"]`) — omit if not on label
+- `ingredients`: array of strings, each ingredient capitalised (e.g. `["Vegetable Broth", "Cauliflower"]`) — omit if not on label. Exclude allergen declarations ("Contains: ...", "May contain: ...") — do not append them as ingredient entries or in any other field
 - `ingredientsFr`: French ingredients array — include only if bilingual label shows both languages
 
 ### 3 — Assign id, brand, and name

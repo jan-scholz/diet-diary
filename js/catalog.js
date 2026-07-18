@@ -51,7 +51,8 @@ export function entrySummary(e) {
   return { name, sub: parts.join(' · ') };
 }
 
-// Estimated calorie total across food entries with a catalog product attached.
+// Estimated calorie total across food entries with a catalog product attached,
+// or null when no entry contributes calories.
 export function dayCalories(entries) {
   let total = 0, has = false;
   for (const e of entries) {
@@ -60,5 +61,5 @@ export function dayCalories(entries) {
       if (p) { total += scaleNutrition(p, e.quantity).calories; has = true; }
     }
   }
-  return { total, has };
+  return has ? total : null;
 }

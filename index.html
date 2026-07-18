@@ -56,11 +56,11 @@
 <script type="module">
 import { getEntries } from './js/store.js';
 import { loadCatalog, entrySummary, dayCalories } from './js/catalog.js';
-import { pad, esc, formatTime } from './js/ui.js';
+import { localDate, esc, formatTime } from './js/ui.js';
 
 (function () {
   const now = new Date();
-  const todayPrefix = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+  const todayPrefix = localDate(now);
 
   document.getElementById('js-date').textContent = now.toLocaleDateString('en-CA', {
     weekday: 'long', month: 'long', day: 'numeric'
@@ -79,7 +79,7 @@ import { pad, esc, formatTime } from './js/ui.js';
     document.getElementById('js-meals').textContent = meals;
     document.getElementById('js-snacks').textContent = snacks;
     document.getElementById('js-drinks').textContent = drinks;
-    document.getElementById('js-cals').textContent = cals.has ? `~${cals.total}` : '—';
+    document.getElementById('js-cals').textContent = cals != null ? `~${cals}` : '—';
 
     const recent = [...all]
       .sort((a, b) => b.datetime.localeCompare(a.datetime))

@@ -5,6 +5,7 @@
 // renderChunkQR uses the global `qrcode` from vendor/qrcodegen.js (classic script).
 
 import { getEntries, setEntries } from './store.js';
+import { dayKey } from './ui.js';
 
 const SYNC_VERSION = 1;
 const CHUNK_PAYLOAD = 600;          // data bytes per QR (keeps QR ~v18-20, phone-scannable)
@@ -110,7 +111,7 @@ export async function applyImported(payload) {
 // day locally; days absent from the import are left untouched (so deletions within a
 // synced day propagate, but untouched days are never clobbered).
 export function mergeByDay(imported) {
-  const days = new Set(imported.map(e => e.datetime.slice(0, 10)));
-  const kept = getEntries().filter(e => !days.has(e.datetime.slice(0, 10)));
+  const days = new Set(imported.map(e => dayKey(e.datetime)));
+  const kept = getEntries().filter(e => !days.has(dayKey(e.datetime)));
   setEntries(kept.concat(imported));
 }

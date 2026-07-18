@@ -151,7 +151,7 @@
 <script type="module">
 import { getEntries, deleteEntry } from './js/store.js';
 import { loadCatalog, getProduct, scaleNutrition, entrySummary, dayCalories } from './js/catalog.js';
-import { pad, esc, formatTime } from './js/ui.js';
+import { localDate, dayKey, esc, formatTime, delegate, bindModalDismiss } from './js/ui.js';
 import { buildSyncChunks, renderChunkQR, parseChunkHeader, reassemble, applyImported } from './js/sync.js';
 
 (function () {
@@ -165,23 +165,16 @@ import { buildSyncChunks, renderChunkQR, parseChunkHeader, reassemble, applyImpo
     render();
   }
 
-  document.querySelector('.filters').addEventListener('click', e => {
-    const chip = e.target.closest('.chip');
-    if (chip) setFilter(chip.dataset.filter);
-  });
-
-  function localDateStr(dt) {
-    return dt.split('T')[0];
-  }
+  delegate(document.querySelector('.filters'), '.chip', chip => setFilter(chip.dataset.filter));
 
   function formatDayHeading(dateStr) {
     const [y, mo, d] = dateStr.split('-').map(Number);
     const date = new Date(y, mo - 1, d);
     const label = date.toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric' });
     const now = new Date();
-    const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    const todayStr = localDate(now);
     const yest = new Date(now); yest.setDate(now.getDate() - 1);
-    const yestStr = `${yest.getFullYear()}-${pad(yest.getMonth() + 1)}-${pad(yest.getDate())}`;
+    const yestStr = localDate(yest);
     if (dateStr === todayStr) return `Today · ${label}`;
     if (dateStr === yestStr) return `Yesterday · ${label}`;
     return label;
@@ -193,10 +186,7 @@ import { buildSyncChunks, renderChunkQR, parseChunkHeader, reassemble, applyImpo
     render();
   }
 
-  document.getElementById('js-entries').addEventListener('click', e => {
-    const btn = e.target.closest('button[data-del]');
-    if (btn) removeEntry(btn.dataset.del);
-  });
+  delegate(document.getElementById('js-entries'), 'button[data-del]', btn => removeEntry(btn.dataset.del));
 
   function renderRow(e) {
     const isSymptom = e.type === 'symptom';
@@ -232,7 +222,7 @@ import { buildSyncChunks, renderChunkQR, parseChunkHeader, reassemble, applyImpo
 
     const byDay = new Map();
     for (const e of entries) {
-      const day = localDateStr(e.datetime);
+      const day = dayKey(e.datetime);
       if (!byDay.has(day)) byDay.set(day, []);
       byDay.get(day).push(e);
     }
@@ -248,7 +238,7 @@ import { buildSyncChunks, renderChunkQR, parseChunkHeader, reassemble, applyImpo
       const dayEntries = byDay.get(day);
       const cals = dayCalories(dayEntries);
       const count = dayEntries.length;
-      const calStr = cals.has ? ` · <b>~${cals.total}</b> cal` : '';
+      const calStr = cals != null ? ` · <b>~${cals}</b> cal` : '';
       return `<div class="day">
         <div class="summary">
           <span class="d">${esc(formatDayHeading(day))}</span>
@@ -312,7 +302,7 @@ import { buildSyncChunks, renderChunkQR, parseChunkHeader, reassemble, applyImpo
     const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\r\n');
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-    a.download = `diet-diary-${new Date().toISOString().slice(0,10)}.csv`;
+    a.download = `diet-diary-${localDate(new Date())}.csv`;
     a.click();
     URL.revokeObjectURL(a.href);
   }
@@ -346,13 +336,8 @@ import { buildSyncChunks, renderChunkQR, parseChunkHeader, reassemble, applyImpo
 
   const modal = document.getElementById('export-modal');
   document.getElementById('js-export').addEventListener('click', openExport);
-  modal.addEventListener('click', e => {
-    if (e.target === modal || e.target.closest('[data-close]')) modal.classList.remove('open');
-  });
-  document.getElementById('qr-nav').addEventListener('click', e => {
-    const btn = e.target.closest('button[data-step]');
-    if (btn) qrStep(Number(btn.dataset.step));
-  });
+  bindModalDismiss(modal, () => modal.classList.remove('open'));
+  delegate(document.getElementById('qr-nav'), 'button[data-step]', btn => qrStep(Number(btn.dataset.step)));
 })();
 
 // --- QR import scanner ---
@@ -383,11 +368,8 @@ import { buildSyncChunks, renderChunkQR, parseChunkHeader, reassemble, applyImpo
     document.getElementById('import-modal').classList.remove('open');
   }
 
-  const modal = document.getElementById('import-modal');
   document.getElementById('js-import').addEventListener('click', openImport);
-  modal.addEventListener('click', e => {
-    if (e.target === modal || e.target.closest('[data-close]')) closeImport();
-  });
+  bindModalDismiss(document.getElementById('import-modal'), closeImport);
 
   function setStatus(msg) { document.getElementById('import-status').textContent = msg; }
 

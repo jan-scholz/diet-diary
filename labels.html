@@ -224,7 +224,8 @@
 
 <footer>Diet Diary</footer>
 <script type="module">
-import { esc } from './js/ui.js';
+import { loadCatalog } from './js/catalog.js';
+import { esc, delegate } from './js/ui.js';
 
 (function () {
   let allProducts = [];
@@ -282,10 +283,8 @@ import { esc } from './js/ui.js';
   }
 
   document.getElementById('js-search').addEventListener('input', filterCatalog);
-  document.getElementById('js-catalog').addEventListener('click', e => {
-    const item = e.target.closest('.suggestion[data-id]');
-    if (item) selectProduct(item.dataset.id);
-  });
+  delegate(document.getElementById('js-catalog'), '.suggestion[data-id]',
+    item => selectProduct(item.dataset.id));
 
   // ── Label rendering ───────────────────────────────────────────────────────
 
@@ -498,13 +497,7 @@ import { esc } from './js/ui.js';
     }
   });
 
-  async function load() {
-    const res = await fetch('data/nutrition.json');
-    const data = await res.json();
-    allProducts = data.products;
-  }
-
-  load();
+  loadCatalog().then(products => { allProducts = products; });
 })();
 </script>
 </body>

@@ -60,7 +60,7 @@
 <footer>Diet Diary</footer>
 <script type="module">
 import { getEntry, saveEntry } from './js/store.js';
-import { pad } from './js/ui.js';
+import { localDatetime, delegate } from './js/ui.js';
 
 (function () {
   const params = new URLSearchParams(location.search);
@@ -71,9 +71,7 @@ import { pad } from './js/ui.js';
   let selectedTags = new Set();
   let selectedSeverity = null;
 
-  const now = new Date();
-  document.getElementById('js-dt').value =
-    `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  document.getElementById('js-dt').value = localDatetime(new Date());
 
   function setSeverity(v) {
     selectedSeverity = v;
@@ -82,10 +80,8 @@ import { pad } from './js/ui.js';
     });
   }
 
-  document.querySelector('.severity-row').addEventListener('click', e => {
-    const btn = e.target.closest('.severity-btn');
-    if (btn) setSeverity(Number(btn.dataset.v));
-  });
+  delegate(document.querySelector('.severity-row'), '.severity-btn',
+    btn => setSeverity(Number(btn.dataset.v)));
 
   function makeChip(tag, description) {
     const btn = document.createElement('button');
@@ -105,9 +101,7 @@ import { pad } from './js/ui.js';
     );
   }
 
-  document.getElementById('js-tag-chips').addEventListener('click', e => {
-    const chip = e.target.closest('.tag-chip');
-    if (!chip) return;
+  delegate(document.getElementById('js-tag-chips'), '.tag-chip', chip => {
     const tag = chip.dataset.tag;
     if (selectedTags.has(tag)) selectedTags.delete(tag);
     else selectedTags.add(tag);

@@ -73,7 +73,7 @@
 <script type="module">
 import { getEntry, saveEntry, getTopProductIds } from './js/store.js';
 import { loadCatalog } from './js/catalog.js';
-import { pad, esc } from './js/ui.js';
+import { localDatetime, esc, delegate } from './js/ui.js';
 
 (function () {
   const params = new URLSearchParams(location.search);
@@ -84,9 +84,7 @@ import { pad, esc } from './js/ui.js';
   let allProducts = [];
   let topProductIds = []; // top 10 by frequency; first 3 shown before search
 
-  const now = new Date();
-  document.getElementById('js-dt').value =
-    `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  document.getElementById('js-dt').value = localDatetime(new Date());
 
   const UNIT_OPTIONS = { weight: ['g', 'oz', 'lb'], volume: ['ml', 'cups'], number: null };
 
@@ -216,18 +214,11 @@ import { pad, esc } from './js/ui.js';
     location.href = 'entries.html';
   }
 
-  document.querySelector('.segmented').addEventListener('click', e => {
-    const btn = e.target.closest('button[data-type]');
-    if (btn) setType(btn.dataset.type);
-  });
+  delegate(document.querySelector('.segmented'), 'button[data-type]', btn => setType(btn.dataset.type));
+  delegate(document.getElementById('js-catalog'), '.foodcard',
+    card => card.dataset.id ? selectProduct(card.dataset.id) : selectCustom());
   document.getElementById('js-search').addEventListener('input', () => renderCatalog(filteredProducts()));
   document.getElementById('js-qty-kind').addEventListener('change', () => updateUnit());
-  document.getElementById('js-catalog').addEventListener('click', e => {
-    const card = e.target.closest('.foodcard');
-    if (!card) return;
-    if (card.dataset.id) selectProduct(card.dataset.id);
-    else selectCustom();
-  });
   document.getElementById('js-save').addEventListener('click', saveAndGo);
 
   async function init() {

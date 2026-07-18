@@ -35,8 +35,9 @@ scripts/node_modules:
 	cd scripts && npm install && npx playwright install chromium
 
 # Start the server, run the suite against it, then tear the server down.
+# Port-scoped log so parallel `make verify PORT=...` runs don't clobber each other.
 verify: libs scripts/node_modules
-	@uv run python -m http.server $(PORT) > /tmp/dd-server.log 2>&1 & \
+	@uv run python -m http.server $(PORT) > /tmp/dd-server-$(PORT).log 2>&1 & \
 	SERVER_PID=$$!; \
 	sleep 1.5; \
 	node scripts/verify.cjs http://localhost:$(PORT); \
@@ -46,7 +47,7 @@ verify: libs scripts/node_modules
 
 # Regenerate the repo screenshots in docs/ (seeds demo data in a headless browser).
 screenshots: libs scripts/node_modules
-	@uv run python -m http.server $(PORT) > /tmp/dd-server.log 2>&1 & \
+	@uv run python -m http.server $(PORT) > /tmp/dd-server-$(PORT).log 2>&1 & \
 	SERVER_PID=$$!; \
 	sleep 1.5; \
 	node scripts/screenshots.cjs http://localhost:$(PORT); \

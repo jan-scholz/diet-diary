@@ -43,7 +43,7 @@ async function main() {
   const stats    = await page.locator('.stat').count();
   const quickBtns = await page.locator('.quick .btn').count();
   const empty    = await page.locator('.empty').count();
-  log(1, h1.includes('Today') && stats === 3 && quickBtns === 3,
+  log(1, h1.includes('Today') && stats === 4 && quickBtns === 4,
     `h1="${h1}", stats=${stats}, quickBtns=${quickBtns}, emptyState=${empty > 0}`);
 
   // ── Step 2: Add meal — catalog picker ────────────────────────────────────
@@ -104,7 +104,7 @@ async function main() {
   log(3,  !!rowNm,               `First row name="${rowNm}"`);
   log('3a', summary.includes('cal'), `Day summary="${summary}"`);
 
-  // FAB speed-dial — opens on click, shows 3 actions, backdrop closes it
+  // FAB speed-dial — opens on click, shows 4 actions, backdrop closes it
   const fabExists = await page.locator('.fab-main').count();
   await page.click('.fab-main');
   await page.waitForTimeout(200);
@@ -113,7 +113,7 @@ async function main() {
   await page.locator('#fab-backdrop').click();
   await page.waitForTimeout(200);
   const fabClosed = await page.locator('.fab-actions.open').count();
-  log('3b', fabExists > 0 && fabOpen > 0 && fabLinks === 3 && fabClosed === 0,
+  log('3b', fabExists > 0 && fabOpen > 0 && fabLinks === 4 && fabClosed === 0,
     `FAB: exists=${fabExists > 0}, opens=${fabOpen > 0}, links=${fabLinks}, closes=${fabClosed === 0}`);
 
   // ── Step 4: Dashboard reflects today's stats ──────────────────────────────

@@ -58,9 +58,10 @@
 </main>
 
 <footer>Diet Diary</footer>
-<script src="js/store.js"></script>
-<script src="js/ui.js"></script>
-<script>
+<script type="module">
+import { getEntry, saveEntry } from './js/store.js';
+import { pad } from './js/ui.js';
+
 (function () {
   const params = new URLSearchParams(location.search);
   const editId = params.get('id');

@@ -223,8 +223,9 @@
 </main>
 
 <footer>Diet Diary</footer>
-<script src="js/ui.js"></script>
-<script>
+<script type="module">
+import { esc } from './js/ui.js';
+
 (function () {
   let allProducts = [];
   let selectedId = null;

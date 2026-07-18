@@ -1,19 +1,19 @@
 const _STORE_KEY = 'dietDiary.entries';
 
-function getEntries() {
+export function getEntries() {
   try { return JSON.parse(localStorage.getItem(_STORE_KEY)) || []; }
   catch { return []; }
 }
 
-function getEntry(id) {
+export function getEntry(id) {
   return getEntries().find(e => e.id === id) || null;
 }
 
-function setEntries(entries) {
+export function setEntries(entries) {
   localStorage.setItem(_STORE_KEY, JSON.stringify(entries));
 }
 
-function saveEntry(entry) {
+export function saveEntry(entry) {
   const entries = getEntries();
   const idx = entries.findIndex(e => e.id === entry.id);
   if (idx >= 0) entries[idx] = entry;
@@ -21,11 +21,11 @@ function saveEntry(entry) {
   setEntries(entries);
 }
 
-function deleteEntry(id) {
+export function deleteEntry(id) {
   setEntries(getEntries().filter(e => e.id !== id));
 }
 
-function getTopProductIds(n) {
+export function getTopProductIds(n) {
   const counts = {};
   for (const e of getEntries()) {
     if (e.productId) counts[e.productId] = (counts[e.productId] || 0) + 1;

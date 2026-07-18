@@ -146,13 +146,14 @@
   </button>
 </div>
 
-<script src="js/store.js"></script>
-<script src="js/catalog.js"></script>
-<script src="js/ui.js"></script>
 <script src="vendor/qrcodegen.js"></script>
 <script src="vendor/jsQR.js"></script>
-<script src="js/sync.js"></script>
-<script>
+<script type="module">
+import { getEntries, deleteEntry } from './js/store.js';
+import { loadCatalog, getProduct, scaleNutrition, entrySummary, dayCalories } from './js/catalog.js';
+import { pad, esc, formatTime } from './js/ui.js';
+import { buildSyncChunks, renderChunkQR, parseChunkHeader, reassemble, applyImported } from './js/sync.js';
+
 (function () {
   let currentFilter = 'all';
 

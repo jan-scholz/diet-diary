@@ -2,6 +2,9 @@
 // another device. Pipeline: entries -> JSON -> deflate-raw -> chunks -> QR byte mode.
 // Each chunk carries a 4-byte header [version, sessionId, seq, total] so the importer
 // can collect them in any order and avoid mixing two different export sessions.
+// renderChunkQR uses the global `qrcode` from vendor/qrcodegen.js (classic script).
+
+import { getEntries, setEntries } from './store.js';
 
 const SYNC_VERSION = 1;
 const CHUNK_PAYLOAD = 600;          // data bytes per QR (keeps QR ~v18-20, phone-scannable)
@@ -34,7 +37,7 @@ const inflate = (bytes) => _runStream(new DecompressionStream('deflate-raw'), by
 // --- export -------------------------------------------------------------------
 
 // Returns an array of Uint8Array, one per QR code.
-async function buildSyncChunks() {
+export async function buildSyncChunks() {
   const json = JSON.stringify(getEntries());
   const payload = await deflate(new TextEncoder().encode(json));
   const total = Math.max(1, Math.ceil(payload.length / CHUNK_PAYLOAD));
@@ -51,7 +54,7 @@ async function buildSyncChunks() {
 }
 
 // Draw a byte chunk as a QR code onto a canvas (byte mode, auto version, ECC M).
-function renderChunkQR(canvas, chunk) {
+export function renderChunkQR(canvas, chunk) {
   const binStr = String.fromCharCode.apply(null, chunk);
   const qr = qrcode(0, 'M');
   qr.addData(binStr, 'Byte');
@@ -77,14 +80,14 @@ function renderChunkQR(canvas, chunk) {
 // --- import -------------------------------------------------------------------
 
 // Parse a scanned chunk's header. Returns null if it isn't one of our chunks.
-function parseChunkHeader(bytes) {
+export function parseChunkHeader(bytes) {
   if (!bytes || bytes.length < HEADER_LEN || bytes[0] !== SYNC_VERSION) return null;
   return { sid: bytes[1], seq: bytes[2], total: bytes[3] };
 }
 
 // Given a Map of seq -> chunk byte array (all same sid, all total present),
 // strip headers and concat into the compressed payload.
-function reassemble(chunkMap, total) {
+export function reassemble(chunkMap, total) {
   const parts = [];
   for (let seq = 0; seq < total; seq++) {
     parts.push(Uint8Array.from(chunkMap.get(seq)).subarray(HEADER_LEN));
@@ -98,7 +101,7 @@ function reassemble(chunkMap, total) {
 }
 
 // Decompress an assembled payload and merge it into local storage.
-async function applyImported(payload) {
+export async function applyImported(payload) {
   const json = new TextDecoder().decode(await inflate(payload));
   mergeByDay(JSON.parse(json));
 }
@@ -106,7 +109,7 @@ async function applyImported(payload) {
 // Day-granularity snapshot replace: every day present in the import replaces that
 // day locally; days absent from the import are left untouched (so deletions within a
 // synced day propagate, but untouched days are never clobbered).
-function mergeByDay(imported) {
+export function mergeByDay(imported) {
   const days = new Set(imported.map(e => e.datetime.slice(0, 10)));
   const kept = getEntries().filter(e => !days.has(e.datetime.slice(0, 10)));
   setEntries(kept.concat(imported));

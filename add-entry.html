@@ -70,10 +70,11 @@
 </main>
 
 <footer>Diet Diary</footer>
-<script src="js/store.js"></script>
-<script src="js/catalog.js"></script>
-<script src="js/ui.js"></script>
-<script>
+<script type="module">
+import { getEntry, saveEntry, getTopProductIds } from './js/store.js';
+import { loadCatalog } from './js/catalog.js';
+import { pad, esc } from './js/ui.js';
+
 (function () {
   const params = new URLSearchParams(location.search);
   const editId = params.get('id');

@@ -244,7 +244,10 @@ async function main() {
   await page.click('#js-save');
   await page.waitForURL('**/entries.html');
   await page.waitForLoadState('networkidle');
-  const drinkId = await page.evaluate(() => getEntries().find(e => e.type === 'drink')?.id);
+  const drinkId = await page.evaluate(async () => {
+    const { getEntries } = await import('/js/store.js');
+    return getEntries().find(e => e.type === 'drink')?.id;
+  });
 
   await page.goto(BASE + `/add-entry.html?id=${drinkId}`);
   await page.waitForLoadState('networkidle');
@@ -256,7 +259,10 @@ async function main() {
   await page.click('#js-save');
   await page.waitForURL('**/entries.html');
   await page.waitForLoadState('networkidle');
-  const savedDrinkType = await page.evaluate(id => getEntry(id)?.type, drinkId);
+  const savedDrinkType = await page.evaluate(async id => {
+    const { getEntry } = await import('/js/store.js');
+    return getEntry(id)?.type;
+  }, drinkId);
   await page.locator('.chip[data-filter="drink"]').click();
   await page.waitForTimeout(300);
   const drinkFilterRows = await page.locator('.row').count();
@@ -264,7 +270,10 @@ async function main() {
     `After save: type="${savedDrinkType}" (expected "drink"), Drinks filter rows=${drinkFilterRows}`);
 
   // Clean up the drink entry so step 9's row arithmetic is unaffected
-  await page.evaluate(id => deleteEntry(id), drinkId);
+  await page.evaluate(async id => {
+    const { deleteEntry } = await import('/js/store.js');
+    deleteEntry(id);
+  }, drinkId);
   await page.goto(BASE + '/entries.html');
   await page.waitForLoadState('networkidle');
 
@@ -342,6 +351,8 @@ async function main() {
   await page.waitForLoadState('networkidle');
 
   const roundTrip = await page.evaluate(async () => {
+    const { getEntries, setEntries } = await import('/js/store.js');
+    const { buildSyncChunks, renderChunkQR, parseChunkHeader, reassemble, applyImported } = await import('/js/sync.js');
     const seed = [
       { id: '1', type: 'meal',  datetime: '2026-06-19T08:00', productId: 'turpone_bacon_pizza', quantity: { kind: 'weight', value: 150, unit: 'g' }, note: '' },
       { id: '2', type: 'snack', datetime: '2026-06-19T15:30', productId: null, name: 'Toast with butter', quantity: null, note: '' },
@@ -378,7 +389,9 @@ async function main() {
   log('13a', roundTrip.ok,
     `round-trip via ${roundTrip.chunks} QR code(s): ${roundTrip.gotLen}/${roundTrip.seedLen} entries match`);
 
-  const merge = await page.evaluate(() => {
+  const merge = await page.evaluate(async () => {
+    const { getEntries, setEntries } = await import('/js/store.js');
+    const { mergeByDay } = await import('/js/sync.js');
     setEntries([
       { id: 'a', type: 'meal', datetime: '2026-06-01T08:00', note: '' },
       { id: 'b', type: 'meal', datetime: '2026-06-02T08:00', note: '' },

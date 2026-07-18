@@ -2,6 +2,8 @@
 
 A static, no-build food and symptom diary. Everything runs from plain HTML/CSS/JS; entries are stored in `localStorage`.
 
+App code lives in browser-native ES modules under `js/` (`store`, `catalog`, `sync`, `ui`), imported per page — no bundler, no globals. The QR libraries under `vendor/` remain classic scripts exposing globals (see `vendor/README.md`).
+
 ![Diet Diary — dashboard, diary list, and nutrition label](docs/hero.png)
 
 ## Pages

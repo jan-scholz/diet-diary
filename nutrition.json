@@ -902,6 +902,59 @@
         "calcium": { "amount": 105, "unit": "mg", "dv": 8 },
         "iron": { "amount": 3.9, "unit": "mg", "dv": 22 }
       }
+    },
+    {
+      "id": "jordans_granola_dark_chocolate",
+      "brand": "Jordans",
+      "name": "Jordans Morning Crisp Granola — Dark Chocolate",
+      "url": "https://jordanscerealscanada.com/product/morning-crisp-granola/dark-chocolate/",
+      "image": "https://jordanscerealscanada.com/wp-content/uploads/2023/12/JOR2500078C02-600x600.png",
+      "ingredients": [
+        "Whole grain cereals (oat flakes, oat flour)",
+        "Sugar (beet sugar)",
+        "Barley flakes",
+        "Dark chocolate curls (cocoa solids: 70% minimum (cocoa mass, beet sugar, cocoa butter, emulsifier (soy lecithin), natural flavour))",
+        "Vegetable oil",
+        "Rice flour",
+        "Desiccated coconut",
+        "Natural flavour"
+      ],
+      "ingredientsFr": [
+        "Céréales à grains entiers (flocons d'avoine, farine d'avoine)",
+        "Sucre (sucre de betterave)",
+        "Flocons d'orge",
+        "Copeaux de chocolat noir (solides de cacao : 70 % minimum (pâte de cacao, sucre de betterave, beurre de cacao, émulsifiant (lécithine de soja), arôme naturel))",
+        "Huile végétale",
+        "Farine de riz",
+        "Noix de coco séchée",
+        "Arôme naturel"
+      ],
+      "serving": {
+        "fraction": "1 cup",
+        "fractionFr": "1 tasse",
+        "grams": 90
+      },
+      "servingNote": "About 1½ cups when prepared with ½ cup 2% milk",
+      "servingNoteFr": "environ 1½ tasse si préparé avec ½ tasse de lait 2 %",
+      "columns": [
+        { "label": "As sold", "labelFr": "Tel que vendu" },
+        { "label": "With ½ cup 2% milk", "labelFr": "Avec ½ tasse de lait 2 %" }
+      ],
+      "calories": [400, 470],
+      "nutrients": {
+        "totalFat": { "amount": 14, "unit": "g", "dv": [19, 22] },
+        "saturatedFat": { "amount": 3.5, "unit": "g", "dv": [17, 25] },
+        "transFat": { "amount": 0, "unit": "g" },
+        "carbohydrate": { "amount": 58, "unit": "g" },
+        "fiber": { "amount": 5, "unit": "g", "dv": [19, 19] },
+        "sugars": { "amount": 19, "unit": "g", "dv": [19, 25] },
+        "protein": { "amount": 8, "unit": "g" },
+        "cholesterol": { "amount": 0, "unit": "mg" },
+        "sodium": { "amount": 10, "unit": "mg", "dv": [1, 3] },
+        "potassium": { "amount": 250, "unit": "mg", "dv": [7, 9] },
+        "calcium": { "amount": 30, "unit": "mg", "dv": [2, 15] },
+        "iron": { "amount": 4.0, "unit": "mg", "dv": [22, 22] }
+      }
     }
   ]
 }

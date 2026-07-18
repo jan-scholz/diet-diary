@@ -79,7 +79,7 @@ async function main() {
   const switchedQty = await page.inputValue('#js-qty-value');
   log('2c', switchedQty === '243', `Product switch qty=${switchedQty} (expected 243)`);
 
-  await page.click('button[onclick="saveAndGo()"]');
+  await page.click('#js-save');
   await page.waitForURL('**/entries.html');
   log('2d', true, 'Saved → entries.html');
 
@@ -143,7 +143,7 @@ async function main() {
   await page.fill('#js-custom-name', 'Apple');
   await page.selectOption('#js-qty-kind', 'number');
   await page.fill('#js-qty-value', '1');
-  await page.click('button[onclick="saveAndGo()"]');
+  await page.click('#js-save');
   await page.waitForURL('**/entries.html');
   await page.waitForLoadState('networkidle');
   const appleCount = await page.locator('.row .nm').filter({ hasText: 'Apple' }).count();
@@ -177,7 +177,7 @@ async function main() {
   log('6b', nastyText === nastyTag && nastyActive && !nastyOff && nastyOn,
     `Special-char tag: text="${nastyText}", added active=${nastyActive}, toggles off=${!nastyOff}, back on=${nastyOn}`);
 
-  await page.click('button[onclick="saveAndGo()"]');
+  await page.click('#js-save');
   await page.waitForURL('**/entries.html');
   await page.waitForLoadState('networkidle');
   const sympSub = await page.locator('.row.symptom .sub').filter({ hasText: 'Severity 3' }).count();
@@ -229,7 +229,7 @@ async function main() {
   log('8a', editH1.toLowerCase().includes('edit') && !!editDt,
     `Edit page: h1="${editH1}", href="${editHref}"`);
 
-  await page.click('button[onclick="saveAndGo()"]');
+  await page.click('#js-save');
   await page.waitForURL('**/entries.html');
   await page.waitForLoadState('networkidle');
   const rowsAfterEdit = await page.locator('.row').count();
@@ -241,7 +241,7 @@ async function main() {
   await page.waitForLoadState('networkidle');
   await page.locator('#js-search').pressSequentially('juice');
   await page.locator('.foodcard:not(.custom)').first().click();
-  await page.click('button[onclick="saveAndGo()"]');
+  await page.click('#js-save');
   await page.waitForURL('**/entries.html');
   await page.waitForLoadState('networkidle');
   const drinkId = await page.evaluate(() => getEntries().find(e => e.type === 'drink')?.id);
@@ -253,7 +253,7 @@ async function main() {
   log('8b', drinkEditH1 === 'Edit drink' && drinkBtnActive === 1,
     `Edit drink pre-select: h1="${drinkEditH1}", Drink button active=${drinkBtnActive}`);
 
-  await page.click('button[onclick="saveAndGo()"]');
+  await page.click('#js-save');
   await page.waitForURL('**/entries.html');
   await page.waitForLoadState('networkidle');
   const savedDrinkType = await page.evaluate(id => getEntry(id)?.type, drinkId);
@@ -277,7 +277,7 @@ async function main() {
     `After delete: rows=${rowsAfterDel} (was ${rowsAfterEdit})`);
 
   // ── Step 10: Export / Import modals ──────────────────────────────────────
-  await page.click('button[onclick*="openExport"]');
+  await page.click('#js-export');
   await page.waitForTimeout(300);
   const expOpen = await page.locator('#export-modal.open').count();
   const qr      = await page.locator('.qr canvas').count();
@@ -288,7 +288,7 @@ async function main() {
   const expClosed = await page.locator('#export-modal.open').count();
   log('10b', expClosed === 0, 'Export modal closed');
 
-  await page.click('button[onclick*="openImport"]');
+  await page.click('#js-import');
   await page.waitForTimeout(200);
   const impOpen = await page.locator('#import-modal.open').count();
   const vf      = await page.locator('.viewfinder').count();
@@ -400,6 +400,18 @@ async function main() {
   });
   log(13, merge.day1Kept && merge.deletionPropagated && merge.day2Replaced,
     `day-merge: day1 kept=${merge.day1Kept}, deletion propagated=${merge.deletionPropagated}, day2 replaced=${merge.day2Replaced} (ids: ${merge.ids})`);
+
+  // ── Step 14: no inline event handlers on any page (incl. rendered lists) ──
+  // Entries from step 13's merge are still in localStorage, so dynamic lists render rows.
+  const inlineCounts = [];
+  for (const p of ['index.html', 'add-entry.html', 'add-symptom.html', 'entries.html', 'labels.html', 'storage.html']) {
+    await page.goto(BASE + '/' + p);
+    await page.waitForLoadState('networkidle');
+    const n = await page.locator('[onclick], [oninput], [onchange], [onsubmit], [onkeydown]').count();
+    if (n > 0) inlineCounts.push(`${p}:${n}`);
+  }
+  log(14, inlineCounts.length === 0,
+    inlineCounts.length === 0 ? 'no inline event handlers on any page' : `inline handlers found: ${inlineCounts.join(', ')}`);
 
   // ── Summary ───────────────────────────────────────────────────────────────
   if (consoleErrors.length) {

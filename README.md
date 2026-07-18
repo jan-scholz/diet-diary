@@ -57,5 +57,6 @@ Use a different port with `make verify PORT=9000`.
 11. Entries persist across a page reload (localStorage)
 12. `labels.html` still renders all 7 nutrition-facts products unchanged
 13. QR sync round-trips the full diary through real QR codes (encode → QR → decode → decompress → merge), and day-granularity merge propagates deletions
+14. No page (including rendered dynamic lists) carries inline event handlers — all interaction is wired via listeners
 
 Exit code 0 = all passed; non-zero = one or more failures.

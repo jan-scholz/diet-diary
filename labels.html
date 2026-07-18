@@ -215,7 +215,7 @@
   <h1>Nutrition Labels</h1>
 
   <div class="field">
-    <input class="search" type="search" id="js-search" placeholder="Search products…" oninput="filterCatalog()" />
+    <input class="search" type="search" id="js-search" placeholder="Search products…" />
     <div id="js-catalog"></div>
   </div>
 
@@ -239,7 +239,7 @@
     currentProducts = products;
     document.getElementById('js-search').classList.toggle('has-results', products.length > 0);
     document.getElementById('js-catalog').innerHTML = products.map((p, i) =>
-      `<div class="suggestion${i === highlightIdx ? ' kbfocus' : ''}" onclick="selectProduct('${p.id}')">${esc(p.name)}</div>`
+      `<div class="suggestion${i === highlightIdx ? ' kbfocus' : ''}" data-id="${esc(p.id)}">${esc(p.name)}</div>`
     ).join('');
     if (highlightIdx >= 0) {
       const items = document.querySelectorAll('#js-catalog .suggestion');
@@ -247,7 +247,7 @@
     }
   }
 
-  window.filterCatalog = function () {
+  function filterCatalog() {
     const q = document.getElementById('js-search').value.toLowerCase().trim();
     selectedId = null;
     highlightIdx = -1;
@@ -259,7 +259,7 @@
       return;
     }
     renderCatalog(allProducts.filter(p => p.name.toLowerCase().includes(q)));
-  };
+  }
 
   function previewProduct(id) {
     const p = allProducts.find(x => x.id === id);
@@ -268,7 +268,7 @@
     document.getElementById('js-label').appendChild(buildLabel(p));
   }
 
-  window.selectProduct = function (id) {
+  function selectProduct(id) {
     selectedId = id;
     const p = allProducts.find(x => x.id === id);
     if (!p) return;
@@ -278,7 +278,13 @@
     currentProducts = [];
     highlightIdx = -1;
     previewProduct(id);
-  };
+  }
+
+  document.getElementById('js-search').addEventListener('input', filterCatalog);
+  document.getElementById('js-catalog').addEventListener('click', e => {
+    const item = e.target.closest('.suggestion[data-id]');
+    if (item) selectProduct(item.dataset.id);
+  });
 
   // ── Label rendering ───────────────────────────────────────────────────────
 

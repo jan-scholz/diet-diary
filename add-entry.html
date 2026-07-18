@@ -23,9 +23,9 @@
     <div class="tr-type">
       <label>Type</label>
       <div class="segmented">
-        <button type="button" id="btn-meal" onclick="setType('meal')">Meal</button>
-        <button type="button" id="btn-snack" onclick="setType('snack')">Snack</button>
-        <button type="button" id="btn-drink" onclick="setType('drink')">Drink</button>
+        <button type="button" id="btn-meal" data-type="meal">Meal</button>
+        <button type="button" id="btn-snack" data-type="snack">Snack</button>
+        <button type="button" id="btn-drink" data-type="drink">Drink</button>
       </div>
     </div>
     <div class="tr-when">
@@ -36,7 +36,7 @@
 
   <div class="field">
     <label>Choose food</label>
-    <input class="search" type="search" id="js-search" placeholder="Search the nutrition catalog…" oninput="filterCatalog()" />
+    <input class="search" type="search" id="js-search" placeholder="Search the nutrition catalog…" />
     <div class="catalog" id="js-catalog"></div>
   </div>
 
@@ -48,7 +48,7 @@
   <div class="field">
     <label>Quantity <span class="hint">(optional)</span></label>
     <div class="qty-row">
-      <select id="js-qty-kind" onchange="updateUnit()">
+      <select id="js-qty-kind">
         <option value="weight">Weight</option>
         <option value="volume">Volume</option>
         <option value="number">Number</option>
@@ -64,7 +64,7 @@
   </div>
 
   <div class="actions">
-    <button class="btn btn-primary btn-lg" type="button" onclick="saveAndGo()">Save entry</button>
+    <button class="btn btn-primary btn-lg" type="button" id="js-save">Save entry</button>
     <a class="btn btn-secondary btn-lg" href="index.html" id="js-cancel">Cancel</a>
   </div>
 </main>
@@ -89,7 +89,7 @@
 
   const UNIT_OPTIONS = { weight: ['g', 'oz', 'lb'], volume: ['ml', 'cups'], number: null };
 
-  window.updateUnit = function (preserveValue) {
+  function updateUnit(preserveValue) {
     const kind = document.getElementById('js-qty-kind').value;
     const sel = document.getElementById('js-qty-unit');
     const opts = UNIT_OPTIONS[kind];
@@ -102,16 +102,16 @@
       sel.innerHTML = opts.map(u => `<option value="${u}">${u}</option>`).join('');
       if (prev && opts.includes(prev)) sel.value = prev;
     }
-  };
+  }
 
-  window.setType = function (t) {
+  function setType(t) {
     currentType = t;
     document.getElementById('btn-meal').classList.toggle('active', t === 'meal');
     document.getElementById('btn-snack').classList.toggle('active', t === 'snack');
     document.getElementById('btn-drink').classList.toggle('active', t === 'drink');
     if (!editId) document.getElementById('js-title').textContent = `Add ${t}`;
     if (allProducts.length) renderCatalog(filteredProducts());
-  };
+  }
   setType(currentType);
 
   function servingLabel(p) {
@@ -126,7 +126,7 @@
   function renderCatalog(products) {
     const rows = products.map(p => {
       const sel = selectedProductId === p.id ? ' selected' : '';
-      return `<div class="foodcard${sel}" onclick="selectProduct('${p.id}')">
+      return `<div class="foodcard${sel}" data-id="${esc(p.id)}">
         <span class="radio"></span>
         <div class="body"><div class="nm">${esc(p.name)}</div><div class="sv">${esc(servingLabel(p))}</div></div>
         <span class="cal">${calLabel(p)}</span>
@@ -135,13 +135,13 @@
 
     const customSel = selectedProductId === '__custom__' ? ' selected' : '';
     document.getElementById('js-catalog').innerHTML = rows +
-      `<div class="foodcard custom${customSel}" onclick="selectCustom()">
+      `<div class="foodcard custom${customSel}">
         <span class="radio"></span>
         <div class="body"><div class="nm">Something else — type it in</div></div>
       </div>`;
   }
 
-  window.selectProduct = function (id) {
+  function selectProduct(id) {
     selectedProductId = id;
     document.getElementById('js-custom-field').style.display = 'none';
     const p = allProducts.find(x => x.id === id);
@@ -152,9 +152,9 @@
       document.getElementById('js-qty-unit').value = 'g';
     }
     renderCatalog(filteredProducts());
-  };
+  }
 
-  window.selectCustom = function () {
+  function selectCustom() {
     selectedProductId = '__custom__';
     document.getElementById('js-custom-field').style.display = '';
     const nameInput = document.getElementById('js-custom-name');
@@ -162,7 +162,7 @@
     if (q && !nameInput.value) nameInput.value = q;
     nameInput.focus();
     renderCatalog(filteredProducts());
-  };
+  }
 
   function filteredProducts() {
     const q = document.getElementById('js-search').value.toLowerCase().trim();
@@ -181,11 +181,7 @@
     return shown;
   }
 
-  window.filterCatalog = function () {
-    renderCatalog(filteredProducts());
-  };
-
-  window.saveAndGo = function () {
+  function saveAndGo() {
     const dt = document.getElementById('js-dt').value;
     if (!dt) { alert('Please set the date and time.'); return; }
 
@@ -217,7 +213,21 @@
     if (name) entry.name = name;
     saveEntry(entry);
     location.href = 'entries.html';
-  };
+  }
+
+  document.querySelector('.segmented').addEventListener('click', e => {
+    const btn = e.target.closest('button[data-type]');
+    if (btn) setType(btn.dataset.type);
+  });
+  document.getElementById('js-search').addEventListener('input', () => renderCatalog(filteredProducts()));
+  document.getElementById('js-qty-kind').addEventListener('change', () => updateUnit());
+  document.getElementById('js-catalog').addEventListener('click', e => {
+    const card = e.target.closest('.foodcard');
+    if (!card) return;
+    if (card.dataset.id) selectProduct(card.dataset.id);
+    else selectCustom();
+  });
+  document.getElementById('js-save').addEventListener('click', saveAndGo);
 
   async function init() {
     updateUnit();

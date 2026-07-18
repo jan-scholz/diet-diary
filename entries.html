@@ -18,11 +18,11 @@
   <div class="page-head">
     <h1>Your entries</h1>
     <div class="tools">
-      <button class="btn" type="button" onclick="openExport()">
+      <button class="btn" type="button" id="js-export">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
         Export
       </button>
-      <button class="btn" type="button" onclick="openImport()">
+      <button class="btn" type="button" id="js-import">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></svg>
         Import
       </button>
@@ -30,11 +30,11 @@
   </div>
 
   <div class="filters">
-    <button class="chip active" data-filter="all" onclick="setFilter('all')">All</button>
-    <button class="chip" data-filter="meal" onclick="setFilter('meal')">Meals</button>
-    <button class="chip" data-filter="snack" onclick="setFilter('snack')">Snacks</button>
-    <button class="chip" data-filter="drink" onclick="setFilter('drink')">Drinks</button>
-    <button class="chip" data-filter="symptom" onclick="setFilter('symptom')">Symptoms</button>
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="meal">Meals</button>
+    <button class="chip" data-filter="snack">Snacks</button>
+    <button class="chip" data-filter="drink">Drinks</button>
+    <button class="chip" data-filter="symptom">Symptoms</button>
   </div>
 
   <div id="js-entries"></div>
@@ -43,11 +43,11 @@
 <footer>Diet Diary</footer>
 
 <!-- Export modal -->
-<div class="modal" id="export-modal" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="modal" id="export-modal">
   <div class="sheet">
     <div class="sh-head">
       <h2>Export</h2>
-      <button class="x-btn" type="button" onclick="document.getElementById('export-modal').classList.remove('open')">&times;</button>
+      <button class="x-btn" type="button" data-close>&times;</button>
     </div>
     <div class="export-panels">
       <div class="export-panel">
@@ -56,13 +56,13 @@
           <canvas id="qr-canvas" width="320" height="320"></canvas>
         </div>
         <div class="qr-nav" id="qr-nav" hidden>
-          <button class="btn" type="button" onclick="qrStep(-1)">‹ Prev</button>
+          <button class="btn" type="button" data-step="-1">‹ Prev</button>
           <span class="qr-count" id="qr-count">QR 1 of 1</span>
-          <button class="btn" type="button" onclick="qrStep(1)">Next ›</button>
+          <button class="btn" type="button" data-step="1">Next ›</button>
         </div>
         <p class="lead qr-hint">Scan every code in order on the other device.</p>
         <div class="sheet-actions">
-          <button class="btn" type="button" onclick="document.getElementById('export-modal').classList.remove('open')">Done</button>
+          <button class="btn" type="button" data-close>Done</button>
         </div>
       </div>
 
@@ -84,7 +84,7 @@
           <span class="toggler"><input type="checkbox" id="csv-nutrition" /><span class="toggler-knob"></span></span>
         </label>
         <div class="sheet-actions">
-          <button class="btn btn-primary" type="button" onclick="exportCSV()">Export to CSV</button>
+          <button class="btn btn-primary" type="button" id="js-csv-export">Export to CSV</button>
         </div>
       </div>
     </div>
@@ -92,11 +92,11 @@
 </div>
 
 <!-- Import modal -->
-<div class="modal" id="import-modal" onclick="if(event.target===this)closeImport()">
+<div class="modal" id="import-modal">
   <div class="sheet">
     <div class="sh-head">
       <h2>Import</h2>
-      <button class="x-btn" type="button" onclick="closeImport()">&times;</button>
+      <button class="x-btn" type="button" data-close>&times;</button>
     </div>
     <p class="lead">Point your camera at each QR code shown on your other device.</p>
     <div class="viewfinder">
@@ -105,13 +105,13 @@
     </div>
     <p class="lead" id="import-status">Starting camera…</p>
     <div class="sheet-actions">
-      <button class="btn" type="button" onclick="closeImport()">Cancel</button>
+      <button class="btn" type="button" data-close>Cancel</button>
     </div>
   </div>
 </div>
 
 <!-- FAB speed-dial -->
-<div class="fab-backdrop" id="fab-backdrop" onclick="closeFab()"></div>
+<div class="fab-backdrop" id="fab-backdrop"></div>
 <div class="fab-wrap">
   <div class="fab-actions" id="fab-actions">
     <a class="fab-action" href="add-symptom.html">
@@ -139,7 +139,7 @@
       </span>
     </a>
   </div>
-  <button class="fab-main" id="fab-main" type="button" aria-label="Add entry" onclick="toggleFab()">
+  <button class="fab-main" id="fab-main" type="button" aria-label="Add entry">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
       <path d="M12 5v14M5 12h14"/>
     </svg>
@@ -156,13 +156,18 @@
 (function () {
   let currentFilter = 'all';
 
-  window.setFilter = function (f) {
+  function setFilter(f) {
     currentFilter = f;
     document.querySelectorAll('.chip').forEach(c => {
       c.classList.toggle('active', c.dataset.filter === f);
     });
     render();
-  };
+  }
+
+  document.querySelector('.filters').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (chip) setFilter(chip.dataset.filter);
+  });
 
   function localDateStr(dt) {
     return dt.split('T')[0];
@@ -181,11 +186,16 @@
     return label;
   }
 
-  window.removeEntry = function (id) {
+  function removeEntry(id) {
     if (!confirm('Delete this entry?')) return;
     deleteEntry(id);
     render();
-  };
+  }
+
+  document.getElementById('js-entries').addEventListener('click', e => {
+    const btn = e.target.closest('button[data-del]');
+    if (btn) removeEntry(btn.dataset.del);
+  });
 
   function renderRow(e) {
     const isSymptom = e.type === 'symptom';
@@ -205,7 +215,7 @@
       </div>
       <div class="acts">
         <a href="${esc(editHref)}">Edit</a>
-        <button type="button" onclick="removeEntry('${e.id}')">Delete</button>
+        <button type="button" data-del="${esc(e.id)}">Delete</button>
       </div>
     </div>`;
   }
@@ -251,83 +261,97 @@
   render();
 })();
 
-window.exportCSV = async function () {
-  const inclId  = document.getElementById('csv-id').checked;
-  const inclCal = document.getElementById('csv-calories').checked;
-  const inclNut = document.getElementById('csv-nutrition').checked;
+(function () {
+  async function exportCSV() {
+    const inclId  = document.getElementById('csv-id').checked;
+    const inclCal = document.getElementById('csv-calories').checked;
+    const inclNut = document.getElementById('csv-nutrition').checked;
 
-  if (inclCal || inclNut) await loadCatalog();
+    if (inclCal || inclNut) await loadCatalog();
 
-  const NUT_KEYS = ['totalFat','saturatedFat','transFat','carbohydrate','fiber','sugars','protein','cholesterol','sodium','potassium','calcium','iron'];
-  const NUT_COLS = ['fat_g','sat_fat_g','trans_fat_g','carbs_g','fiber_g','sugars_g','protein_g','cholesterol_mg','sodium_mg','potassium_mg','calcium_mg','iron_mg'];
+    const NUT_KEYS = ['totalFat','saturatedFat','transFat','carbohydrate','fiber','sugars','protein','cholesterol','sodium','potassium','calcium','iron'];
+    const NUT_COLS = ['fat_g','sat_fat_g','trans_fat_g','carbs_g','fiber_g','sugars_g','protein_g','cholesterol_mg','sodium_mg','potassium_mg','calcium_mg','iron_mg'];
 
-  const headers = ['type','datetime','name','productId','qty_kind','qty_value','qty_unit','note'];
-  if (inclId)  headers.unshift('id');
-  if (inclCal) headers.push('calories');
-  if (inclNut) headers.push(...NUT_COLS);
+    const headers = ['type','datetime','name','productId','qty_kind','qty_value','qty_unit','note'];
+    if (inclId)  headers.unshift('id');
+    if (inclCal) headers.push('calories');
+    if (inclNut) headers.push(...NUT_COLS);
 
-  const rows = [headers];
-  for (const e of getEntries().filter(e => e.type !== 'symptom')) {
-    let cals = '';
-    let nutVals = NUT_KEYS.map(() => '');
+    const rows = [headers];
+    for (const e of getEntries().filter(e => e.type !== 'symptom')) {
+      let cals = '';
+      let nutVals = NUT_KEYS.map(() => '');
 
-    if ((inclCal || inclNut) && e.productId) {
-      const p = getProduct(e.productId);
-      if (p) {
-        const scaled = scaleNutrition(p, e.quantity);
-        if (inclCal) cals = scaled.calories ?? '';
-        if (inclNut) {
-          const nuts = scaled.nutrients || p.nutrients;
-          nutVals = NUT_KEYS.map(k => {
-            const n = nuts[k];
-            if (!n) return '';
-            const amt = Array.isArray(n.amount) ? n.amount[0] : n.amount;
-            return amt != null ? amt : '';
-          });
+      if ((inclCal || inclNut) && e.productId) {
+        const p = getProduct(e.productId);
+        if (p) {
+          const scaled = scaleNutrition(p, e.quantity);
+          if (inclCal) cals = scaled.calories ?? '';
+          if (inclNut) {
+            const nuts = scaled.nutrients || p.nutrients;
+            nutVals = NUT_KEYS.map(k => {
+              const n = nuts[k];
+              if (!n) return '';
+              const amt = Array.isArray(n.amount) ? n.amount[0] : n.amount;
+              return amt != null ? amt : '';
+            });
+          }
         }
       }
+
+      const row = [e.type, e.datetime, e.name||'', e.productId||'',
+        e.quantity?.kind||'', e.quantity?.value??'', e.quantity?.unit||'',
+        e.note||''];
+      if (inclId)  row.unshift(e.id);
+      if (inclCal) row.push(cals);
+      if (inclNut) row.push(...nutVals);
+      rows.push(row);
     }
 
-    const row = [e.type, e.datetime, e.name||'', e.productId||'',
-      e.quantity?.kind||'', e.quantity?.value??'', e.quantity?.unit||'',
-      e.note||''];
-    if (inclId)  row.unshift(e.id);
-    if (inclCal) row.push(cals);
-    if (inclNut) row.push(...nutVals);
-    rows.push(row);
+    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = `diet-diary-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
   }
 
-  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\r\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-  a.download = `diet-diary-${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
-  URL.revokeObjectURL(a.href);
-};
+  document.getElementById('js-csv-export').addEventListener('click', exportCSV);
+})();
 
 // --- QR export carousel ---
 (function () {
   let chunks = [], idx = 0;
 
-  window.openExport = async function () {
+  async function openExport() {
     document.getElementById('export-modal').classList.add('open');
     chunks = await buildSyncChunks();
     idx = 0;
     document.getElementById('qr-nav').hidden = chunks.length < 2;
     document.querySelector('.qr-hint').hidden = chunks.length < 2;
     showQR();
-  };
+  }
 
-  window.qrStep = function (d) {
+  function qrStep(d) {
     idx = (idx + d + chunks.length) % chunks.length;
     showQR();
-  };
+  }
 
   function showQR() {
     if (!chunks.length) return;
     renderChunkQR(document.getElementById('qr-canvas'), chunks[idx]);
     document.getElementById('qr-count').textContent = `QR ${idx + 1} of ${chunks.length}`;
   }
+
+  const modal = document.getElementById('export-modal');
+  document.getElementById('js-export').addEventListener('click', openExport);
+  modal.addEventListener('click', e => {
+    if (e.target === modal || e.target.closest('[data-close]')) modal.classList.remove('open');
+  });
+  document.getElementById('qr-nav').addEventListener('click', e => {
+    const btn = e.target.closest('button[data-step]');
+    if (btn) qrStep(Number(btn.dataset.step));
+  });
 })();
 
 // --- QR import scanner ---
@@ -335,7 +359,7 @@ window.exportCSV = async function () {
   let stream = null, raf = 0, collected = new Map(), activeSid = null, expected = 0;
   let canvas = null;
 
-  window.openImport = async function () {
+  async function openImport() {
     document.getElementById('import-modal').classList.add('open');
     collected = new Map(); activeSid = null; expected = 0;
     setStatus('Starting camera…');
@@ -350,13 +374,19 @@ window.exportCSV = async function () {
     await video.play();
     canvas = document.createElement('canvas');
     scanLoop();
-  };
+  }
 
-  window.closeImport = function () {
+  function closeImport() {
     cancelAnimationFrame(raf);
     if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
     document.getElementById('import-modal').classList.remove('open');
-  };
+  }
+
+  const modal = document.getElementById('import-modal');
+  document.getElementById('js-import').addEventListener('click', openImport);
+  modal.addEventListener('click', e => {
+    if (e.target === modal || e.target.closest('[data-close]')) closeImport();
+  });
 
   function setStatus(msg) { document.getElementById('import-status').textContent = msg; }
 
@@ -400,17 +430,19 @@ window.exportCSV = async function () {
 })();
 
 (function () {
-  window.toggleFab = function () {
+  function toggleFab() {
     const open = !document.getElementById('fab-actions').classList.contains('open');
     document.getElementById('fab-actions').classList.toggle('open', open);
     document.getElementById('fab-main').classList.toggle('open', open);
     document.getElementById('fab-backdrop').classList.toggle('open', open);
-  };
-  window.closeFab = function () {
+  }
+  function closeFab() {
     document.getElementById('fab-actions').classList.remove('open');
     document.getElementById('fab-main').classList.remove('open');
     document.getElementById('fab-backdrop').classList.remove('open');
-  };
+  }
+  document.getElementById('fab-main').addEventListener('click', toggleFab);
+  document.getElementById('fab-backdrop').addEventListener('click', closeFab);
 })();
 </script>
 </body>

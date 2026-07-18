@@ -4,8 +4,10 @@
 
 const pad = n => String(n).padStart(2, '0');
 
+// Safe for text content and double- or single-quoted attribute values.
 function esc(s) {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 // "2026-07-18T09:05" -> "9:05 AM"

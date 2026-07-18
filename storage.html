@@ -22,13 +22,14 @@
 <main style="max-width:900px">
   <h1>Entries</h1>
   <div class="actions">
-    <button class="btn-sm" onclick="refresh()">Refresh</button>
-    <button class="btn-sm" onclick="copyAll()">Copy</button>
+    <button class="btn-sm" id="js-refresh">Refresh</button>
+    <button class="btn-sm" id="js-copy">Copy</button>
   </div>
   <div id="js-content"></div>
 </main>
 
 <script>
+(function () {
   const KEY = 'dietDiary.entries';
 
   function render() {
@@ -43,13 +44,15 @@
     el.innerHTML = `<pre>${val}</pre>`;
   }
 
-  function refresh() { render(); }
-
   function copyAll() {
     navigator.clipboard.writeText(localStorage.getItem(KEY) ?? '');
   }
 
+  document.getElementById('js-refresh').addEventListener('click', render);
+  document.getElementById('js-copy').addEventListener('click', copyAll);
+
   render();
+})();
 </script>
 </body>
 </html>

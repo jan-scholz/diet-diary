@@ -223,16 +223,13 @@
 </main>
 
 <footer>Diet Diary</footer>
+<script src="js/ui.js"></script>
 <script>
 (function () {
   let allProducts = [];
   let selectedId = null;
   let currentProducts = [];
   let highlightIdx = -1;
-
-  function esc(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
 
   function fmt(n) {
     return Number.isInteger(n) ? n : n.toString();

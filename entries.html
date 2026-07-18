@@ -148,6 +148,7 @@
 
 <script src="js/store.js"></script>
 <script src="js/catalog.js"></script>
+<script src="js/ui.js"></script>
 <script src="vendor/qrcodegen.js"></script>
 <script src="vendor/jsQR.js"></script>
 <script src="js/sync.js"></script>
@@ -163,16 +164,8 @@
     render();
   };
 
-  const pad = n => String(n).padStart(2, '0');
-
   function localDateStr(dt) {
     return dt.split('T')[0];
-  }
-
-  function formatTime(dt) {
-    const t = (dt.split('T')[1] || '00:00').slice(0, 5);
-    const [h, m] = t.split(':').map(Number);
-    return `${h % 12 || 12}:${pad(m)} ${h >= 12 ? 'PM' : 'AM'}`;
   }
 
   function formatDayHeading(dateStr) {
@@ -188,10 +181,6 @@
     return label;
   }
 
-  function esc(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
   window.removeEntry = function (id) {
     if (!confirm('Delete this entry?')) return;
     deleteEntry(id);
@@ -205,23 +194,7 @@
       ? `add-symptom.html?id=${e.id}`
       : `add-entry.html?id=${e.id}`;
 
-    let name, sub;
-    if (isSymptom) {
-      name = e.note || 'Symptom';
-      const parts = [];
-      if (e.severity) parts.push(`Severity ${e.severity}`);
-      if (e.tags && e.tags.length) parts.push(e.tags.join(', '));
-      sub = parts.join(' · ');
-    } else {
-      name = (e.productId ? getProduct(e.productId)?.name : null) ?? e.name ?? 'Entry';
-      const parts = [];
-      if (e.quantity && e.quantity.value) parts.push(e.quantity.unit ? `${e.quantity.value} ${e.quantity.unit}` : `${e.quantity.value}`);
-      if (e.productId) {
-        const p = getProduct(e.productId);
-        if (p) parts.push(`~${scaleNutrition(p, e.quantity).calories} cal`);
-      }
-      sub = parts.join(' · ');
-    }
+    const { name, sub } = entrySummary(e);
 
     return `<div class="row${isSymptom ? ' symptom' : ''}">
       <span class="time">${formatTime(e.datetime)}</span>
@@ -262,15 +235,9 @@
     const days = [...byDay.keys()].sort((a, b) => b.localeCompare(a));
     container.innerHTML = days.map(day => {
       const dayEntries = byDay.get(day);
-      let totalCals = 0, hasCals = false;
-      for (const e of dayEntries) {
-        if ((e.type === 'meal' || e.type === 'snack' || e.type === 'drink') && e.productId) {
-          const p = getProduct(e.productId);
-          if (p) { totalCals += scaleNutrition(p, e.quantity).calories; hasCals = true; }
-        }
-      }
+      const cals = dayCalories(dayEntries);
       const count = dayEntries.length;
-      const calStr = hasCals ? ` · <b>~${totalCals}</b> cal` : '';
+      const calStr = cals.has ? ` · <b>~${cals.total}</b> cal` : '';
       return `<div class="day">
         <div class="summary">
           <span class="d">${esc(formatDayHeading(day))}</span>

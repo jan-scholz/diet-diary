@@ -55,25 +55,15 @@
 <footer>Diet Diary</footer>
 <script src="js/store.js"></script>
 <script src="js/catalog.js"></script>
+<script src="js/ui.js"></script>
 <script>
 (function () {
-  const pad = n => String(n).padStart(2, '0');
   const now = new Date();
   const todayPrefix = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 
   document.getElementById('js-date').textContent = now.toLocaleDateString('en-CA', {
     weekday: 'long', month: 'long', day: 'numeric'
   });
-
-  function formatTime(dt) {
-    const t = (dt.split('T')[1] || '00:00').slice(0, 5);
-    const [h, m] = t.split(':').map(Number);
-    return `${h % 12 || 12}:${pad(m)} ${h >= 12 ? 'PM' : 'AM'}`;
-  }
-
-  function esc(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
 
   async function render() {
     await loadCatalog();
@@ -83,18 +73,12 @@
     const meals = today.filter(e => e.type === 'meal').length;
     const snacks = today.filter(e => e.type === 'snack').length;
     const drinks = today.filter(e => e.type === 'drink').length;
-    let totalCals = 0, hasCals = false;
-    for (const e of today) {
-      if ((e.type === 'meal' || e.type === 'snack' || e.type === 'drink') && e.productId) {
-        const p = getProduct(e.productId);
-        if (p) { totalCals += scaleNutrition(p, e.quantity).calories; hasCals = true; }
-      }
-    }
+    const cals = dayCalories(today);
 
     document.getElementById('js-meals').textContent = meals;
     document.getElementById('js-snacks').textContent = snacks;
     document.getElementById('js-drinks').textContent = drinks;
-    document.getElementById('js-cals').textContent = hasCals ? `~${totalCals}` : '—';
+    document.getElementById('js-cals').textContent = cals.has ? `~${cals.total}` : '—';
 
     const recent = [...all]
       .sort((a, b) => b.datetime.localeCompare(a.datetime))
@@ -107,25 +91,8 @@
     }
 
     list.innerHTML = recent.map(e => {
-      const isSymptom = e.type === 'symptom';
-      let name, sub;
-      if (isSymptom) {
-        name = e.note || 'Symptom';
-        const parts = [];
-        if (e.severity) parts.push(`Severity ${e.severity}`);
-        if (e.tags && e.tags.length) parts.push(e.tags.join(', '));
-        sub = parts.join(' · ');
-      } else {
-        name = (e.productId ? getProduct(e.productId)?.name : null) ?? e.name ?? 'Entry';
-        const parts = [];
-        if (e.quantity && e.quantity.value) parts.push(e.quantity.unit ? `${e.quantity.value} ${e.quantity.unit}` : `${e.quantity.value}`);
-        if (e.productId) {
-          const p = getProduct(e.productId);
-          if (p) parts.push(`~${scaleNutrition(p, e.quantity).calories} cal`);
-        }
-        sub = parts.join(' · ');
-      }
-      const badgeCls = isSymptom ? 'badge symptom' : 'badge';
+      const { name, sub } = entrySummary(e);
+      const badgeCls = e.type === 'symptom' ? 'badge symptom' : 'badge';
       const label = e.type.charAt(0).toUpperCase() + e.type.slice(1);
       return `<div class="item">
         <span class="time">${formatTime(e.datetime)}</span>

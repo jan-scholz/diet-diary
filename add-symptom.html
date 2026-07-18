@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Diet Diary — Add Symptom</title>
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
 <header>
@@ -58,7 +58,7 @@
 </main>
 
 <footer>Diet Diary</footer>
-<script src="store.js"></script>
+<script src="js/store.js"></script>
 <script>
 (function () {
   const params = new URLSearchParams(location.search);
@@ -137,7 +137,7 @@
     location.href = 'entries.html';
   };
 
-  fetch('symptoms.json')
+  fetch('data/symptoms.json')
     .then(r => r.json())
     .then(data => {
       suggested = data.symptoms;

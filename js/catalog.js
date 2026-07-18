@@ -2,7 +2,7 @@ let _catalog = null;
 
 async function loadCatalog() {
   if (_catalog) return _catalog;
-  const res = await fetch('nutrition.json');
+  const res = await fetch('data/nutrition.json');
   const data = await res.json();
   _catalog = data.products;
   return _catalog;

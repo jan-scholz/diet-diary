@@ -1,6 +1,6 @@
 # add-label
 
-Process a screenshot of a nutrition facts label and add the product to `nutrition.json`.
+Process a screenshot of a nutrition facts label and add the product to `data/nutrition.json`.
 
 ## Usage
 
@@ -27,7 +27,7 @@ Use the Read tool to view the screenshot at the provided path. Extract every val
 
 ### 2 — Read the existing nutrition.json
 
-Use the Read tool to load `nutrition.json` from the project root. Study the existing product structure carefully — match it exactly, including field names, nesting, and which fields are optional.
+Use the Read tool to load `data/nutrition.json`. Study the existing product structure carefully — match it exactly, including field names, nesting, and which fields are optional.
 
 Key schema notes:
 - `id`: lowercase snake_case prefixed with brand shorthand, derived in step 3
@@ -79,7 +79,7 @@ Use WebFetch on the product page URL (from step 4) to find the main product imag
 
 ### 6 — Insert into nutrition.json
 
-Use the Read tool to confirm the current file state, then use the Edit tool to append the new product object to the `"products"` array in `nutrition.json`. Place it at the end of the array (before the closing `]`).
+Use the Read tool to confirm the current file state, then use the Edit tool to append the new product object to the `"products"` array in `data/nutrition.json`. Place it at the end of the array (before the closing `]`).
 
 Validate before writing:
 - JSON is valid (no trailing commas, correct nesting)

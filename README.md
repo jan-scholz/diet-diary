@@ -26,8 +26,8 @@ Then open <http://localhost:8000>. Use a different port with `make serve PORT=90
 
 The test suite drives a headless Chromium browser through every scenario.
 
-**First-time setup** (one time per machine) — fetches the vendored QR libraries
-(`qrcodegen.js`, `jsQR.js`) and installs Playwright + Chromium:
+**First-time setup** (one time per machine) — installs Playwright + Chromium.
+(The QR libraries are committed under `vendor/`; nothing else is downloaded.)
 
 ```bash
 make install

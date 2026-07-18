@@ -161,11 +161,41 @@ async function main() {
   await page.click('.severity-btn[data-v="3"]');
   await page.locator('.tag-chip').filter({ hasText: 'bloating' }).click();
   await page.locator('.tag-chip').filter({ hasText: 'cramps' }).click();
+
+  // Custom tag with a double quote and angle brackets must render as literal
+  // text (no markup injection) and toggle like any other chip.
+  const nastyTag = 'won"t <fix>';
+  await page.fill('#js-tag-input', nastyTag);
+  await page.press('#js-tag-input', 'Enter');
+  const nastyChip = page.locator('.tag-chip').filter({ hasText: nastyTag });
+  const nastyText   = await nastyChip.textContent().catch(() => '');
+  const nastyActive = await nastyChip.evaluate(el => el.classList.contains('active')).catch(() => false);
+  await nastyChip.click(); // toggle off
+  const nastyOff = await nastyChip.evaluate(el => el.classList.contains('active')).catch(() => true);
+  await nastyChip.click(); // toggle back on
+  const nastyOn  = await nastyChip.evaluate(el => el.classList.contains('active')).catch(() => false);
+  log('6b', nastyText === nastyTag && nastyActive && !nastyOff && nastyOn,
+    `Special-char tag: text="${nastyText}", added active=${nastyActive}, toggles off=${!nastyOff}, back on=${nastyOn}`);
+
   await page.click('button[onclick="saveAndGo()"]');
   await page.waitForURL('**/entries.html');
   await page.waitForLoadState('networkidle');
   const sympSub = await page.locator('.row.symptom .sub').filter({ hasText: 'Severity 3' }).count();
   log(6, sympSub > 0, `Symptom row with "Severity 3 · bloating, cramps": ${sympSub}`);
+
+  // Special-char tag shows as literal text in the entries list and round-trips
+  // through the edit flow (reappears as a selected chip).
+  const nastyInList = await page.locator('.row.symptom .sub').filter({ hasText: nastyTag }).count();
+  await page.locator('.row.symptom .acts a').first().click();
+  await page.waitForLoadState('networkidle');
+  const nastyEditChip = page.locator('.tag-chip').filter({ hasText: nastyTag });
+  const nastyEditCount  = await nastyEditChip.count();
+  const nastyEditActive = nastyEditCount > 0 &&
+    await nastyEditChip.evaluate(el => el.classList.contains('active'));
+  log('6c', nastyInList > 0 && nastyEditActive,
+    `Special-char tag in entries list=${nastyInList > 0}, selected on edit=${nastyEditActive}`);
+  await page.goto(BASE + '/entries.html'); // leave edit without saving
+  await page.waitForLoadState('networkidle');
 
   // ── Step 7: Filter chips ──────────────────────────────────────────────────
   const totalRows = await page.locator('.row').count();

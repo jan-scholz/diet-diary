@@ -81,29 +81,32 @@
     });
   };
 
-  function esc(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-  function escAttr(s) {
-    return String(s).replace(/'/g, '&#39;');
+  function makeChip(tag, description) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'tag-chip' + (selectedTags.has(tag) ? ' active' : '');
+    btn.dataset.tag = tag;
+    btn.textContent = tag;
+    if (description) btn.title = description;
+    return btn;
   }
 
   function renderTags() {
-    const suggestedNames = suggested.map(s => s.name);
-    const customChips = customTags.map(t =>
-      `<button class="tag-chip${selectedTags.has(t) ? ' active' : ''}" type="button" onclick="toggleTag('${escAttr(t)}')">${esc(t)}</button>`
+    const chips = document.getElementById('js-tag-chips');
+    chips.replaceChildren(
+      ...suggested.map(({ name, description }) => makeChip(name, description)),
+      ...customTags.map(t => makeChip(t))
     );
-    const suggestedChips = suggested.map(({ name, description }) =>
-      `<button class="tag-chip${selectedTags.has(name) ? ' active' : ''}" type="button" onclick="toggleTag('${escAttr(name)}')" title="${escAttr(description)}">${esc(name)}</button>`
-    );
-    document.getElementById('js-tag-chips').innerHTML = [...suggestedChips, ...customChips].join('');
   }
 
-  window.toggleTag = function (tag) {
+  document.getElementById('js-tag-chips').addEventListener('click', e => {
+    const chip = e.target.closest('.tag-chip');
+    if (!chip) return;
+    const tag = chip.dataset.tag;
     if (selectedTags.has(tag)) selectedTags.delete(tag);
     else selectedTags.add(tag);
     renderTags();
-  };
+  });
 
   window.addCustomTag = function () {
     const input = document.getElementById('js-tag-input');

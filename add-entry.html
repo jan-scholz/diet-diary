@@ -231,7 +231,7 @@
     if (editId) {
       const existing = getEntry(editId);
       if (existing) {
-        currentType = existing.type === 'snack' ? 'snack' : 'meal';
+        currentType = existing.type === 'snack' ? 'snack' : existing.type === 'drink' ? 'drink' : 'meal';
         setType(currentType);
         document.getElementById('js-title').textContent = `Edit ${currentType}`;
         document.getElementById('js-dt').value = existing.datetime;

@@ -206,6 +206,38 @@ async function main() {
   log(8, rowsAfterEdit === allRows,
     `After save: rows=${rowsAfterEdit} (expected ${allRows}, no duplication)`);
 
+  // ── Step 8b/8c: Edit drink — type round-trips (issue #1) ─────────────────
+  await page.goto(BASE + '/add-entry.html?type=drink');
+  await page.waitForLoadState('networkidle');
+  await page.locator('#js-search').pressSequentially('juice');
+  await page.locator('.foodcard:not(.custom)').first().click();
+  await page.click('button[onclick="saveAndGo()"]');
+  await page.waitForURL('**/entries.html');
+  await page.waitForLoadState('networkidle');
+  const drinkId = await page.evaluate(() => getEntries().find(e => e.type === 'drink')?.id);
+
+  await page.goto(BASE + `/add-entry.html?id=${drinkId}`);
+  await page.waitForLoadState('networkidle');
+  const drinkEditH1 = await page.textContent('h1');
+  const drinkBtnActive = await page.locator('#btn-drink.active').count();
+  log('8b', drinkEditH1 === 'Edit drink' && drinkBtnActive === 1,
+    `Edit drink pre-select: h1="${drinkEditH1}", Drink button active=${drinkBtnActive}`);
+
+  await page.click('button[onclick="saveAndGo()"]');
+  await page.waitForURL('**/entries.html');
+  await page.waitForLoadState('networkidle');
+  const savedDrinkType = await page.evaluate(id => getEntry(id)?.type, drinkId);
+  await page.locator('.chip[data-filter="drink"]').click();
+  await page.waitForTimeout(300);
+  const drinkFilterRows = await page.locator('.row').count();
+  log('8c', savedDrinkType === 'drink' && drinkFilterRows === 1,
+    `After save: type="${savedDrinkType}" (expected "drink"), Drinks filter rows=${drinkFilterRows}`);
+
+  // Clean up the drink entry so step 9's row arithmetic is unaffected
+  await page.evaluate(id => deleteEntry(id), drinkId);
+  await page.goto(BASE + '/entries.html');
+  await page.waitForLoadState('networkidle');
+
   // ── Step 9: Delete — confirm dialog, entry removed ────────────────────────
   page.once('dialog', d => d.accept());
   await page.locator('.row .acts button').first().click();
